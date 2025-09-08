@@ -8,5 +8,27 @@
     "crumbs": [
       "Introduction"
     ]
+  },
+  {
+    "objectID": "segmentation/0.html",
+    "href": "segmentation/0.html",
+    "title": "1  Linear regression …",
+    "section": "",
+    "text": "1.1 Standard equation\n\\[\nY = X\\theta + \\epsilon\n\\] with \\(\\epsilon\\) the model bias",
+    "crumbs": [
+      "Segmentation",
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Linear regression ...</span>"
+    ]
+  },
+  {
+    "objectID": "segmentation/0.html#estimating-theta",
+    "href": "segmentation/0.html#estimating-theta",
+    "title": "1  Linear regression …",
+    "section": "1.2 Estimating \\(\\theta\\)",
+    "text": "1.2 Estimating \\(\\theta\\)\n\\[\\begin{aligned}\nY &= X\\theta + \\epsilon \\\\[6pt]\nY - X\\theta &= \\epsilon \\\\[6pt]\n(Y - X\\theta)^{T}(Y - X\\theta) &= \\epsilon^{T}\\epsilon \\\\[6pt]\nY^{T}Y - Y^{T}X\\theta - \\theta^{T}X^{T}Y + \\theta^{T}X^{T}X\\theta &= \\epsilon^{T}\\epsilon \\\\[6pt]\n\\frac{1}{N}(Y^{T}Y - Y^{T}(X\\theta) - (X\\theta)^{T}Y + \\theta^{T}X^{T}X\\theta &)= \\frac{1}{N}\\epsilon^{T}\\epsilon = \\text{Mean Squared Error (MSE)} \\\\[6pt]\n\n\\frac{1}{N}(Y^{T}Y - 2 Y^{T}(X\\theta) + \\theta^{T}X^{T}X\\theta &)= \\frac{1}{N}\\epsilon^{T}\\epsilon = \\text{Mean Squared Error (MSE)}\n\\end{aligned}\\]\nAssuming that this relation stands: \\[\n\\begin{aligned}\n\\frac{\\partial}{\\partial V}\\bigl(V^{T} A V\\bigr) = (A + A^{T})\\,V\n\\end{aligned}\n\\]\nDifferentiating the first relation with respect to \\(\\theta\\) yields:\n\\[\\begin{aligned}\n-2\\,Y^{T}X + 2\\,X^{T}X\\theta &= 0 \\\\[6pt]\n\\theta &= (Y^{T}X)(X^{T}X)^{-1}\n\\end{aligned}\\]",
+    "crumbs": [
+      "Segmentation",
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Linear regression ...</span>"
+    ]
   }
 ]
