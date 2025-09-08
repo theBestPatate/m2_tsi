@@ -1,0 +1,5 @@
+# Introduction {.unnumbered}
+
+This is a subset of my notes for my master 2 in Computer Vision in Signal Processing with some extras.
+
+I will update it progressively.

@@ -1,0 +1,20 @@
+project:
+  type: book
+
+book:
+  title: "An introduction to Computer Vision and Signal Processing"
+  author: "Gninahophin Jean-Pierre"
+  date: "9/8/2025"
+  chapters:
+    - part: index.qmd
+    - part: segmentation.qmd
+      chapters :
+        - segmentation/0.md
+
+bibliography: references.bib
+
+format:
+  html:
+    theme:
+      - cosmo
+      - brand
