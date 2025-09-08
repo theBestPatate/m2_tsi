@@ -10,9 +10,6 @@ book:
     - part: segmentation.qmd
       chapters :
         - segmentation/0.md
-
-bibliography: references.bib
-
 format:
   html:
     theme:
