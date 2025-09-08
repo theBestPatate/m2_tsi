@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Machine learning – An introduction to Computer Vision and Signal Processing</title>
+<title>1&nbsp; Linear regression … – An introduction to Computer Vision and Signal Processing</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,25 +23,25 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<link href="./machine_learning/0.html" rel="next">
-<link href="./index.html" rel="prev">
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-48fb113fea7c09ade55c8c495d57f66a.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../machine_learning/1.html" rel="next">
+<link href="../machine_learning.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-48fb113fea7c09ade55c8c495d57f66a.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -70,6 +70,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -82,7 +111,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./machine_learning.html">Machine learning</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../machine_learning.html">Machine learning</a></li><li class="breadcrumb-item"><a href="../machine_learning/0.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Linear regression …</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -97,7 +126,7 @@ ul.task-list li input[type="checkbox"] {
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">An introduction to Computer Vision and Signal Processing</a> 
+      <a href="../">An introduction to Computer Vision and Signal Processing</a> 
     </div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
@@ -113,7 +142,7 @@ ul.task-list li input[type="checkbox"] {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="./machine_learning.html" class="sidebar-item-text sidebar-link active">
+            <a href="../machine_learning.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Machine learning</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
@@ -122,13 +151,13 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./machine_learning/0.html" class="sidebar-item-text sidebar-link">
+  <a href="../machine_learning/0.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Linear regression …</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./machine_learning/1.html" class="sidebar-item-text sidebar-link">
+  <a href="../machine_learning/1.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Binary Cross Entropy</span></span></a>
   </div>
 </li>
@@ -139,15 +168,22 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#standard-equation" id="toc-standard-equation" class="nav-link active" data-scroll-target="#standard-equation"><span class="header-section-number">1.1</span> Standard equation</a></li>
+  <li><a href="#estimating-theta" id="toc-estimating-theta" class="nav-link" data-scroll-target="#estimating-theta"><span class="header-section-number">1.2</span> Estimating <span class="math inline">\(\theta\)</span></a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../machine_learning.html">Machine learning</a></li><li class="breadcrumb-item"><a href="../machine_learning/0.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Linear regression …</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Machine learning</h1>
+<h1 class="title"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Linear regression …</span></h1>
 </div>
 
 
@@ -164,8 +200,49 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This lazy summary assumes familiarity with linear regressions and is not a learning material.</p>
+</div>
+</div>
+<section id="standard-equation" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="standard-equation"><span class="header-section-number">1.1</span> Standard equation</h2>
+<p><span class="math display">\[
+Y = X\theta + \epsilon
+\]</span> with <span class="math inline">\(\epsilon\)</span> the model bias</p>
+</section>
+<section id="estimating-theta" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="estimating-theta"><span class="header-section-number">1.2</span> Estimating <span class="math inline">\(\theta\)</span></h2>
+<span class="math display">\[\begin{aligned}
+Y &amp;= X\theta + \epsilon \\[6pt]
+Y - X\theta &amp;= \epsilon \\[6pt]
+(Y - X\theta)^{T}(Y - X\theta) &amp;= \epsilon^{T}\epsilon \\[6pt]
+Y^{T}Y - Y^{T}X\theta - \theta^{T}X^{T}Y + \theta^{T}X^{T}X\theta &amp;= \epsilon^{T}\epsilon \\[6pt]
+\frac{1}{N}(Y^{T}Y - Y^{T}(X\theta) - (X\theta)^{T}Y + \theta^{T}X^{T}X\theta &amp;)= \frac{1}{N}\epsilon^{T}\epsilon = \text{Mean Squared Error (MSE)} \\[6pt]
+
+\frac{1}{N}(Y^{T}Y - 2 Y^{T}(X\theta) + \theta^{T}X^{T}X\theta &amp;)= \frac{1}{N}\epsilon^{T}\epsilon = \text{Mean Squared Error (MSE)}
+\end{aligned}\]</span>
+<p>Assuming that this relation stands: <span class="math display">\[
+\begin{aligned}
+\frac{\partial}{\partial V}\bigl(V^{T} A V\bigr) = (A + A^{T})\,V
+\end{aligned}
+\]</span></p>
+<p>Differentiating the first relation with respect to <span class="math inline">\(\theta\)</span> yields:</p>
+<span class="math display">\[\begin{aligned}
+-2\,Y^{T}X + 2\,X^{T}X\theta &amp;= 0 \\[6pt]
+\theta &amp;= (Y^{T}X)(X^{T}X)^{-1}
+\end{aligned}\]</span>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -569,13 +646,13 @@ ul.task-list li input[type="checkbox"] {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./index.html" class="pagination-link" aria-label="Introduction">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Introduction</span>
+      <a href="../machine_learning.html" class="pagination-link" aria-label="Machine learning">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Machine learning</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./machine_learning/0.html" class="pagination-link" aria-label="Linear regression ...">
-        <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Linear regression …</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../machine_learning/1.html" class="pagination-link" aria-label="Binary Cross Entropy">
+        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Binary Cross Entropy</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

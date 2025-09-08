@@ -10,8 +10,8 @@
     ]
   },
   {
-    "objectID": "segmentation/0.html",
-    "href": "segmentation/0.html",
+    "objectID": "machine_learning/0.html",
+    "href": "machine_learning/0.html",
     "title": "1  Linear regression …",
     "section": "",
     "text": "1.1 Standard equation\n\\[\nY = X\\theta + \\epsilon\n\\] with \\(\\epsilon\\) the model bias",
@@ -21,8 +21,8 @@
     ]
   },
   {
-    "objectID": "segmentation/0.html#estimating-theta",
-    "href": "segmentation/0.html#estimating-theta",
+    "objectID": "machine_learning/0.html#estimating-theta",
+    "href": "machine_learning/0.html#estimating-theta",
     "title": "1  Linear regression …",
     "section": "1.2 Estimating \\(\\theta\\)",
     "text": "1.2 Estimating \\(\\theta\\)\n\\[\\begin{aligned}\nY &= X\\theta + \\epsilon \\\\[6pt]\nY - X\\theta &= \\epsilon \\\\[6pt]\n(Y - X\\theta)^{T}(Y - X\\theta) &= \\epsilon^{T}\\epsilon \\\\[6pt]\nY^{T}Y - Y^{T}X\\theta - \\theta^{T}X^{T}Y + \\theta^{T}X^{T}X\\theta &= \\epsilon^{T}\\epsilon \\\\[6pt]\n\\frac{1}{N}(Y^{T}Y - Y^{T}(X\\theta) - (X\\theta)^{T}Y + \\theta^{T}X^{T}X\\theta &)= \\frac{1}{N}\\epsilon^{T}\\epsilon = \\text{Mean Squared Error (MSE)} \\\\[6pt]\n\n\\frac{1}{N}(Y^{T}Y - 2 Y^{T}(X\\theta) + \\theta^{T}X^{T}X\\theta &)= \\frac{1}{N}\\epsilon^{T}\\epsilon = \\text{Mean Squared Error (MSE)}\n\\end{aligned}\\]\nAssuming that this relation stands: \\[\n\\begin{aligned}\n\\frac{\\partial}{\\partial V}\\bigl(V^{T} A V\\bigr) = (A + A^{T})\\,V\n\\end{aligned}\n\\]\nDifferentiating the first relation with respect to \\(\\theta\\) yields:\n\\[\\begin{aligned}\n-2\\,Y^{T}X + 2\\,X^{T}X\\theta &= 0 \\\\[6pt]\n\\theta &= (Y^{T}X)(X^{T}X)^{-1}\n\\end{aligned}\\]",
@@ -32,8 +32,8 @@
     ]
   },
   {
-    "objectID": "segmentation/1.html",
-    "href": "segmentation/1.html",
+    "objectID": "machine_learning/1.html",
+    "href": "machine_learning/1.html",
     "title": "2  Binary Cross Entropy",
     "section": "",
     "text": "2.1 If you’re in a hurry :\nThe binary cross-entropy is the loss function that we use most of the time when performing binary classification.\nThe binary cross-entropy (for a single sample): \\[\n\\ell(y,\\hat{y}) = -\\bigl[y\\log(\\hat{y}) + (1-y)\\log(1-\\hat{y})\\bigr]\n\\]\nFor a dataset of N samples:\n\\[\n\\mathcal{L} = -\\frac{1}{N}\\sum_{i=1}^{N}\\bigl[y_i\\log(\\hat{y}_i) + (1-y_i)\\log(1-\\hat{y}_i)\\bigr]\n\\]",
@@ -43,8 +43,8 @@
     ]
   },
   {
-    "objectID": "segmentation/1.html#where-the-f-does-it-comes-from",
-    "href": "segmentation/1.html#where-the-f-does-it-comes-from",
+    "objectID": "machine_learning/1.html#where-the-f-does-it-comes-from",
+    "href": "machine_learning/1.html#where-the-f-does-it-comes-from",
     "title": "2  Binary Cross Entropy",
     "section": "2.2 Where the f does it comes from ?",
     "text": "2.2 Where the f does it comes from ?\nIf you know basic statistical inference, this follows directly from the log-likelihood of the binomial distribution.\n\\[\n\\begin{aligned}\n&\\text{Let }Y_i\\sim\\operatorname{Bernoulli}(p),\\quad Y_i\\in\\{0,1\\},\\; i=1,\\dots,n,\\\\[4pt]\n&\\text{so }P(Y_i=y_i\\mid p)=p^{y_i}(1-p)^{1-y_i}.\\\\[6pt]\n&\\text{For independent samples }y=(y_1,\\dots,y_n),\\text{ the likelihood is}\\\\[4pt]\n&\\quad L(p\\mid y)=P(Y=y\\mid p)=\\prod_{i=1}^n p^{y_i}(1-p)^{1-y_i}\n= p^{\\sum_{i=1}^n y_i}\\,(1-p)^{\\,n-\\sum_{i=1}^n y_i}.\\\\[6pt]\n&\\text{The log-likelihood is}\\\\[4pt]\n&\\quad \\ell(p\\mid y)=\\log L(p\\mid y)\n= \\Big(\\sum_{i=1}^n y_i\\Big)\\log p + \\Big(n-\\sum_{i=1}^n y_i\\Big)\\log(1-p).\\\\[6pt]\n&\\text{Taking the negative log-likelihood (per-sample average) gives the binary cross-entropy:}\\\\[4pt]\n&\\quad -\\frac{1}{n}\\,\\ell(p\\mid y)\n= -\\frac{1}{n}\\sum_{i=1}^n\\bigl[y_i\\log p + (1-y_i)\\log(1-p)\\bigr].\n\\end{aligned}\n\\]\n\n\n\n\n\n\nNote\n\n\n\nI will probably add more details from an information theory perspective and graphs later on.",
