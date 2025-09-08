@@ -6,10 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Gninahophin Jean-Pierre">
-<meta name="dcterms.date" content="2025-09-08">
 
-<title>An introduction to Computer Vision and Signal Processing</title>
+<title>2&nbsp; Binary Cross Entropy – An introduction to Computer Vision and Signal Processing</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -25,24 +23,24 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<link href="./segmentation.html" rel="next">
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-48fb113fea7c09ade55c8c495d57f66a.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../segmentation/0.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-48fb113fea7c09ade55c8c495d57f66a.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -71,6 +69,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -83,7 +110,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Introduction</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../segmentation.html">Segmentation</a></li><li class="breadcrumb-item"><a href="../segmentation/1.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Binary Cross Entropy</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -98,7 +125,7 @@ ul.task-list li input[type="checkbox"] {
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">An introduction to Computer Vision and Signal Processing</a> 
+      <a href="../">An introduction to Computer Vision and Signal Processing</a> 
     </div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
@@ -114,7 +141,7 @@ ul.task-list li input[type="checkbox"] {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="./segmentation.html" class="sidebar-item-text sidebar-link">
+            <a href="../segmentation.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Segmentation</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
@@ -123,13 +150,13 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./segmentation/0.html" class="sidebar-item-text sidebar-link">
+  <a href="../segmentation/0.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Linear regression …</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./segmentation/1.html" class="sidebar-item-text sidebar-link">
+  <a href="../segmentation/1.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Binary Cross Entropy</span></span></a>
   </div>
 </li>
@@ -145,35 +172,24 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#if-youre-in-a-hurry" id="toc-if-youre-in-a-hurry" class="nav-link active" data-scroll-target="#if-youre-in-a-hurry"><span class="header-section-number">2.1</span> If you’re in a hurry :</a></li>
+  <li><a href="#where-the-f-does-it-comes-from" id="toc-where-the-f-does-it-comes-from" class="nav-link" data-scroll-target="#where-the-f-does-it-comes-from"><span class="header-section-number">2.2</span> Where the f does it comes from ?</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../segmentation.html">Segmentation</a></li><li class="breadcrumb-item"><a href="../segmentation/1.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Binary Cross Entropy</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">An introduction to Computer Vision and Signal Processing</h1>
+<h1 class="title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Binary Cross Entropy</span></h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>Gninahophin Jean-Pierre </p>
-          </div>
-  </div>
     
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">September 8, 2025</p>
-    </div>
-  </div>
   
     
   </div>
@@ -183,10 +199,48 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="introduction" class="level1 unnumbered">
-<h1 class="unnumbered">Introduction</h1>
-<p>This is a subset of my notes for my master 2 in Computer Vision in Signal Processing with some extras.</p>
-<p>I will update it progressively.</p>
+<section id="if-youre-in-a-hurry" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="if-youre-in-a-hurry"><span class="header-section-number">2.1</span> If you’re in a hurry :</h2>
+<p>The binary cross-entropy is the loss function that we use most of the time when performing binary classification.</p>
+<p>The binary cross-entropy (for a single sample): <span class="math display">\[
+\ell(y,\hat{y}) = -\bigl[y\log(\hat{y}) + (1-y)\log(1-\hat{y})\bigr]
+\]</span></p>
+<p>For a dataset of N samples:</p>
+<p><span class="math display">\[
+\mathcal{L} = -\frac{1}{N}\sum_{i=1}^{N}\bigl[y_i\log(\hat{y}_i) + (1-y_i)\log(1-\hat{y}_i)\bigr]
+\]</span></p>
+</section>
+<section id="where-the-f-does-it-comes-from" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="where-the-f-does-it-comes-from"><span class="header-section-number">2.2</span> Where the f does it comes from ?</h2>
+<p>If you know basic statistical inference, this follows directly from the log-likelihood of the binomial distribution.</p>
+<p><span class="math display">\[
+\begin{aligned}
+&amp;\text{Let }Y_i\sim\operatorname{Bernoulli}(p),\quad Y_i\in\{0,1\},\; i=1,\dots,n,\\[4pt]
+&amp;\text{so }P(Y_i=y_i\mid p)=p^{y_i}(1-p)^{1-y_i}.\\[6pt]
+&amp;\text{For independent samples }y=(y_1,\dots,y_n),\text{ the likelihood is}\\[4pt]
+&amp;\quad L(p\mid y)=P(Y=y\mid p)=\prod_{i=1}^n p^{y_i}(1-p)^{1-y_i}
+= p^{\sum_{i=1}^n y_i}\,(1-p)^{\,n-\sum_{i=1}^n y_i}.\\[6pt]
+&amp;\text{The log-likelihood is}\\[4pt]
+&amp;\quad \ell(p\mid y)=\log L(p\mid y)
+= \Big(\sum_{i=1}^n y_i\Big)\log p + \Big(n-\sum_{i=1}^n y_i\Big)\log(1-p).\\[6pt]
+&amp;\text{Taking the negative log-likelihood (per-sample average) gives the binary cross-entropy:}\\[4pt]
+&amp;\quad -\frac{1}{n}\,\ell(p\mid y)
+= -\frac{1}{n}\sum_{i=1}^n\bigl[y_i\log p + (1-y_i)\log(1-p)\bigr].
+\end{aligned}
+\]</span></p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>I will probably add more details from an information theory perspective and graphs later on.</p>
+</div>
+</div>
 
 
 </section>
@@ -593,11 +647,11 @@ ul.task-list li input[type="checkbox"] {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
+      <a href="../segmentation/0.html" class="pagination-link" aria-label="Linear regression ...">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Linear regression …</span></span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./segmentation.html" class="pagination-link" aria-label="Segmentation">
-        <span class="nav-page-text">Segmentation</span> <i class="bi bi-arrow-right-short"></i>
-      </a>
   </div>
 </nav>
 </div> <!-- /content -->
