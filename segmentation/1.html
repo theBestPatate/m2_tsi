@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>2&nbsp; Binary Cross Entropy – An introduction to Computer Vision and Signal Processing</title>
+<title>5&nbsp; Contour and edges – An introduction to Computer Vision and Signal Processing</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -110,7 +110,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../machine_learning.html">Machine learning</a></li><li class="breadcrumb-item"><a href="../segmentation/1.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Binary Cross Entropy</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../segmentation.html">Segmentation</a></li><li class="breadcrumb-item"><a href="../segmentation/1.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Contour and edges</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -150,14 +150,54 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../segmentation/0.html" class="sidebar-item-text sidebar-link">
+  <a href="../machine_learning/0.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Linear regression …</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../segmentation/1.html" class="sidebar-item-text sidebar-link active">
+  <a href="../machine_learning/1.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Binary Cross Entropy</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../stochastic_model.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Stochastic Model</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../stochastic_model/0.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../segmentation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Segmentation</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../segmentation/0.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Filters</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../segmentation/1.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Contour and edges</span></span></a>
   </div>
 </li>
       </ul>
@@ -172,17 +212,16 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#if-youre-in-a-hurry" id="toc-if-youre-in-a-hurry" class="nav-link active" data-scroll-target="#if-youre-in-a-hurry"><span class="header-section-number">2.1</span> If you’re in a hurry :</a></li>
-  <li><a href="#where-the-f-does-it-comes-from" id="toc-where-the-f-does-it-comes-from" class="nav-link" data-scroll-target="#where-the-f-does-it-comes-from"><span class="header-section-number">2.2</span> Where the f does it comes from ?</a></li>
+  <li><a href="#gradient-filter" id="toc-gradient-filter" class="nav-link active" data-scroll-target="#gradient-filter"><span class="header-section-number">5.1</span> Gradient filter</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../machine_learning.html">Machine learning</a></li><li class="breadcrumb-item"><a href="../segmentation/1.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Binary Cross Entropy</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../segmentation.html">Segmentation</a></li><li class="breadcrumb-item"><a href="../segmentation/1.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Contour and edges</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Binary Cross Entropy</span></h1>
+<h1 class="title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Contour and edges</span></h1>
 </div>
 
 
@@ -199,35 +238,6 @@ window.Quarto = {
 </header>
 
 
-<section id="if-youre-in-a-hurry" class="level2" data-number="2.1">
-<h2 data-number="2.1" class="anchored" data-anchor-id="if-youre-in-a-hurry"><span class="header-section-number">2.1</span> If you’re in a hurry :</h2>
-<p>The binary cross-entropy is the loss function that we use most of the time when performing binary classification.</p>
-<p>The binary cross-entropy (for a single sample): <span class="math display">\[
-\ell(y,\hat{y}) = -\bigl[y\log(\hat{y}) + (1-y)\log(1-\hat{y})\bigr]
-\]</span></p>
-<p>For a dataset of N samples:</p>
-<p><span class="math display">\[
-\mathcal{L} = -\frac{1}{N}\sum_{i=1}^{N}\bigl[y_i\log(\hat{y}_i) + (1-y_i)\log(1-\hat{y}_i)\bigr]
-\]</span></p>
-</section>
-<section id="where-the-f-does-it-comes-from" class="level2" data-number="2.2">
-<h2 data-number="2.2" class="anchored" data-anchor-id="where-the-f-does-it-comes-from"><span class="header-section-number">2.2</span> Where the f does it comes from ?</h2>
-<p>If you know basic statistical inference, this follows directly from the log-likelihood of the binomial distribution.</p>
-<p><span class="math display">\[
-\begin{aligned}
-&amp;\text{Let }Y_i\sim\operatorname{Bernoulli}(p),\quad Y_i\in\{0,1\},\; i=1,\dots,n,\\[4pt]
-&amp;\text{so }P(Y_i=y_i\mid p)=p^{y_i}(1-p)^{1-y_i}.\\[6pt]
-&amp;\text{For independent samples }y=(y_1,\dots,y_n),\text{ the likelihood is}\\[4pt]
-&amp;\quad L(p\mid y)=P(Y=y\mid p)=\prod_{i=1}^n p^{y_i}(1-p)^{1-y_i}
-= p^{\sum_{i=1}^n y_i}\,(1-p)^{\,n-\sum_{i=1}^n y_i}.\\[6pt]
-&amp;\text{The log-likelihood is}\\[4pt]
-&amp;\quad \ell(p\mid y)=\log L(p\mid y)
-= \Big(\sum_{i=1}^n y_i\Big)\log p + \Big(n-\sum_{i=1}^n y_i\Big)\log(1-p).\\[6pt]
-&amp;\text{Taking the negative log-likelihood (per-sample average) gives the binary cross-entropy:}\\[4pt]
-&amp;\quad -\frac{1}{n}\,\ell(p\mid y)
-= -\frac{1}{n}\sum_{i=1}^n\bigl[y_i\log p + (1-y_i)\log(1-p)\bigr].
-\end{aligned}
-\]</span></p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -238,9 +248,28 @@ Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>I will probably add more details from an information theory perspective and graphs later on.</p>
+<p>This summary assumes basic familiarity with the mathematical formalism of signals, images, and filters.</p>
 </div>
 </div>
+<section id="gradient-filter" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="gradient-filter"><span class="header-section-number">5.1</span> Gradient filter</h2>
+<p>Horizontal and vertical gradient filters approximate first-order spatial derivatives to detect local intensity change (edges). Let I be the input image. The discrete gradients at pixel (i,j) are often computed with simple finite-difference kernels.</p>
+<p>Definition (central differences): <span class="math display">\[
+G_x(i,j)=\frac{1}{2}\big(I(i+1,j)-I(i-1,j)\big),
+\qquad
+G_y(i,j)=\frac{1}{2}\big(I(i,j+1)-I(i,j-1)\big).
+\]</span> Equivalently, via convolution with 1D kernels: <span class="math display">\[
+G_x = I \ast \begin{bmatrix} -\tfrac{1}{2} &amp; 0 &amp; \tfrac{1}{2} \end{bmatrix},\qquad
+G_y = I \ast \begin{bmatrix} -\tfrac{1}{2} \\[4pt] 0 \\[4pt] \tfrac{1}{2} \end{bmatrix}.
+\]</span></p>
+<p>Common alternative (forward/backward differences): <span class="math display">\[
+G_x^{+}(i,j)=I(i+1,j)-I(i,j),\quad G_x^{-}(i,j)=I(i,j)-I(i-1,j),
+\]</span> and similarly for <span class="math inline">\(G_y\)</span>.</p>
+<p>(The forward differences is the <code>prewitt operator</code>. If you give more importance to the value in the center,you get the <code>Sobel operator</code> )</p>
+<p>Gradient magnitude and orientation: <span class="math display">\[
+M(i,j)=\sqrt{G_x(i,j)^2+G_y(i,j)^2},\qquad
+\theta(i,j)=\operatorname{arctan}\big(G_y(i,j),G_x(i,j)\big).
+\]</span></p>
 
 
 </section>
@@ -647,8 +676,8 @@ Note
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../segmentation/0.html" class="pagination-link" aria-label="Linear regression ...">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Linear regression …</span></span>
+      <a href="../segmentation/0.html" class="pagination-link" aria-label="Filters">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Filters</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">

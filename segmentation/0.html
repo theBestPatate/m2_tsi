@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>1&nbsp; Linear regression … – An introduction to Computer Vision and Signal Processing</title>
+<title>4&nbsp; Filters – An introduction to Computer Vision and Signal Processing</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -31,7 +31,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
 <link href="../segmentation/1.html" rel="next">
-<link href="../machine_learning.html" rel="prev">
+<link href="../segmentation.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
@@ -111,7 +111,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../machine_learning.html">Machine learning</a></li><li class="breadcrumb-item"><a href="../segmentation/0.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Linear regression …</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../segmentation.html">Segmentation</a></li><li class="breadcrumb-item"><a href="../segmentation/0.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Filters</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -151,14 +151,54 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../segmentation/0.html" class="sidebar-item-text sidebar-link active">
+  <a href="../machine_learning/0.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Linear regression …</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../segmentation/1.html" class="sidebar-item-text sidebar-link">
+  <a href="../machine_learning/1.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Binary Cross Entropy</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../stochastic_model.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Stochastic Model</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../stochastic_model/0.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../segmentation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Segmentation</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../segmentation/0.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Filters</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../segmentation/1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Contour and edges</span></span></a>
   </div>
 </li>
       </ul>
@@ -173,17 +213,24 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#standard-equation" id="toc-standard-equation" class="nav-link active" data-scroll-target="#standard-equation"><span class="header-section-number">1.1</span> Standard equation</a></li>
-  <li><a href="#estimating-theta" id="toc-estimating-theta" class="nav-link" data-scroll-target="#estimating-theta"><span class="header-section-number">1.2</span> Estimating <span class="math inline">\(\theta\)</span></a></li>
+  <li><a href="#convolution-filter" id="toc-convolution-filter" class="nav-link active" data-scroll-target="#convolution-filter"><span class="header-section-number">4.1</span> Convolution filter</a></li>
+  <li><a href="#identity-kernel" id="toc-identity-kernel" class="nav-link" data-scroll-target="#identity-kernel"><span class="header-section-number">4.2</span> Identity kernel</a>
+  <ul class="collapse">
+  <li><a href="#formally" id="toc-formally" class="nav-link" data-scroll-target="#formally"><span class="header-section-number">4.2.1</span> Formally</a></li>
+  <li><a href="#visually" id="toc-visually" class="nav-link" data-scroll-target="#visually"><span class="header-section-number">4.2.2</span> Visually</a></li>
+  </ul></li>
+  <li><a href="#average-mean-filter" id="toc-average-mean-filter" class="nav-link" data-scroll-target="#average-mean-filter"><span class="header-section-number">4.3</span> Average (mean) filter</a></li>
+  <li><a href="#median-filter" id="toc-median-filter" class="nav-link" data-scroll-target="#median-filter"><span class="header-section-number">4.4</span> Median filter</a></li>
+  <li><a href="#nagao-filter" id="toc-nagao-filter" class="nav-link" data-scroll-target="#nagao-filter"><span class="header-section-number">4.5</span> Nagao filter</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../machine_learning.html">Machine learning</a></li><li class="breadcrumb-item"><a href="../segmentation/0.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Linear regression …</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../segmentation.html">Segmentation</a></li><li class="breadcrumb-item"><a href="../segmentation/0.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Filters</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Linear regression …</span></h1>
+<h1 class="title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Filters</span></h1>
 </div>
 
 
@@ -210,36 +257,152 @@ Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>This lazy summary assumes familiarity with linear regressions and is not a learning material.</p>
+<p>This summary assumes basic familiarity with the mathematical formalism of signals, images, and filters.</p>
 </div>
 </div>
-<section id="standard-equation" class="level2" data-number="1.1">
-<h2 data-number="1.1" class="anchored" data-anchor-id="standard-equation"><span class="header-section-number">1.1</span> Standard equation</h2>
+<section id="convolution-filter" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="convolution-filter"><span class="header-section-number">4.1</span> Convolution filter</h2>
+<p>Let <span class="math inline">\(I_s\)</span> denote the starting (input) image, <span class="math inline">\(I_e\)</span> the ending (output) image, and <span class="math inline">\(C_K\)</span> the convolution kernel (filter) of size (2n+1)×(2n+1).</p>
+<p>The discrete convolution relation at pixel (i,j) is:</p>
 <p><span class="math display">\[
-Y = X\theta + \epsilon
-\]</span> with <span class="math inline">\(\epsilon\)</span> the model bias</p>
-</section>
-<section id="estimating-theta" class="level2" data-number="1.2">
-<h2 data-number="1.2" class="anchored" data-anchor-id="estimating-theta"><span class="header-section-number">1.2</span> Estimating <span class="math inline">\(\theta\)</span></h2>
-<span class="math display">\[\begin{aligned}
-Y &amp;= X\theta + \epsilon \\[6pt]
-Y - X\theta &amp;= \epsilon \\[6pt]
-(Y - X\theta)^{T}(Y - X\theta) &amp;= \epsilon^{T}\epsilon \\[6pt]
-Y^{T}Y - Y^{T}X\theta - \theta^{T}X^{T}Y + \theta^{T}X^{T}X\theta &amp;= \epsilon^{T}\epsilon \\[6pt]
-\frac{1}{N}(Y^{T}Y - Y^{T}(X\theta) - (X\theta)^{T}Y + \theta^{T}X^{T}X\theta &amp;)= \frac{1}{N}\epsilon^{T}\epsilon = \text{Mean Squared Error (MSE)} \\[6pt]
-
-\frac{1}{N}(Y^{T}Y - 2 Y^{T}(X\theta) + \theta^{T}X^{T}X\theta &amp;)= \frac{1}{N}\epsilon^{T}\epsilon = \text{Mean Squared Error (MSE)}
-\end{aligned}\]</span>
-<p>Assuming that this relation stands: <span class="math display">\[
-\begin{aligned}
-\frac{\partial}{\partial V}\bigl(V^{T} A V\bigr) = (A + A^{T})\,V
-\end{aligned}
+I_e(i,j) \;=\; \sum_{l=-n}^{n}\sum_{k=-n}^{n} C_K(k,l)\,I_s(i+k,j+l).
 \]</span></p>
-<p>Differentiating the first relation with respect to <span class="math inline">\(\theta\)</span> yields:</p>
-<span class="math display">\[\begin{aligned}
--2\,Y^{T}X + 2\,X^{T}X\theta &amp;= 0 \\[6pt]
-\theta &amp;= (Y^{T}X)(X^{T}X)^{-1}
-\end{aligned}\]</span>
+<ul>
+<li><span class="math inline">\(I_s(i,j)\)</span>: intensity/value of the input image at coordinates (i,j).<br>
+</li>
+<li><span class="math inline">\(I_e(i,j)\)</span>: intensity/value of the output image at coordinates (i,j) after applying the convolution.<br>
+</li>
+<li><span class="math inline">\(C_K(k,l)\)</span>: kernel weight at offset (k,l), where k indexes columns (horizontal offset) and l indexes rows (vertical offset).<br>
+</li>
+<li>The sums run over the kernel support from -n to n in both dimensions, so the kernel size is (2n+1)×(2n+1).<br>
+</li>
+<li>Boundary handling (not shown) must be specified separately (e.g., zero-padding, symmetric extension, circular convolution).</li>
+</ul>
+</section>
+<section id="identity-kernel" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="identity-kernel"><span class="header-section-number">4.2</span> Identity kernel</h2>
+<section id="formally" class="level3" data-number="4.2.1">
+<h3 data-number="4.2.1" class="anchored" data-anchor-id="formally"><span class="header-section-number">4.2.1</span> Formally</h3>
+<p>Let <span class="math inline">\(I_s\)</span> be the input image, <span class="math inline">\(I_e\)</span> the output image, and <span class="math inline">\(I_k\)</span> the identity convolution kernel. The identity kernel is the kernel that leaves the image unchanged under convolution:</p>
+<p><span class="math display">\[
+I_e \;=\; I_s \ast I_k \;=\; I_s.
+\]</span></p>
+<p>In coordinates, for all pixels (i,j):</p>
+<p><span class="math display">\[
+I_s(i,j) =\sum_{l=-n}^{n}\sum_{k=-n}^{n} I_k(k,l)\,I_e(i+k,j+l) \;=\; I_e(i,j).
+\]</span> A canonical choice for <span class="math inline">\(I_k\)</span> on a (2n+1)×(2n+1) support is the discrete delta (Kronecker) kernel:</p>
+<p><span class="math display">\[
+I_k(k,l) \;=\; \delta_{k,0}\,\delta_{l,0} \;=\;
+\]</span> <span class="math display">\[
+\begin{cases}
+1 &amp; (k,l)=(0,0),\\[4pt]
+0 &amp; \text{otherwise},
+\end{cases}
+\]</span></p>
+<p>which yields the pointwise identity: <span class="math display">\[
+I_e(i,j)=\sum_{l=-n}^{n}\sum_{k=-n}^{n} \delta_{k,0}\delta_{l,0}\,I_s(i+k,j+l)=I_s(i,j).
+\]</span></p>
+<ul>
+<li>The kernel support can be larger than a single pixel; values outside the central 1 are zero.</li>
+</ul>
+</section>
+<section id="visually" class="level3" data-number="4.2.2">
+<h3 data-number="4.2.2" class="anchored" data-anchor-id="visually"><span class="header-section-number">4.2.2</span> Visually</h3>
+<p>With a 3x3 kernel:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th><strong>k\l</strong></th>
+<th>-1</th>
+<th>0</th>
+<th>1</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>-1</td>
+<td><strong>0</strong></td>
+<td><strong>0</strong></td>
+<td><strong>0</strong></td>
+</tr>
+<tr class="even">
+<td>0</td>
+<td><strong>0</strong></td>
+<td><strong>1</strong></td>
+<td><strong>0</strong></td>
+</tr>
+<tr class="odd">
+<td>1</td>
+<td><strong>0</strong></td>
+<td><strong>0</strong></td>
+<td><strong>0</strong></td>
+</tr>
+</tbody>
+</table>
+<p>See how it’s different from the typical Identity matrix in linear algebra</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th><strong>k\l</strong></th>
+<th>-1</th>
+<th>0</th>
+<th>1</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>-1</td>
+<td><strong>1</strong></td>
+<td><strong>0</strong></td>
+<td><strong>0</strong></td>
+</tr>
+<tr class="even">
+<td>0</td>
+<td><strong>0</strong></td>
+<td><strong>1</strong></td>
+<td><strong>0</strong></td>
+</tr>
+<tr class="odd">
+<td>1</td>
+<td><strong>0</strong></td>
+<td><strong>0</strong></td>
+<td><strong>1</strong></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="average-mean-filter" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="average-mean-filter"><span class="header-section-number">4.3</span> Average (mean) filter</h2>
+<p>The average (mean) filter is a linear, shift-invariant smoothing filter that replaces each pixel by the arithmetic mean of the pixels in a local neighborhood. It reduces high-frequency noise and small-scale detail while preserving general intensity trends.</p>
+<p>For a square window of size (2n+1)×(2n+1) the average kernel A has constant coefficients:</p>
+<p><span class="math display">\[
+A(k,l)=\frac{1}{(2n+1)^2},\qquad k,l\in\{-n,\dots,n\}.
+\]</span></p>
+<p>Convolution with the average kernel gives the output image <span class="math inline">\(I_e\)</span> from input <span class="math inline">\(I_s\)</span>:</p>
+<p><span class="math display">\[
+I_e(i,j)=\sum_{l=-n}^{n}\sum_{k=-n}^{n} A(k,l)\,I_s(i+k,j+l)
+= \frac{1}{(2n+1)^2}\sum_{l=-n}^{n}\sum_{k=-n}^{n} I_s(i+k,j+l).
+\]</span></p>
+</section>
+<section id="median-filter" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="median-filter"><span class="header-section-number">4.4</span> Median filter</h2>
+<p>The median filter is a nonlinear, shift-invariant denoising filter that replaces each pixel with the median of the intensities in a local neighborhood.</p>
+<p>Given an input image <span class="math inline">\(I_s\)</span> and a local window of size (2n+1)x(2n+1), let <span class="math inline">\(S(i,j)\)</span> be the multiset of pixel values in that window centered at (i,j): <span class="math display">\[
+S(i,j)=\{\,I_s(i+k,j+l)\;:\;k,l\in\{-n,\dots,n\}\,\}.
+\]</span> The output pixel is the median of S(i,j): <span class="math display">\[
+I_e(i,j)=\operatorname{median}\big(S(i,j)\big).
+\]</span></p>
+</section>
+<section id="nagao-filter" class="level2" data-number="4.5">
+<h2 data-number="4.5" class="anchored" data-anchor-id="nagao-filter"><span class="header-section-number">4.5</span> Nagao filter</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="nagao_filter.png" class="img-fluid figure-img"></p>
+<figcaption>Nagao filter kernel</figcaption>
+</figure>
+</div>
+<p>The Nagao filter is an edge-preserving, local adaptive smoothing filter that chooses the output value from the neighborhood whose internal variance (or squared error) is minimal. It was introduced for noise reduction while preserving edges and fine details by selecting the most homogeneous local region among several oriented and shaped subwindows.</p>
 
 
 </section>
@@ -646,13 +809,13 @@ Y^{T}Y - Y^{T}X\theta - \theta^{T}X^{T}Y + \theta^{T}X^{T}X\theta &amp;= \epsilo
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../machine_learning.html" class="pagination-link" aria-label="Machine learning">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Machine learning</span>
+      <a href="../segmentation.html" class="pagination-link" aria-label="Segmentation">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Segmentation</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../segmentation/1.html" class="pagination-link" aria-label="Binary Cross Entropy">
-        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Binary Cross Entropy</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../segmentation/1.html" class="pagination-link" aria-label="Contour and edges">
+        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Contour and edges</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

@@ -52,5 +52,82 @@
       "Machine learning",
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Binary Cross Entropy</span>"
     ]
+  },
+  {
+    "objectID": "segmentation/0.html",
+    "href": "segmentation/0.html",
+    "title": "4  Filters",
+    "section": "",
+    "text": "4.1 Convolution filter\nLet \\(I_s\\) denote the starting (input) image, \\(I_e\\) the ending (output) image, and \\(C_K\\) the convolution kernel (filter) of size (2n+1)×(2n+1).\nThe discrete convolution relation at pixel (i,j) is:\n\\[\nI_e(i,j) \\;=\\; \\sum_{l=-n}^{n}\\sum_{k=-n}^{n} C_K(k,l)\\,I_s(i+k,j+l).\n\\]",
+    "crumbs": [
+      "Segmentation",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Filters</span>"
+    ]
+  },
+  {
+    "objectID": "segmentation/0.html#convolution-filter",
+    "href": "segmentation/0.html#convolution-filter",
+    "title": "4  Filters",
+    "section": "",
+    "text": "\\(I_s(i,j)\\): intensity/value of the input image at coordinates (i,j).\n\n\\(I_e(i,j)\\): intensity/value of the output image at coordinates (i,j) after applying the convolution.\n\n\\(C_K(k,l)\\): kernel weight at offset (k,l), where k indexes columns (horizontal offset) and l indexes rows (vertical offset).\n\nThe sums run over the kernel support from -n to n in both dimensions, so the kernel size is (2n+1)×(2n+1).\n\nBoundary handling (not shown) must be specified separately (e.g., zero-padding, symmetric extension, circular convolution).",
+    "crumbs": [
+      "Segmentation",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Filters</span>"
+    ]
+  },
+  {
+    "objectID": "segmentation/0.html#identity-kernel",
+    "href": "segmentation/0.html#identity-kernel",
+    "title": "4  Filters",
+    "section": "4.2 Identity kernel",
+    "text": "4.2 Identity kernel\n\n4.2.1 Formally\nLet \\(I_s\\) be the input image, \\(I_e\\) the output image, and \\(I_k\\) the identity convolution kernel. The identity kernel is the kernel that leaves the image unchanged under convolution:\n\\[\nI_e \\;=\\; I_s \\ast I_k \\;=\\; I_s.\n\\]\nIn coordinates, for all pixels (i,j):\n\\[\nI_s(i,j) =\\sum_{l=-n}^{n}\\sum_{k=-n}^{n} I_k(k,l)\\,I_e(i+k,j+l) \\;=\\; I_e(i,j).\n\\] A canonical choice for \\(I_k\\) on a (2n+1)×(2n+1) support is the discrete delta (Kronecker) kernel:\n\\[\nI_k(k,l) \\;=\\; \\delta_{k,0}\\,\\delta_{l,0} \\;=\\;\n\\] \\[\n\\begin{cases}\n1 & (k,l)=(0,0),\\\\[4pt]\n0 & \\text{otherwise},\n\\end{cases}\n\\]\nwhich yields the pointwise identity: \\[\nI_e(i,j)=\\sum_{l=-n}^{n}\\sum_{k=-n}^{n} \\delta_{k,0}\\delta_{l,0}\\,I_s(i+k,j+l)=I_s(i,j).\n\\]\n\nThe kernel support can be larger than a single pixel; values outside the central 1 are zero.\n\n\n\n4.2.2 Visually\nWith a 3x3 kernel:\n\n\n\nk\\l\n-1\n0\n1\n\n\n\n\n-1\n0\n0\n0\n\n\n0\n0\n1\n0\n\n\n1\n0\n0\n0\n\n\n\nSee how it’s different from the typical Identity matrix in linear algebra\n\n\n\nk\\l\n-1\n0\n1\n\n\n\n\n-1\n1\n0\n0\n\n\n0\n0\n1\n0\n\n\n1\n0\n0\n1",
+    "crumbs": [
+      "Segmentation",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Filters</span>"
+    ]
+  },
+  {
+    "objectID": "segmentation/0.html#average-mean-filter",
+    "href": "segmentation/0.html#average-mean-filter",
+    "title": "4  Filters",
+    "section": "4.3 Average (mean) filter",
+    "text": "4.3 Average (mean) filter\nThe average (mean) filter is a linear, shift-invariant smoothing filter that replaces each pixel by the arithmetic mean of the pixels in a local neighborhood. It reduces high-frequency noise and small-scale detail while preserving general intensity trends.\nFor a square window of size (2n+1)×(2n+1) the average kernel A has constant coefficients:\n\\[\nA(k,l)=\\frac{1}{(2n+1)^2},\\qquad k,l\\in\\{-n,\\dots,n\\}.\n\\]\nConvolution with the average kernel gives the output image \\(I_e\\) from input \\(I_s\\):\n\\[\nI_e(i,j)=\\sum_{l=-n}^{n}\\sum_{k=-n}^{n} A(k,l)\\,I_s(i+k,j+l)\n= \\frac{1}{(2n+1)^2}\\sum_{l=-n}^{n}\\sum_{k=-n}^{n} I_s(i+k,j+l).\n\\]",
+    "crumbs": [
+      "Segmentation",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Filters</span>"
+    ]
+  },
+  {
+    "objectID": "segmentation/0.html#median-filter",
+    "href": "segmentation/0.html#median-filter",
+    "title": "4  Filters",
+    "section": "4.4 Median filter",
+    "text": "4.4 Median filter\nThe median filter is a nonlinear, shift-invariant denoising filter that replaces each pixel with the median of the intensities in a local neighborhood.\nGiven an input image \\(I_s\\) and a local window of size (2n+1)x(2n+1), let \\(S(i,j)\\) be the multiset of pixel values in that window centered at (i,j): \\[\nS(i,j)=\\{\\,I_s(i+k,j+l)\\;:\\;k,l\\in\\{-n,\\dots,n\\}\\,\\}.\n\\] The output pixel is the median of S(i,j): \\[\nI_e(i,j)=\\operatorname{median}\\big(S(i,j)\\big).\n\\]",
+    "crumbs": [
+      "Segmentation",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Filters</span>"
+    ]
+  },
+  {
+    "objectID": "segmentation/0.html#nagao-filter",
+    "href": "segmentation/0.html#nagao-filter",
+    "title": "4  Filters",
+    "section": "4.5 Nagao filter",
+    "text": "4.5 Nagao filter\n\n\n\nNagao filter kernel\n\n\nThe Nagao filter is an edge-preserving, local adaptive smoothing filter that chooses the output value from the neighborhood whose internal variance (or squared error) is minimal. It was introduced for noise reduction while preserving edges and fine details by selecting the most homogeneous local region among several oriented and shaped subwindows.",
+    "crumbs": [
+      "Segmentation",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Filters</span>"
+    ]
+  },
+  {
+    "objectID": "segmentation/1.html",
+    "href": "segmentation/1.html",
+    "title": "5  Contour and edges",
+    "section": "",
+    "text": "5.1 Gradient filter\nHorizontal and vertical gradient filters approximate first-order spatial derivatives to detect local intensity change (edges). Let I be the input image. The discrete gradients at pixel (i,j) are often computed with simple finite-difference kernels.\nDefinition (central differences): \\[\nG_x(i,j)=\\frac{1}{2}\\big(I(i+1,j)-I(i-1,j)\\big),\n\\qquad\nG_y(i,j)=\\frac{1}{2}\\big(I(i,j+1)-I(i,j-1)\\big).\n\\] Equivalently, via convolution with 1D kernels: \\[\nG_x = I \\ast \\begin{bmatrix} -\\tfrac{1}{2} & 0 & \\tfrac{1}{2} \\end{bmatrix},\\qquad\nG_y = I \\ast \\begin{bmatrix} -\\tfrac{1}{2} \\\\[4pt] 0 \\\\[4pt] \\tfrac{1}{2} \\end{bmatrix}.\n\\]\nCommon alternative (forward/backward differences): \\[\nG_x^{+}(i,j)=I(i+1,j)-I(i,j),\\quad G_x^{-}(i,j)=I(i,j)-I(i-1,j),\n\\] and similarly for \\(G_y\\).\n(The forward differences is the prewitt operator. If you give more importance to the value in the center,you get the Sobel operator )\nGradient magnitude and orientation: \\[\nM(i,j)=\\sqrt{G_x(i,j)^2+G_y(i,j)^2},\\qquad\n\\theta(i,j)=\\operatorname{arctan}\\big(G_y(i,j),G_x(i,j)\\big).\n\\]",
+    "crumbs": [
+      "Segmentation",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Contour and edges</span>"
+    ]
   }
 ]
