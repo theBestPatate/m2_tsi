@@ -54,6 +54,39 @@
     ]
   },
   {
+    "objectID": "stochastic_model/0.html",
+    "href": "stochastic_model/0.html",
+    "title": "3  Filtering",
+    "section": "",
+    "text": "3.1 Type of filters\nWe observe a time-varying quantity x(t), but measurements are imperfect — what we actually record is y(t), which equals the true signal plus an error term:\n\\[y(t)=x(t)+b(t).\\]\nRecovering x(t) from the noisy observation y(t) is called filtering — i.e., designing a method that suppresses the noise b(t) while retaining the desired signal x(t).\nUsually we think of filters in two main groups: - Linear filters - Non-linear filters",
+    "crumbs": [
+      "Stochastic Model",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Filtering</span>"
+    ]
+  },
+  {
+    "objectID": "stochastic_model/0.html#type-of-filters",
+    "href": "stochastic_model/0.html#type-of-filters",
+    "title": "3  Filtering",
+    "section": "",
+    "text": "3.1.1 Why are we interested in linear filters ?\nIf the system is linear and time‑invariant, its action on any input is completely characterized by its impulse response h(t) (or equivalently its transfer function H(s)/H(ω)). Convolving the measured signal with h gives the system’s output or an estimate of the underlying signal:\n\\[\\tilde{x}(t)=y(t)\\ast h(t).\\]\nUsing linearity and y(t)=x(t)+b(t):\n\\[\\tilde{x}(t)=(x(t)+b(t))\\ast h(t)=x(t)\\ast h(t)+b(t)\\ast h(t).\\]\nIdeally, \\(b(t)\\ast h(t) = 0\\)\n\n\n3.1.2 Link with the fourier transform\nThe fourier transform turns the convolution into a simple product. \\[ TF(y(t)*h(t)) = Y(f) H(f)\\]",
+    "crumbs": [
+      "Stochastic Model",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Filtering</span>"
+    ]
+  },
+  {
+    "objectID": "stochastic_model/0.html#energy-and-the-energy-spectral-density",
+    "href": "stochastic_model/0.html#energy-and-the-energy-spectral-density",
+    "title": "3  Filtering",
+    "section": "3.2 Energy and the energy spectral density",
+    "text": "3.2 Energy and the energy spectral density\n\nFor a finite‑energy signal x(t) the total energy is defined as \\[\nE=\\int_{-\\infty}^{\\infty}|x(t)|^{2}dt.\n\\]\n\nLet \\(\\hat{x}(f)\\) be the Fourier transform of \\(x(t)\\) (frequency (f) in Hz).\n\nBy Parseval’s theorem, \\[\nE=\\int_{-\\infty}^{\\infty}|x(t)|^{2}dt=\\int_{-\\infty}^{\\infty}|\\hat{x}(f)|^{2}df.\n\\] The nonnegative function \\(|\\hat{x}(f)|^{2}\\) is called the energy spectral density (ESD) of \\((x(t)\\).\n\nFor any band \\([f_1,f_2]\\), \\[\n  \\int_{f_1}^{f_2}|\\hat{x}(f)|^{2}\\,df\n\\] equals the energy contained in that frequency band.\nThink of the total energy E as a cake. The Fourier transform splits the cake across frequencies; \\(|\\hat{x}(f)|^{2}\\) is the slice size (energy per unit frequency) at frequency f.\nThus \\(|\\hat{x}(f)|^{2}\\) is the energy contribution around frequency f,integrating it over a band tells you how much energy that band carries.\n\\[\n\\text{(ESD)} S_{xx}(f) = |\\hat{x}(f)|^2\n\\]\n\nUsing the Wiener-Khintchine theorem: the ESD can be defined as the fourier transform of the autocorrelation signal:\n\n\\[ S_{xx}(f) = \\int_{-\\infty}^{+\\infty} R_{xx}(\\tau)e^{-2 \\pi i f \\tau} d\\tau\\]\n\n\n\n\n\n\nWhy is the autocorrelation function only a function of the lag \\(\\tau\\)\n\n\n\nFor a (complex) stochastic process X(t) the general autocorrelation is \\[\nR_{XX}(t_1,t_2)=\\mathbb{E}\\big[X(t_1)\\,\\overline{X(t_2)}\\big],\n\\] which a priori depends on both times t1 and t2.\nIf X(t) is wide-sense stationary (WSS) then by definition:\n\nThe mean \\(\\mu(X(t))=E[X(t)]\\) is constant in time,\nthe autocorrelation is invariant under time shifts.\n\nTime-shift invariance means: for any real shift \\(\\Delta\\), \\[\nR_{XX}(t_1+\\Delta,t_2+\\Delta)=R_{XX}(t_1,t_2).\n\\] Fix any pair \\((t_1,t_2)\\).\nChoose \\(\\Delta = −t_2\\). Then \\[\nR_{XX}(t_1,t_2)=R_{XX}(t_1-t_2,0).\n\\]\nThus the value of \\(R_{XX}\\) at \\((t_1,t_2)\\) equals its value at \\((t_1−t_2,0)\\); it depends only on the difference \\(t_1−t_2\\), not on the absolute times.\nWriting \\(\\tau = t_1−t_2\\) gives the single-argument form \\[\nR_{XX}(\\tau)=\\mathbb{E}\\big[X(t+\\tau)\\,\\overline{X(t)}\\big],\n\\] which is independent of the particular t chosen because of the shift invariance.\nIf the process is zero-mean (centered), the autocovariance \\(K_{XX}\\) equals the autocorrelation \\(R_{XX}\\), so the same reduction to a single-argument function holds: \\[\nK_{XX}(t_1,t_2)=K_{XX}(\\tau)=R_{XX}(\\tau).\n\\] In short: WSS implies time-translation invariance of second-order statistics. That invariance forces the two-time function \\(R_{XX}(t_1,t_2)\\) to depend only on the time difference \\(\\tau = t_1−t_2\\).",
+    "crumbs": [
+      "Stochastic Model",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Filtering</span>"
+    ]
+  },
+  {
     "objectID": "segmentation/0.html",
     "href": "segmentation/0.html",
     "title": "4  Filters",

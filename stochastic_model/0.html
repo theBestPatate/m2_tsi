@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>3&nbsp; Introduction – An introduction to Computer Vision and Signal Processing</title>
+<title>3&nbsp; Filtering – An introduction to Computer Vision and Signal Processing</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -70,6 +70,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -82,7 +111,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../stochastic_model.html">Stochastic Model</a></li><li class="breadcrumb-item"><a href="../stochastic_model/0.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Introduction</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../stochastic_model.html">Stochastic Model</a></li><li class="breadcrumb-item"><a href="../stochastic_model/0.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Filtering</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -146,7 +175,7 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../stochastic_model/0.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Filtering</span></span></a>
   </div>
 </li>
       </ul>
@@ -179,15 +208,26 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#type-of-filters" id="toc-type-of-filters" class="nav-link active" data-scroll-target="#type-of-filters"><span class="header-section-number">3.1</span> Type of filters</a>
+  <ul class="collapse">
+  <li><a href="#why-are-we-interested-in-linear-filters" id="toc-why-are-we-interested-in-linear-filters" class="nav-link" data-scroll-target="#why-are-we-interested-in-linear-filters"><span class="header-section-number">3.1.1</span> Why are we interested in linear filters ?</a></li>
+  <li><a href="#link-with-the-fourier-transform" id="toc-link-with-the-fourier-transform" class="nav-link" data-scroll-target="#link-with-the-fourier-transform"><span class="header-section-number">3.1.2</span> Link with the fourier transform</a></li>
+  </ul></li>
+  <li><a href="#energy-and-the-energy-spectral-density" id="toc-energy-and-the-energy-spectral-density" class="nav-link" data-scroll-target="#energy-and-the-energy-spectral-density"><span class="header-section-number">3.2</span> Energy and the energy spectral density</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../stochastic_model.html">Stochastic Model</a></li><li class="breadcrumb-item"><a href="../stochastic_model/0.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Introduction</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../stochastic_model.html">Stochastic Model</a></li><li class="breadcrumb-item"><a href="../stochastic_model/0.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Filtering</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Introduction</span></h1>
+<h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Filtering</span></h1>
 </div>
 
 
@@ -204,8 +244,99 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This summary isn’t really rigorous because the course wasn’t. I welcome any contributions to improve clarity,definitions,or mention key hypotheses.</p>
+</div>
+</div>
+<p>We observe a time-varying quantity x(t), but measurements are imperfect — what we actually record is y(t), which equals the true signal plus an error term:</p>
+<p><span class="math display">\[y(t)=x(t)+b(t).\]</span></p>
+<p>Recovering x(t) from the noisy observation y(t) is called filtering — i.e., designing a method that suppresses the noise b(t) while retaining the desired signal x(t).</p>
+<section id="type-of-filters" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="type-of-filters"><span class="header-section-number">3.1</span> Type of filters</h2>
+<p>Usually we think of filters in two main groups: - Linear filters - Non-linear filters</p>
+<section id="why-are-we-interested-in-linear-filters" class="level3" data-number="3.1.1">
+<h3 data-number="3.1.1" class="anchored" data-anchor-id="why-are-we-interested-in-linear-filters"><span class="header-section-number">3.1.1</span> Why are we interested in linear filters ?</h3>
+<p>If the system is linear and time‑invariant, its action on any input is completely characterized by its impulse response h(t) (or equivalently its transfer function H(s)/H(ω)). Convolving the measured signal with h gives the system’s output or an estimate of the underlying signal:</p>
+<p><span class="math display">\[\tilde{x}(t)=y(t)\ast h(t).\]</span></p>
+<p>Using linearity and y(t)=x(t)+b(t):</p>
+<p><span class="math display">\[\tilde{x}(t)=(x(t)+b(t))\ast h(t)=x(t)\ast h(t)+b(t)\ast h(t).\]</span></p>
+<p>Ideally, <span class="math inline">\(b(t)\ast h(t) = 0\)</span></p>
+</section>
+<section id="link-with-the-fourier-transform" class="level3" data-number="3.1.2">
+<h3 data-number="3.1.2" class="anchored" data-anchor-id="link-with-the-fourier-transform"><span class="header-section-number">3.1.2</span> Link with the fourier transform</h3>
+<p>The fourier transform turns the convolution into a simple product. <span class="math display">\[ TF(y(t)*h(t)) = Y(f) H(f)\]</span></p>
+</section>
+</section>
+<section id="energy-and-the-energy-spectral-density" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="energy-and-the-energy-spectral-density"><span class="header-section-number">3.2</span> Energy and the energy spectral density</h2>
+<ul>
+<li>For a finite‑energy signal x(t) the total energy is defined as <span class="math display">\[
+E=\int_{-\infty}^{\infty}|x(t)|^{2}dt.
+\]</span></li>
+</ul>
+<p>Let <span class="math inline">\(\hat{x}(f)\)</span> be the Fourier transform of <span class="math inline">\(x(t)\)</span> (frequency (f) in Hz).</p>
+<ul>
+<li>By Parseval’s theorem, <span class="math display">\[
+E=\int_{-\infty}^{\infty}|x(t)|^{2}dt=\int_{-\infty}^{\infty}|\hat{x}(f)|^{2}df.
+\]</span> The nonnegative function <span class="math inline">\(|\hat{x}(f)|^{2}\)</span> is called the energy spectral density (ESD) of <span class="math inline">\((x(t)\)</span>.</li>
+</ul>
+<p>For any band <span class="math inline">\([f_1,f_2]\)</span>, <span class="math display">\[
+  \int_{f_1}^{f_2}|\hat{x}(f)|^{2}\,df
+\]</span> equals the energy contained in that frequency band.</p>
+<p>Think of the total energy E as a cake. The Fourier transform splits the cake across frequencies; <span class="math inline">\(|\hat{x}(f)|^{2}\)</span> is the slice size (energy per unit frequency) at frequency f.</p>
+<p>Thus <span class="math inline">\(|\hat{x}(f)|^{2}\)</span> is the energy contribution around frequency f,integrating it over a band tells you how much energy that band carries.</p>
+<p><span class="math display">\[
+\text{(ESD)} S_{xx}(f) = |\hat{x}(f)|^2
+\]</span></p>
+<ul>
+<li>Using the Wiener-Khintchine theorem: the ESD can be defined as the fourier transform of the autocorrelation signal:</li>
+</ul>
+<p><span class="math display">\[ S_{xx}(f) = \int_{-\infty}^{+\infty} R_{xx}(\tau)e^{-2 \pi i f \tau} d\tau\]</span></p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Why is the autocorrelation function only a function of the lag <span class="math inline">\(\tau\)</span>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>For a (complex) stochastic process X(t) the general autocorrelation is <span class="math display">\[
+R_{XX}(t_1,t_2)=\mathbb{E}\big[X(t_1)\,\overline{X(t_2)}\big],
+\]</span> which a priori depends on both times t1 and t2.</p>
+<p>If X(t) is wide-sense stationary (WSS) then by definition:</p>
+<ul>
+<li>The mean <span class="math inline">\(\mu(X(t))=E[X(t)]\)</span> is constant in time,</li>
+<li>the autocorrelation is invariant under time shifts.</li>
+</ul>
+<p>Time-shift invariance means: for any real shift <span class="math inline">\(\Delta\)</span>, <span class="math display">\[
+R_{XX}(t_1+\Delta,t_2+\Delta)=R_{XX}(t_1,t_2).
+\]</span> Fix any pair <span class="math inline">\((t_1,t_2)\)</span>.</p>
+<p>Choose <span class="math inline">\(\Delta = −t_2\)</span>. Then <span class="math display">\[
+R_{XX}(t_1,t_2)=R_{XX}(t_1-t_2,0).
+\]</span></p>
+<p>Thus the value of <span class="math inline">\(R_{XX}\)</span> at <span class="math inline">\((t_1,t_2)\)</span> equals its value at <span class="math inline">\((t_1−t_2,0)\)</span>; it depends only on the difference <span class="math inline">\(t_1−t_2\)</span>, not on the absolute times.</p>
+<p>Writing <span class="math inline">\(\tau = t_1−t_2\)</span> gives the single-argument form <span class="math display">\[
+R_{XX}(\tau)=\mathbb{E}\big[X(t+\tau)\,\overline{X(t)}\big],
+\]</span> which is independent of the particular t chosen because of the shift invariance.</p>
+<p>If the process is zero-mean (centered), the autocovariance <span class="math inline">\(K_{XX}\)</span> equals the autocorrelation <span class="math inline">\(R_{XX}\)</span>, so the same reduction to a single-argument function holds: <span class="math display">\[
+K_{XX}(t_1,t_2)=K_{XX}(\tau)=R_{XX}(\tau).
+\]</span> In short: WSS implies time-translation invariance of second-order statistics. That invariance forces the two-time function <span class="math inline">\(R_{XX}(t_1,t_2)\)</span> to depend only on the time difference <span class="math inline">\(\tau = t_1−t_2\)</span>.</p>
+</div>
+</div>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
