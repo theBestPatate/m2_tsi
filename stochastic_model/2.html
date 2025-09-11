@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>4&nbsp; The Wiener Filter – An introduction to Computer Vision and Signal Processing</title>
+<title>5&nbsp; Wiener Deconvolution – An introduction to Computer Vision and Signal Processing</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -30,8 +30,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../stochastic_model/2.html" rel="next">
-<link href="../stochastic_model/0.html" rel="prev">
+<link href="../segmentation.html" rel="next">
+<link href="../stochastic_model/1.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
@@ -70,35 +70,6 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 </head>
 
@@ -111,7 +82,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../stochastic_model.html">Stochastic Model</a></li><li class="breadcrumb-item"><a href="../stochastic_model/1.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">The Wiener Filter</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../stochastic_model.html">Stochastic Model</a></li><li class="breadcrumb-item"><a href="../stochastic_model/2.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Wiener Deconvolution</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -180,13 +151,13 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../stochastic_model/1.html" class="sidebar-item-text sidebar-link active">
+  <a href="../stochastic_model/1.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">The Wiener Filter</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../stochastic_model/2.html" class="sidebar-item-text sidebar-link">
+  <a href="../stochastic_model/2.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Wiener Deconvolution</span></span></a>
   </div>
 </li>
@@ -220,24 +191,15 @@ window.Quarto = {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">Table of contents</h2>
-   
-  <ul>
-  <li><a href="#wiener-filtering" id="toc-wiener-filtering" class="nav-link active" data-scroll-target="#wiener-filtering"><span class="header-section-number">4.1</span> Wiener filtering</a></li>
-  <li><a href="#how-it-works" id="toc-how-it-works" class="nav-link" data-scroll-target="#how-it-works"><span class="header-section-number">4.2</span> How it works ?</a></li>
-  <li><a href="#solving-the-optimization-problem" id="toc-solving-the-optimization-problem" class="nav-link" data-scroll-target="#solving-the-optimization-problem"><span class="header-section-number">4.3</span> Solving the optimization problem</a></li>
-  <li><a href="#frequency-domain-formulation" id="toc-frequency-domain-formulation" class="nav-link" data-scroll-target="#frequency-domain-formulation"><span class="header-section-number">4.4</span> Frequency-domain formulation</a></li>
-  </ul>
-</nav>
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../stochastic_model.html">Stochastic Model</a></li><li class="breadcrumb-item"><a href="../stochastic_model/1.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">The Wiener Filter</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../stochastic_model.html">Stochastic Model</a></li><li class="breadcrumb-item"><a href="../stochastic_model/2.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Wiener Deconvolution</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">The Wiener Filter</span></h1>
+<h1 class="title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Wiener Deconvolution</span></h1>
 </div>
 
 
@@ -254,134 +216,8 @@ window.Quarto = {
 </header>
 
 
-<div class="callout callout-style-default callout-warning callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Bad maths alert
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>The maths in this section is mostly napkin maths and the proofs are shaky. Every contribution is welcome. There’s several things I don’t always factor like stochasticity,complex values …</p>
-<p>Oh and special thanks to Noemie for sending some of the material</p>
-</div>
-</div>
-<section id="wiener-filtering" class="level2" data-number="4.1">
-<h2 data-number="4.1" class="anchored" data-anchor-id="wiener-filtering"><span class="header-section-number">4.1</span> Wiener filtering</h2>
-<p>The <strong>Wiener filter</strong> is a classical signal-processing method developed by Norbert Wiener in the 1940s. The objective is to reconstruct a target signal <span class="math inline">\(x(t)\)</span> from a noisy observation: <span class="math display">\[
-y(t)=x(t)+b(t),
-\]</span> where <span class="math inline">\(b(t)\)</span> is additive noise.</p>
-</section>
-<section id="how-it-works" class="level2" data-number="4.2">
-<h2 data-number="4.2" class="anchored" data-anchor-id="how-it-works"><span class="header-section-number">4.2</span> How it works ?</h2>
-<p>The problem is formulated as an optimisation problem where we’re looking for h such as:</p>
-<p><span class="math display">\[
-\tilde{x}(t)=(h*y)(t)=\int_{-\infty}^{+\infty} h(u)y(t-u)du
-\]</span> is as close as possible to the original signal (x(t)).</p>
-<p>The measure of proximity/distance is the mean squared error.</p>
-<p><span class="math display">\[
-J=\mathbb{E}\Big[\big(x(t)-\tilde{x}(t)\big)^2\Big].
-\]</span></p>
-<p>The goal is to find <span class="math inline">\(h(t)\)</span> that minimizes <span class="math inline">\(J\)</span> or mathematically:</p>
-<p><span class="math display">\[
-\min_{h(\cdot)}J(h)=\min_{h(\cdot)}\;\mathbb{E}\Big[\big(x(t)-\!(h*y)(t)\big)^2\Big]
-\]</span></p>
-</section>
-<section id="solving-the-optimization-problem" class="level2" data-number="4.3">
-<h2 data-number="4.3" class="anchored" data-anchor-id="solving-the-optimization-problem"><span class="header-section-number">4.3</span> Solving the optimization problem</h2>
-<p>If a solution exist, it’s necessarily a local minimum so we can find possible solutions by derivating the J function.</p>
-<p><span class="math display">\[
-\frac{\partial J}{\partial h} = 2\mathbb{E}\Big[\big(x(t)-(h*y)(t)\big)
-\frac{\partial}{\partial h}\big(x(t)-(h*y)(t)\big)\Big]
-\]</span></p>
-<p>Since <span class="math inline">\(x(t)\)</span> does not depend on <span class="math inline">\(h\)</span> and <span class="math inline">\((h*y)(t)=\int_{-\infty}^{\infty} h(u)y(t-u)du\)</span>, the functional derivative is</p>
-<p><span class="math display">\[
-\frac{\partial}{\partial h(u)}\big(x(t)-(h*y)(t)\big)
-= -y(t-u).
-\]</span></p>
-<p>Therefore the Gateaux derivative (set to zero for optimality) is <span class="math display">\[
-\frac{\partial J}{\partial h(v)}= -2\,\mathbb{E}\Big[\big(x(t)-(h*y)(t)\big)\,y(t-v)\Big] = 0,
-\qquad\forall v,
-\]</span> which is the orthogonality condition.</p>
-<p>This condition can be understood intuitively by the idea that our estimation error should not be correlated to the signal we’re observing.</p>
-</section>
-<section id="frequency-domain-formulation" class="level2" data-number="4.4">
-<h2 data-number="4.4" class="anchored" data-anchor-id="frequency-domain-formulation"><span class="header-section-number">4.4</span> Frequency-domain formulation</h2>
-<p>In the frequency domain the problem simplifies.</p>
-<p>Our initial equation is: <span class="math display">\[
-Y(f)=X(f)+B(f)
-\]</span> With <span class="math inline">\(Y\)</span> the observation,<span class="math inline">\(X\)</span> the signal,<span class="math inline">\(B\)</span> the noise, all in the fourier domain.</p>
-<p>We’re looking for <span class="math display">\[\tilde{X}(f)=H(f)Y(f)\]</span></p>
-<p>Define the power spectral densities (PSDs): <span class="math display">\[
-S_{xx}(f)=\mathbb{E}\big[|X(f)|^2\big],\qquad S_{yy}(f)=S_{xx}(f)+S_{bb}(f).
-\]</span></p>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Why <span class="math inline">\(S_{yy}(f)=S_{xx}(f)+S_{bb}(f)\)</span> ?
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Start from <span class="math inline">\(Y(f)=X(f)+B(f)\)</span>. By definition the (one-sided) power spectral density is the expected squared magnitude:</p>
-<p><span class="math display">\[S_{yy}(f)=\mathbb{E}\big[|Y(f)|^2\big]=\mathbb{E}\big[Y(f)\overline{Y(f)}\big].\]</span> Substitute <span class="math inline">\(Y(f) = X(f) + B(f)\)</span>:</p>
-<p><span class="math display">\[
-\begin{aligned}
-S_{yy}(f)
-&amp;=\mathbb{E}\big[(X(f)+B(f))\overline{(X(f)+B(f))}\big]\\
-&amp;=\mathbb{E}\big[X(f)\overline{X(f)}\big]
-+\mathbb{E}\big[B(f)\overline{B(f)}\big]
-+\mathbb{E}\big[X(f)\overline{B(f)}\big]
-+\mathbb{E}\big[B(f)\overline{X(f)}\big].
-\end{aligned}
-\]</span></p>
-<p>If X and B are uncorrelated (or independent) then the cross terms vanish: <span class="math display">\[\mathbb{E}\big[X(f)\overline{B(f)}\big]=\mathbb{E}\big[B(f)\overline{X(f)}\big]=0.\]</span> Thus <span class="math display">\[S_{yy}(f)=\mathbb{E}[|X(f)|^2]+\mathbb{E}[|B(f)|^2]=S_{xx}(f)+S_{bb}(f).\]</span></p>
-</div>
-</div>
-<p>The optimal solution is the frequency-domain Wiener filter: <span class="math display">\[
-H(f)=\frac{S_{xx}(f)}{S_{yy}(f)}=\frac{S_{xx}(f)}{S_{xx}(f)+S_{bb}(f)} = \frac{1}{1+\frac{S_{bb}}{S_{xx}}}
-\]</span></p>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Why <span class="math inline">\(H(f)=\frac{S_{xx}(f)}{S_{yy}(f)}\)</span> ?
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>To figure this out, we need to rewrite the optimization equation in the fourier domain</p>
-<p><span class="math display">\[
-\begin{aligned}
-J(f)
-&amp;= \mathbb{E}\Big[\big(X(f)-\tilde{X}(f)\big)^2\Big] \\
-&amp;= \mathbb{E}\Big[\big(X(f)-H(f)Y(f)\big)^2\Big] \\
-&amp;= \mathbb{E}\Big[X(f)^2 - 2 X(f)H(f)Y(f) + \big(H(f)Y(f)\big)^2\Big]\\
-&amp;= \mathbb{E}\Big[X(f)^2\Big] + 2H(f)\mathbb{E}\Big[X(f)Y(f)\Big] + H(f)^2\mathbb{E}\Big[Y(f)^2\Big]\\
-\end{aligned}
-\]</span></p>
-<p>Now differentiating this equation leads to:</p>
-<p><span class="math display">\[
-\begin{aligned}
-\frac{\partial J}{\partial H(f)}= 0 \Leftrightarrow \\
-&amp;2 S_{xy} + 2 H(f)S_{yy}=0
-&amp;H(f) = \frac{S_{xy}}{S_{yy}}
-\end{aligned}
-\]</span></p>
-<p>Now <span class="math inline">\(S_{xy}\)</span> is slightly different than <span class="math inline">\(S_{xx}\)</span> at first glance but they actually match because we assume the noise is uncorrelated to the signal.</p>
-<p><span class="math display">\[
-S_{xy} = \mathbb{E}[XY] = \mathbb{E}[X(X+B)]= \mathbb{E}[X^2] + \mathbb{E}[XB] = E[X^2] = S_{xx}
-\]</span></p>
-</div>
-</div>
 
 
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -785,13 +621,13 @@ S_{xy} = \mathbb{E}[XY] = \mathbb{E}[X(X+B)]= \mathbb{E}[X^2] + \mathbb{E}[XB] =
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../stochastic_model/0.html" class="pagination-link" aria-label="Filtering">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Filtering</span></span>
+      <a href="../stochastic_model/1.html" class="pagination-link" aria-label="The Wiener Filter">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">The Wiener Filter</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../stochastic_model/2.html" class="pagination-link" aria-label="Wiener Deconvolution">
-        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Wiener Deconvolution</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../segmentation.html" class="pagination-link" aria-label="Segmentation">
+        <span class="nav-page-text">Segmentation</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

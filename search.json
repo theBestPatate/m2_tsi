@@ -87,80 +87,124 @@
     ]
   },
   {
+    "objectID": "stochastic_model/1.html",
+    "href": "stochastic_model/1.html",
+    "title": "4  The Wiener Filter",
+    "section": "",
+    "text": "4.1 Wiener filtering\nThe Wiener filter is a classical signal-processing method developed by Norbert Wiener in the 1940s. The objective is to reconstruct a target signal \\(x(t)\\) from a noisy observation: \\[\ny(t)=x(t)+b(t),\n\\] where \\(b(t)\\) is additive noise.",
+    "crumbs": [
+      "Stochastic Model",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>The Wiener Filter</span>"
+    ]
+  },
+  {
+    "objectID": "stochastic_model/1.html#how-it-works",
+    "href": "stochastic_model/1.html#how-it-works",
+    "title": "4  The Wiener Filter",
+    "section": "4.2 How it works ?",
+    "text": "4.2 How it works ?\nThe problem is formulated as an optimisation problem where we’re looking for h such as:\n\\[\n\\tilde{x}(t)=(h*y)(t)=\\int_{-\\infty}^{+\\infty} h(u)y(t-u)du\n\\] is as close as possible to the original signal (x(t)).\nThe measure of proximity/distance is the mean squared error.\n\\[\nJ=\\mathbb{E}\\Big[\\big(x(t)-\\tilde{x}(t)\\big)^2\\Big].\n\\]\nThe goal is to find \\(h(t)\\) that minimizes \\(J\\) or mathematically:\n\\[\n\\min_{h(\\cdot)}J(h)=\\min_{h(\\cdot)}\\;\\mathbb{E}\\Big[\\big(x(t)-\\!(h*y)(t)\\big)^2\\Big]\n\\]",
+    "crumbs": [
+      "Stochastic Model",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>The Wiener Filter</span>"
+    ]
+  },
+  {
+    "objectID": "stochastic_model/1.html#solving-the-optimization-problem",
+    "href": "stochastic_model/1.html#solving-the-optimization-problem",
+    "title": "4  The Wiener Filter",
+    "section": "4.3 Solving the optimization problem",
+    "text": "4.3 Solving the optimization problem\nIf a solution exist, it’s necessarily a local minimum so we can find possible solutions by derivating the J function.\n\\[\n\\frac{\\partial J}{\\partial h} = 2\\mathbb{E}\\Big[\\big(x(t)-(h*y)(t)\\big)\n\\frac{\\partial}{\\partial h}\\big(x(t)-(h*y)(t)\\big)\\Big]\n\\]\nSince \\(x(t)\\) does not depend on \\(h\\) and \\((h*y)(t)=\\int_{-\\infty}^{\\infty} h(u)y(t-u)du\\), the functional derivative is\n\\[\n\\frac{\\partial}{\\partial h(u)}\\big(x(t)-(h*y)(t)\\big)\n= -y(t-u).\n\\]\nTherefore the Gateaux derivative (set to zero for optimality) is \\[\n\\frac{\\partial J}{\\partial h(v)}= -2\\,\\mathbb{E}\\Big[\\big(x(t)-(h*y)(t)\\big)\\,y(t-v)\\Big] = 0,\n\\qquad\\forall v,\n\\] which is the orthogonality condition.\nThis condition can be understood intuitively by the idea that our estimation error should not be correlated to the signal we’re observing.",
+    "crumbs": [
+      "Stochastic Model",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>The Wiener Filter</span>"
+    ]
+  },
+  {
+    "objectID": "stochastic_model/1.html#frequency-domain-formulation",
+    "href": "stochastic_model/1.html#frequency-domain-formulation",
+    "title": "4  The Wiener Filter",
+    "section": "4.4 Frequency-domain formulation",
+    "text": "4.4 Frequency-domain formulation\nIn the frequency domain the problem simplifies.\nOur initial equation is: \\[\nY(f)=X(f)+B(f)\n\\] With \\(Y\\) the observation,\\(X\\) the signal,\\(B\\) the noise, all in the fourier domain.\nWe’re looking for \\[\\tilde{X}(f)=H(f)Y(f)\\]\nDefine the power spectral densities (PSDs): \\[\nS_{xx}(f)=\\mathbb{E}\\big[|X(f)|^2\\big],\\qquad S_{yy}(f)=S_{xx}(f)+S_{bb}(f).\n\\]\n\n\n\n\n\n\nWhy \\(S_{yy}(f)=S_{xx}(f)+S_{bb}(f)\\) ?\n\n\n\nStart from \\(Y(f)=X(f)+B(f)\\). By definition the (one-sided) power spectral density is the expected squared magnitude:\n\\[S_{yy}(f)=\\mathbb{E}\\big[|Y(f)|^2\\big]=\\mathbb{E}\\big[Y(f)\\overline{Y(f)}\\big].\\] Substitute \\(Y(f) = X(f) + B(f)\\):\n\\[\n\\begin{aligned}\nS_{yy}(f)\n&=\\mathbb{E}\\big[(X(f)+B(f))\\overline{(X(f)+B(f))}\\big]\\\\\n&=\\mathbb{E}\\big[X(f)\\overline{X(f)}\\big]\n+\\mathbb{E}\\big[B(f)\\overline{B(f)}\\big]\n+\\mathbb{E}\\big[X(f)\\overline{B(f)}\\big]\n+\\mathbb{E}\\big[B(f)\\overline{X(f)}\\big].\n\\end{aligned}\n\\]\nIf X and B are uncorrelated (or independent) then the cross terms vanish: \\[\\mathbb{E}\\big[X(f)\\overline{B(f)}\\big]=\\mathbb{E}\\big[B(f)\\overline{X(f)}\\big]=0.\\] Thus \\[S_{yy}(f)=\\mathbb{E}[|X(f)|^2]+\\mathbb{E}[|B(f)|^2]=S_{xx}(f)+S_{bb}(f).\\]\n\n\nThe optimal solution is the frequency-domain Wiener filter: \\[\nH(f)=\\frac{S_{xx}(f)}{S_{yy}(f)}=\\frac{S_{xx}(f)}{S_{xx}(f)+S_{bb}(f)} = \\frac{1}{1+\\frac{S_{bb}}{S_{xx}}}\n\\]\n\n\n\n\n\n\nWhy \\(H(f)=\\frac{S_{xx}(f)}{S_{yy}(f)}\\) ?\n\n\n\nTo figure this out, we need to rewrite the optimization equation in the fourier domain\n\\[\n\\begin{aligned}\nJ(f)\n&= \\mathbb{E}\\Big[\\big(X(f)-\\tilde{X}(f)\\big)^2\\Big] \\\\\n&= \\mathbb{E}\\Big[\\big(X(f)-H(f)Y(f)\\big)^2\\Big] \\\\\n&= \\mathbb{E}\\Big[X(f)^2 - 2 X(f)H(f)Y(f) + \\big(H(f)Y(f)\\big)^2\\Big]\\\\\n&= \\mathbb{E}\\Big[X(f)^2\\Big] + 2H(f)\\mathbb{E}\\Big[X(f)Y(f)\\Big] + H(f)^2\\mathbb{E}\\Big[Y(f)^2\\Big]\\\\\n\\end{aligned}\n\\]\nNow differentiating this equation leads to:\n\\[\n\\begin{aligned}\n\\frac{\\partial J}{\\partial H(f)}= 0 \\Leftrightarrow \\\\\n&2 S_{xy} + 2 H(f)S_{yy}=0\n&H(f) = \\frac{S_{xy}}{S_{yy}}\n\\end{aligned}\n\\]\nNow \\(S_{xy}\\) is slightly different than \\(S_{xx}\\) at first glance but they actually match because we assume the noise is uncorrelated to the signal.\n\\[\nS_{xy} = \\mathbb{E}[XY] = \\mathbb{E}[X(X+B)]= \\mathbb{E}[X^2] + \\mathbb{E}[XB] = E[X^2] = S_{xx}\n\\]",
+    "crumbs": [
+      "Stochastic Model",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>The Wiener Filter</span>"
+    ]
+  },
+  {
     "objectID": "segmentation/0.html",
     "href": "segmentation/0.html",
-    "title": "4  Filters",
+    "title": "6  Filters",
     "section": "",
-    "text": "4.1 Convolution filter\nLet \\(I_s\\) denote the starting (input) image, \\(I_e\\) the ending (output) image, and \\(C_K\\) the convolution kernel (filter) of size (2n+1)×(2n+1).\nThe discrete convolution relation at pixel (i,j) is:\n\\[\nI_e(i,j) \\;=\\; \\sum_{l=-n}^{n}\\sum_{k=-n}^{n} C_K(k,l)\\,I_s(i+k,j+l).\n\\]",
+    "text": "6.1 Convolution filter\nLet \\(I_s\\) denote the starting (input) image, \\(I_e\\) the ending (output) image, and \\(C_K\\) the convolution kernel (filter) of size (2n+1)×(2n+1).\nThe discrete convolution relation at pixel (i,j) is:\n\\[\nI_e(i,j) \\;=\\; \\sum_{l=-n}^{n}\\sum_{k=-n}^{n} C_K(k,l)\\,I_s(i+k,j+l).\n\\]",
     "crumbs": [
       "Segmentation",
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Filters</span>"
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Filters</span>"
     ]
   },
   {
     "objectID": "segmentation/0.html#convolution-filter",
     "href": "segmentation/0.html#convolution-filter",
-    "title": "4  Filters",
+    "title": "6  Filters",
     "section": "",
     "text": "\\(I_s(i,j)\\): intensity/value of the input image at coordinates (i,j).\n\n\\(I_e(i,j)\\): intensity/value of the output image at coordinates (i,j) after applying the convolution.\n\n\\(C_K(k,l)\\): kernel weight at offset (k,l), where k indexes columns (horizontal offset) and l indexes rows (vertical offset).\n\nThe sums run over the kernel support from -n to n in both dimensions, so the kernel size is (2n+1)×(2n+1).\n\nBoundary handling (not shown) must be specified separately (e.g., zero-padding, symmetric extension, circular convolution).",
     "crumbs": [
       "Segmentation",
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Filters</span>"
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Filters</span>"
     ]
   },
   {
     "objectID": "segmentation/0.html#identity-kernel",
     "href": "segmentation/0.html#identity-kernel",
-    "title": "4  Filters",
-    "section": "4.2 Identity kernel",
-    "text": "4.2 Identity kernel\n\n4.2.1 Formally\nLet \\(I_s\\) be the input image, \\(I_e\\) the output image, and \\(I_k\\) the identity convolution kernel. The identity kernel is the kernel that leaves the image unchanged under convolution:\n\\[\nI_e \\;=\\; I_s \\ast I_k \\;=\\; I_s.\n\\]\nIn coordinates, for all pixels (i,j):\n\\[\nI_s(i,j) =\\sum_{l=-n}^{n}\\sum_{k=-n}^{n} I_k(k,l)\\,I_e(i+k,j+l) \\;=\\; I_e(i,j).\n\\] A canonical choice for \\(I_k\\) on a (2n+1)×(2n+1) support is the discrete delta (Kronecker) kernel:\n\\[\nI_k(k,l) \\;=\\; \\delta_{k,0}\\,\\delta_{l,0} \\;=\\;\n\\] \\[\n\\begin{cases}\n1 & (k,l)=(0,0),\\\\[4pt]\n0 & \\text{otherwise},\n\\end{cases}\n\\]\nwhich yields the pointwise identity: \\[\nI_e(i,j)=\\sum_{l=-n}^{n}\\sum_{k=-n}^{n} \\delta_{k,0}\\delta_{l,0}\\,I_s(i+k,j+l)=I_s(i,j).\n\\]\n\nThe kernel support can be larger than a single pixel; values outside the central 1 are zero.\n\n\n\n4.2.2 Visually\nWith a 3x3 kernel:\n\n\n\nk\\l\n-1\n0\n1\n\n\n\n\n-1\n0\n0\n0\n\n\n0\n0\n1\n0\n\n\n1\n0\n0\n0\n\n\n\nSee how it’s different from the typical Identity matrix in linear algebra\n\n\n\nk\\l\n-1\n0\n1\n\n\n\n\n-1\n1\n0\n0\n\n\n0\n0\n1\n0\n\n\n1\n0\n0\n1",
+    "title": "6  Filters",
+    "section": "6.2 Identity kernel",
+    "text": "6.2 Identity kernel\n\n6.2.1 Formally\nLet \\(I_s\\) be the input image, \\(I_e\\) the output image, and \\(I_k\\) the identity convolution kernel. The identity kernel is the kernel that leaves the image unchanged under convolution:\n\\[\nI_e \\;=\\; I_s \\ast I_k \\;=\\; I_s.\n\\]\nIn coordinates, for all pixels (i,j):\n\\[\nI_s(i,j) =\\sum_{l=-n}^{n}\\sum_{k=-n}^{n} I_k(k,l)\\,I_e(i+k,j+l) \\;=\\; I_e(i,j).\n\\] A canonical choice for \\(I_k\\) on a (2n+1)×(2n+1) support is the discrete delta (Kronecker) kernel:\n\\[\nI_k(k,l) \\;=\\; \\delta_{k,0}\\,\\delta_{l,0} \\;=\\;\n\\] \\[\n\\begin{cases}\n1 & (k,l)=(0,0),\\\\[4pt]\n0 & \\text{otherwise},\n\\end{cases}\n\\]\nwhich yields the pointwise identity: \\[\nI_e(i,j)=\\sum_{l=-n}^{n}\\sum_{k=-n}^{n} \\delta_{k,0}\\delta_{l,0}\\,I_s(i+k,j+l)=I_s(i,j).\n\\]\n\nThe kernel support can be larger than a single pixel; values outside the central 1 are zero.\n\n\n\n6.2.2 Visually\nWith a 3x3 kernel:\n\n\n\nk\\l\n-1\n0\n1\n\n\n\n\n-1\n0\n0\n0\n\n\n0\n0\n1\n0\n\n\n1\n0\n0\n0\n\n\n\nSee how it’s different from the typical Identity matrix in linear algebra\n\n\n\nk\\l\n-1\n0\n1\n\n\n\n\n-1\n1\n0\n0\n\n\n0\n0\n1\n0\n\n\n1\n0\n0\n1",
     "crumbs": [
       "Segmentation",
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Filters</span>"
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Filters</span>"
     ]
   },
   {
     "objectID": "segmentation/0.html#average-mean-filter",
     "href": "segmentation/0.html#average-mean-filter",
-    "title": "4  Filters",
-    "section": "4.3 Average (mean) filter",
-    "text": "4.3 Average (mean) filter\nThe average (mean) filter is a linear, shift-invariant smoothing filter that replaces each pixel by the arithmetic mean of the pixels in a local neighborhood. It reduces high-frequency noise and small-scale detail while preserving general intensity trends.\nFor a square window of size (2n+1)×(2n+1) the average kernel A has constant coefficients:\n\\[\nA(k,l)=\\frac{1}{(2n+1)^2},\\qquad k,l\\in\\{-n,\\dots,n\\}.\n\\]\nConvolution with the average kernel gives the output image \\(I_e\\) from input \\(I_s\\):\n\\[\nI_e(i,j)=\\sum_{l=-n}^{n}\\sum_{k=-n}^{n} A(k,l)\\,I_s(i+k,j+l)\n= \\frac{1}{(2n+1)^2}\\sum_{l=-n}^{n}\\sum_{k=-n}^{n} I_s(i+k,j+l).\n\\]",
+    "title": "6  Filters",
+    "section": "6.3 Average (mean) filter",
+    "text": "6.3 Average (mean) filter\nThe average (mean) filter is a linear, shift-invariant smoothing filter that replaces each pixel by the arithmetic mean of the pixels in a local neighborhood. It reduces high-frequency noise and small-scale detail while preserving general intensity trends.\nFor a square window of size (2n+1)×(2n+1) the average kernel A has constant coefficients:\n\\[\nA(k,l)=\\frac{1}{(2n+1)^2},\\qquad k,l\\in\\{-n,\\dots,n\\}.\n\\]\nConvolution with the average kernel gives the output image \\(I_e\\) from input \\(I_s\\):\n\\[\nI_e(i,j)=\\sum_{l=-n}^{n}\\sum_{k=-n}^{n} A(k,l)\\,I_s(i+k,j+l)\n= \\frac{1}{(2n+1)^2}\\sum_{l=-n}^{n}\\sum_{k=-n}^{n} I_s(i+k,j+l).\n\\]",
     "crumbs": [
       "Segmentation",
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Filters</span>"
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Filters</span>"
     ]
   },
   {
     "objectID": "segmentation/0.html#median-filter",
     "href": "segmentation/0.html#median-filter",
-    "title": "4  Filters",
-    "section": "4.4 Median filter",
-    "text": "4.4 Median filter\nThe median filter is a nonlinear, shift-invariant denoising filter that replaces each pixel with the median of the intensities in a local neighborhood.\nGiven an input image \\(I_s\\) and a local window of size (2n+1)x(2n+1), let \\(S(i,j)\\) be the multiset of pixel values in that window centered at (i,j): \\[\nS(i,j)=\\{\\,I_s(i+k,j+l)\\;:\\;k,l\\in\\{-n,\\dots,n\\}\\,\\}.\n\\] The output pixel is the median of S(i,j): \\[\nI_e(i,j)=\\operatorname{median}\\big(S(i,j)\\big).\n\\]",
+    "title": "6  Filters",
+    "section": "6.4 Median filter",
+    "text": "6.4 Median filter\nThe median filter is a nonlinear, shift-invariant denoising filter that replaces each pixel with the median of the intensities in a local neighborhood.\nGiven an input image \\(I_s\\) and a local window of size (2n+1)x(2n+1), let \\(S(i,j)\\) be the multiset of pixel values in that window centered at (i,j): \\[\nS(i,j)=\\{\\,I_s(i+k,j+l)\\;:\\;k,l\\in\\{-n,\\dots,n\\}\\,\\}.\n\\] The output pixel is the median of S(i,j): \\[\nI_e(i,j)=\\operatorname{median}\\big(S(i,j)\\big).\n\\]",
     "crumbs": [
       "Segmentation",
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Filters</span>"
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Filters</span>"
     ]
   },
   {
     "objectID": "segmentation/0.html#nagao-filter",
     "href": "segmentation/0.html#nagao-filter",
-    "title": "4  Filters",
-    "section": "4.5 Nagao filter",
-    "text": "4.5 Nagao filter\n\n\n\nNagao filter kernel\n\n\nThe Nagao filter is an edge-preserving, local adaptive smoothing filter that chooses the output value from the neighborhood whose internal variance (or squared error) is minimal. It was introduced for noise reduction while preserving edges and fine details by selecting the most homogeneous local region among several oriented and shaped subwindows.",
+    "title": "6  Filters",
+    "section": "6.5 Nagao filter",
+    "text": "6.5 Nagao filter\n\n\n\nNagao filter kernel\n\n\nThe Nagao filter is an edge-preserving, local adaptive smoothing filter that chooses the output value from the neighborhood whose internal variance (or squared error) is minimal. It was introduced for noise reduction while preserving edges and fine details by selecting the most homogeneous local region among several oriented and shaped subwindows.",
     "crumbs": [
       "Segmentation",
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Filters</span>"
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Filters</span>"
     ]
   },
   {
     "objectID": "segmentation/1.html",
     "href": "segmentation/1.html",
-    "title": "5  Contour and edges",
+    "title": "7  Contour and edges",
     "section": "",
-    "text": "5.1 Gradient filter\nHorizontal and vertical gradient filters approximate first-order spatial derivatives to detect local intensity change (edges). Let I be the input image. The discrete gradients at pixel (i,j) are often computed with simple finite-difference kernels.\nDefinition (central differences): \\[\nG_x(i,j)=\\frac{1}{2}\\big(I(i+1,j)-I(i-1,j)\\big),\n\\qquad\nG_y(i,j)=\\frac{1}{2}\\big(I(i,j+1)-I(i,j-1)\\big).\n\\] Equivalently, via convolution with 1D kernels: \\[\nG_x = I \\ast \\begin{bmatrix} -\\tfrac{1}{2} & 0 & \\tfrac{1}{2} \\end{bmatrix},\\qquad\nG_y = I \\ast \\begin{bmatrix} -\\tfrac{1}{2} \\\\[4pt] 0 \\\\[4pt] \\tfrac{1}{2} \\end{bmatrix}.\n\\]\nCommon alternative (forward/backward differences): \\[\nG_x^{+}(i,j)=I(i+1,j)-I(i,j),\\quad G_x^{-}(i,j)=I(i,j)-I(i-1,j),\n\\] and similarly for \\(G_y\\).\n(The forward differences is the prewitt operator. If you give more importance to the value in the center,you get the Sobel operator )\nGradient magnitude and orientation: \\[\nM(i,j)=\\sqrt{G_x(i,j)^2+G_y(i,j)^2},\\qquad\n\\theta(i,j)=\\operatorname{arctan}\\big(G_y(i,j),G_x(i,j)\\big).\n\\]",
+    "text": "7.1 Gradient filter\nHorizontal and vertical gradient filters approximate first-order spatial derivatives to detect local intensity change (edges). Let I be the input image. The discrete gradients at pixel (i,j) are often computed with simple finite-difference kernels.\nDefinition (central differences): \\[\nG_x(i,j)=\\frac{1}{2}\\big(I(i+1,j)-I(i-1,j)\\big),\n\\qquad\nG_y(i,j)=\\frac{1}{2}\\big(I(i,j+1)-I(i,j-1)\\big).\n\\] Equivalently, via convolution with 1D kernels: \\[\nG_x = I \\ast \\begin{bmatrix} -\\tfrac{1}{2} & 0 & \\tfrac{1}{2} \\end{bmatrix},\\qquad\nG_y = I \\ast \\begin{bmatrix} -\\tfrac{1}{2} \\\\[4pt] 0 \\\\[4pt] \\tfrac{1}{2} \\end{bmatrix}.\n\\]\nCommon alternative (forward/backward differences): \\[\nG_x^{+}(i,j)=I(i+1,j)-I(i,j),\\quad G_x^{-}(i,j)=I(i,j)-I(i-1,j),\n\\] and similarly for \\(G_y\\).\n(The forward differences is the prewitt operator. If you give more importance to the value in the center,you get the Sobel operator )\nGradient magnitude and orientation: \\[\nM(i,j)=\\sqrt{G_x(i,j)^2+G_y(i,j)^2},\\qquad\n\\theta(i,j)=\\operatorname{arctan}\\big(G_y(i,j),G_x(i,j)\\big).\n\\]",
     "crumbs": [
       "Segmentation",
-      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Contour and edges</span>"
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Contour and edges</span>"
     ]
   }
 ]

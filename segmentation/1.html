@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>5&nbsp; Contour and edges – An introduction to Computer Vision and Signal Processing</title>
+<title>7&nbsp; Contour and edges – An introduction to Computer Vision and Signal Processing</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -110,7 +110,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../segmentation.html">Segmentation</a></li><li class="breadcrumb-item"><a href="../segmentation/1.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Contour and edges</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../segmentation.html">Segmentation</a></li><li class="breadcrumb-item"><a href="../segmentation/1.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Contour and edges</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -177,6 +177,18 @@ window.Quarto = {
  <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Filtering</span></span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../stochastic_model/1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">The Wiener Filter</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../stochastic_model/2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Wiener Deconvolution</span></span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -191,13 +203,13 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../segmentation/0.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Filters</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Filters</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../segmentation/1.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Contour and edges</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Contour and edges</span></span></a>
   </div>
 </li>
       </ul>
@@ -212,16 +224,16 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#gradient-filter" id="toc-gradient-filter" class="nav-link active" data-scroll-target="#gradient-filter"><span class="header-section-number">5.1</span> Gradient filter</a></li>
+  <li><a href="#gradient-filter" id="toc-gradient-filter" class="nav-link active" data-scroll-target="#gradient-filter"><span class="header-section-number">7.1</span> Gradient filter</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../segmentation.html">Segmentation</a></li><li class="breadcrumb-item"><a href="../segmentation/1.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Contour and edges</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../segmentation.html">Segmentation</a></li><li class="breadcrumb-item"><a href="../segmentation/1.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Contour and edges</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Contour and edges</span></h1>
+<h1 class="title"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Contour and edges</span></h1>
 </div>
 
 
@@ -251,8 +263,8 @@ Note
 <p>This summary assumes basic familiarity with the mathematical formalism of signals, images, and filters.</p>
 </div>
 </div>
-<section id="gradient-filter" class="level2" data-number="5.1">
-<h2 data-number="5.1" class="anchored" data-anchor-id="gradient-filter"><span class="header-section-number">5.1</span> Gradient filter</h2>
+<section id="gradient-filter" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="gradient-filter"><span class="header-section-number">7.1</span> Gradient filter</h2>
 <p>Horizontal and vertical gradient filters approximate first-order spatial derivatives to detect local intensity change (edges). Let I be the input image. The discrete gradients at pixel (i,j) are often computed with simple finite-difference kernels.</p>
 <p>Definition (central differences): <span class="math display">\[
 G_x(i,j)=\frac{1}{2}\big(I(i+1,j)-I(i-1,j)\big),
@@ -677,7 +689,7 @@ M(i,j)=\sqrt{G_x(i,j)^2+G_y(i,j)^2},\qquad
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="../segmentation/0.html" class="pagination-link" aria-label="Filters">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Filters</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Filters</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
