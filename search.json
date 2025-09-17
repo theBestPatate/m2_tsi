@@ -131,80 +131,135 @@
     ]
   },
   {
+    "objectID": "stochastic_model/exo_0.html",
+    "href": "stochastic_model/exo_0.html",
+    "title": "6  Exercice 1",
+    "section": "",
+    "text": "Note\n\n\n\nI chose to keep the exercies in french for my classmates.\n\n\nOn souhaite à partir d’une observation du processus aléatoire \\(y(t)\\) résultant de la somme de deux signaux décorrélés \\(x(t)\\) et \\(b(t)\\) de densités spectrales de puissance respectives \\(S_{xx}(f)\\) et \\(S_{bb}(f)\\) estimer le processus aléatoire de \\(x(t)\\) par filtrage.\n\nProposer et justifier le choix du filtre approprié à cette application\n\n\\(y(t) = x(t)+b(t)\\)\nOn a supposé que le bruit est décorrélé du signal x. En supposant que le signal x est stationnaire au deuxième degré et centré, le filtre de Wiener de débruitage semble adapté.\n\nDonner l’expression du gain complexe (réponse en fréquence) du filtre optimal en fonction des densités spectrales de puissance des deux signaux \\(x(t)\\) et \\(b(t)\\).\n\n\\[\n\\begin{aligned}\nH(f) = \\frac{S_{xx}}{S_{yy}} \\\\\nH(f) = \\frac{S_{xx}}{S_{xx}+S_{bb}} \\\\\nH(f) = \\frac{1}{1+\\frac{S_{bb}}{S_{xx}}} \\\\\n\\end{aligned}\n\\]\n\nSi \\(b(t)\\) est un bruit blanc,centré et de variance \\(N_0=1\\) et \\(x(t)\\) est stationnaire au second ordre,centré, réel,de densitéé spectrale de puissance : \\[\nS_{xx}(f) = \\frac{1}{4 \\pi^2f^2+15}\n\\]\n\nCalculer et tracer la réponse impulsionnelle du filtre; On donne la transformée de Fourier : \\(TF(e^{-a|t|})= \\frac{2a}{4 \\pi^2f^2+a^2}\\) , \\(a\\) étant un réel strictement positif.\nL’idée principale de cette question est que l’auto-corrélation du bruit/la dsp est égale à la variance pour le bruit blanc par définition.\nLa variance est \\(\\mathbb{E}[b^2]=1=S_{bb}\\)\nDe cette observation suit que :\n\\[\nH(f) = \\frac{1}{q \\pi^2f^2+16}\n\\]\nOr d’après l’énoncé : \\(TF(e^{-a|t|})= \\frac{2a}{4 \\pi^2f^2+a^2}\\)\nAinsi, par identification : Pour \\(a=4\\), \\[\\frac{1}{8}TF(e^{-4|t|})=H(f)\\]\nD’où la réponse impulsionnelle: \\[\nTF^{-1}(H(f))(t) =h(t) = \\frac{1}{8}e^{-4|t|}\n\\]\n\n\nimport numpy as np\nimport matplotlib.pyplot as plt\nimport seaborn as sns\n\nsns.set(style=\"whitegrid\")\nt = np.linspace(-2, 2, 1001)\nf = 0.125 * np.exp(-4 * np.abs(t))\npeaks = [0]\nvals = [0.125]\nannot_x = np.array([-1, 0, 1])\nannot_y = 0.125 * np.exp(-4 * np.abs(annot_x))\n\nfig, ax = plt.subplots(figsize=(7,4))\nax.plot(t, f, color=\"#1f77b4\", lw=2)\nax.fill_between(t, f, color=\"#1f77b4\", alpha=0.12)\nax.scatter(peaks, vals, color=\"crimson\", zorder=5)\nax.scatter(annot_x, annot_y, color=\"darkorange\", zorder=5)\nfor x,y,label in zip(annot_x,annot_y,[r\"$t=-1,\\ f=\\frac{1}{8}e^{-4}$\", r\"$t=0,\\ f=\\frac{1}{8}$\", r\"$t=1,\\ f=\\frac{1}{8}e^{-4}$\"]):\n    ax.annotate(label, xy=(x,y), xytext=(x, y+0.02), ha=\"center\", color=\"black\", fontsize=9)\nax.set_xlabel(\"t\")\nax.set_ylabel(\"f(t)\")\nax.set_title(r\"$f(t)=\\frac{1}{8}e^{-4|t|}$\")\nax.set_xlim(-2,2)\nax.set_ylim(0,0.14)\nplt.tight_layout()\nplt.show()\n\nCalculer et tracer la fonction d’autocorrélation du signal x(t). En déduire la puissance du signal.\n\nL’idée principale de cette question est dd’utiliser le théorème de Wiener-Kintchine qui établit un lien entre l’autocorrélation qu’uon cherche et la dsp qu’on connait.\n\\[\nTF[R_{xx}(\\tau)] = S_{xx}(f)]\n\\] Donc\n\\[\nR_{xx}(\\tau) = TF^{-1}[S_{xx}(f)]\n\\]\nEn procédant par identification, on peut retrouver:\n\\[\nR_{xx}(\\tau) = \\frac{1}{2\\sqrt{15}}e^{- \\sqrt{15}|\\tau|}\n\\]\nPour trouver la puissance du signal \\(x(t)\\) on utilise encore le théorème de Wiener-Kintchine et on l’évalue en 0.\nPar défintion, \\[\nP_x = \\int S_{xx}(f)df\n\\]\nOr\n\\[\nR_{xx}(\\tau) = \\int S_{xx}e^{j 2 \\pi f \\tau} df\n\\]\nEn \\(\\tau =0\\), l’exponentiel disparait et on retrouve que :\n\\[\nP_x = R_{xx}(0)\n\\]",
+    "crumbs": [
+      "Stochastic Model",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Exercice 1</span>"
+    ]
+  },
+  {
+    "objectID": "stochastic_model/exo_1.html",
+    "href": "stochastic_model/exo_1.html",
+    "title": "7  Exercice 2",
+    "section": "",
+    "text": "7.1 Question 1\nOn souhaite, à partir d’une observation du processus aléatoire \\(y(t)\\) , résultat de la somme de deux signaux \\(e(t)\\) et \\(b(t)\\), estimer le processus \\(e(t)\\) par filtrage de Wiener. La densité spectrale de \\(e(t)\\) est :\n\\[\nS_{ee}(f) = \\frac{2}{7+2 \\pi ^2 f^2}\n\\]\nLe bruit \\(b(t)\\) est un bruit blanc de densité spectrale de puissance : \\[\nS_{bb}(f)=N_0\n\\]\nLes deux signaux \\(e(t)\\) et \\(b(t)\\) sont centrés et décorrélés.\nDonnez l’expression de la fonction de transfert H(f) du filtre optimal\n\\[\n\\begin{aligned}\nH(f) = \\frac{1}{1 + \\frac{S_{bb}(f)}{S_{ee}(f)}} \\\\\n= \\frac{1}{1 + \\frac{2}{\\frac{2}{7+ 2 \\pi^2 f^2}}}\n= \\frac{2}{4 \\pi^2 f^2 +16}\n= \\frac{1}{4}\\frac{2 \\times 4}{4 \\pi^2 f^2 +4^2}\n= \\frac{2}{4 \\pi^2+16}\n\\end{aligned}\n\\] ## Question 2\nSi \\(N_0=2\\), calculez la réponse impulsionnelle \\(h(t)\\). On rappelle la transformée de Fourier de cette fonction:\n\\[\nTF(e^{-a|t|}) = \\frac{2a}{4\\pi^2 f^2+a^2}\n\\] a étant un réel strictement positif\n\\[h(t) = \\frac{1}{4} e^{-4 |t|}\\]",
+    "crumbs": [
+      "Stochastic Model",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Exercice 2</span>"
+    ]
+  },
+  {
+    "objectID": "stochastic_model/exo_1.html#question-3",
+    "href": "stochastic_model/exo_1.html#question-3",
+    "title": "7  Exercice 2",
+    "section": "7.2 Question 3",
+    "text": "7.2 Question 3\nAfin d’évaluer la performance théorique dd’un tel filtre, on rélaise le traitement suivant:\n\nOn peut remarquer que si en sortie du filtre nous avons \\(w(t)=e(t)\\) (estimation parfaite, alors \\(z(t)= e(t)-w(t)=0\\) On définit le facteur de qualité par : \\[\nQ = \\frac{S_{ee}(f)}{S_{zz}(f)}\n\\]\nOn se propose par la suite de calculer Q. Le filtre sera d’autant plus efficace que \\(Q &gt;&gt;1\\)\n\n7.2.1 3-1) Exprimez la fonction d’auto-corrélation statistique \\(R_{zz}(\\tau) = \\mathbb{E}[z(t)z*(t-\\tau)]\\) de \\(z(t)=e(t)-w(t)=0\\)\n\\[\n\\begin{aligned}\nR_{zz}(\\tau) = \\mathbb{E}[z(t)z(t-\\tau)] = \\mathbb{E}[(e(t)-w(t))(e(t-\\tau) -w(t-\\tau))] \\\\\n= \\mathbb{E}[e(t)e(t-\\tau)] - \\mathbb{E}[e(t)w(t-\\tau)] - \\mathbb{E}[w(t)...] ... \\\\\n= R_{ee}(\\tau) - R_{ew}(\\tau) - R_{we}(\\tau)+R_{ww}(\\tau)\n\\end{aligned}\n\\]\n\n\n7.2.2 3-2)\n$$\n\\[\\begin{aligned}\nS_{ww}(f) = S_{yy}(f)|H(f)|^2 \\\\\nS_{ww}(f) = (S_{ee}(f)+S_{bb}(f))|H(f)|^2\n\n\\end{aligned}\\]\n$$\n\n\n7.2.3 3-3)\n\\[\n\\begin{aligned}\nR_{ew}(\\tau) = R_{ee}(\\tau) \\ast h^*(-\\tau) \\\\\n=S_{ew}(f) = S_{ee}(f)H^*(f) \\\\\n=S_{ew}(f) = S_{ee}(f)H(f)\n=S_zz(f) = S_{ee}(f) - S_{ee}H^*(f) - S_{ee}(f)H(f) + S_{ww}(f) \\\\^\n=S_{ee}(f)[1 - (H^*(f)+H(f)) + |H(f)|^2] ° S_{bb}(f)|H(f)|^2 \\\\\n\\end{aligned}\n\\] Finalement Q est:\n\\[\n\\begin{aligned}\nQ = \\frac{S_{ee}}{S_{zz}} \\\\\nQ = \\frac{S_{ee}}{S_ee{f}[1 - 2R_e(H(f)) + |H(f)|^2 + \\frac{S_bb{f}}{S_{ee}(f)}|H(f)|^2} \\\\\nQ = \\frac{1}{1 + |H(f)|^2 [1 + \\frac{S_{bb}(f)}{S_{ee}(f)} -2 R_e(H(f))}\n\\end{aligned}\n\\]",
+    "crumbs": [
+      "Stochastic Model",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Exercice 2</span>"
+    ]
+  },
+  {
+    "objectID": "stochastic_model/exo_2.html",
+    "href": "stochastic_model/exo_2.html",
+    "title": "8  Exercice 3",
+    "section": "",
+    "text": "8.0.1 On pose \\(\\hat{x}(n)=ax(n-1)\\). Quelle est la valeur de a qui minimise l’erreur \\(P_e\\) de prédiction. Calculer dans ce cas l’erreur\nSoit X(n) un processus aléatoire stationnaire à l’ordre 2, de moyenne nulle et dont la fonction d’autocorrélation statistique est \\(R_{xx}(\\tau)\\). On se propose de prédire à partir d’une observation \\(x(n-1)\\) la valeur de x à l’instant ultérieur n. On définit l’erreur de prédicition à l’instant n par \\(e(n)=x(n) - \\hat{x}(n)\\),\\(\\hat{x}(n)=ax(n-1)\\) étant la valeur prédire. L’erreur quadratique moyenne est alors \\(P_e = \\mathbb{E}[(x(n) - \\hat{x}(n))^2]\\)\n\\[\n\\begin{aligned}\nP_e = \\mathbb{E}[(x(n) - \\hat{x}(n))^2] \\\\\n= \\mathbb{E}[X^2(n) - 2ax(n)x(n-1)+ a^2 x^2(n-1)]\n= \\mathbb{E}[x^2(n)] - 2a\\mathbb{E}[x(n)x(n-1)] + a^2\\mathbb{E}[x^2(n-1)] \\\\\nP_e = R_{xx}(0) - 2aR_{xx}(1) + a^2R_{xx}(0)\n\\end{aligned}\n\\]\nQuand \\(P_e = 0\\) on a : \\[\na = \\frac{R_xx(1)}{R_{xx}(0)}\n\\]",
+    "crumbs": [
+      "Stochastic Model",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Exercice 3</span>"
+    ]
+  },
+  {
+    "objectID": "stochastic_model/exo_2.html#dans-ce-cas",
+    "href": "stochastic_model/exo_2.html#dans-ce-cas",
+    "title": "8  Exercice 3",
+    "section": "8.1 2) Dans ce cas",
+    "text": "8.1 2) Dans ce cas\n\\[\n\\begin{aligned}\nP_e = R_{xx}(0) - 2 \\frac{R_{xx}(1)}{R_{xx}(0)R_{xx}(1)+ (\\frac{R_{xx}(1)}{R_{xx}(0)})^2R_{xx}(0)} \\\\\nP_e = R_{xx}(0) - \\frac{(R_{xx}(1))^2}{R_{xx}(0)}\n\\end{aligned}\n\\]\nModèle autorégressif\n\\(\\hat{x}(n) = \\sum^P_{i=1}a_ix(n-i)\\)\n\\[\n\\begin{aligned}\ne(n)=\\hat{x}(n) - x(n) \\\\\ne(n)+ax(n-1)=x(n)\n\\end{aligned}\n\\]\nRandom note: Réponse impulsionnelle infinie ou finie\nSI y’a un retour , c’est infini comme dans ce cas.",
+    "crumbs": [
+      "Stochastic Model",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Exercice 3</span>"
+    ]
+  },
+  {
     "objectID": "segmentation/0.html",
     "href": "segmentation/0.html",
-    "title": "6  Filters",
+    "title": "9  Filters",
     "section": "",
-    "text": "6.1 Convolution filter\nLet \\(I_s\\) denote the starting (input) image, \\(I_e\\) the ending (output) image, and \\(C_K\\) the convolution kernel (filter) of size (2n+1)×(2n+1).\nThe discrete convolution relation at pixel (i,j) is:\n\\[\nI_e(i,j) \\;=\\; \\sum_{l=-n}^{n}\\sum_{k=-n}^{n} C_K(k,l)\\,I_s(i+k,j+l).\n\\]",
+    "text": "9.1 Convolution filter\nLet \\(I_s\\) denote the starting (input) image, \\(I_e\\) the ending (output) image, and \\(C_K\\) the convolution kernel (filter) of size (2n+1)×(2n+1).\nThe discrete convolution relation at pixel (i,j) is:\n\\[\nI_e(i,j) \\;=\\; \\sum_{l=-n}^{n}\\sum_{k=-n}^{n} C_K(k,l)\\,I_s(i+k,j+l).\n\\]",
     "crumbs": [
       "Segmentation",
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Filters</span>"
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Filters</span>"
     ]
   },
   {
     "objectID": "segmentation/0.html#convolution-filter",
     "href": "segmentation/0.html#convolution-filter",
-    "title": "6  Filters",
+    "title": "9  Filters",
     "section": "",
     "text": "\\(I_s(i,j)\\): intensity/value of the input image at coordinates (i,j).\n\n\\(I_e(i,j)\\): intensity/value of the output image at coordinates (i,j) after applying the convolution.\n\n\\(C_K(k,l)\\): kernel weight at offset (k,l), where k indexes columns (horizontal offset) and l indexes rows (vertical offset).\n\nThe sums run over the kernel support from -n to n in both dimensions, so the kernel size is (2n+1)×(2n+1).\n\nBoundary handling (not shown) must be specified separately (e.g., zero-padding, symmetric extension, circular convolution).",
     "crumbs": [
       "Segmentation",
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Filters</span>"
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Filters</span>"
     ]
   },
   {
     "objectID": "segmentation/0.html#identity-kernel",
     "href": "segmentation/0.html#identity-kernel",
-    "title": "6  Filters",
-    "section": "6.2 Identity kernel",
-    "text": "6.2 Identity kernel\n\n6.2.1 Formally\nLet \\(I_s\\) be the input image, \\(I_e\\) the output image, and \\(I_k\\) the identity convolution kernel. The identity kernel is the kernel that leaves the image unchanged under convolution:\n\\[\nI_e \\;=\\; I_s \\ast I_k \\;=\\; I_s.\n\\]\nIn coordinates, for all pixels (i,j):\n\\[\nI_s(i,j) =\\sum_{l=-n}^{n}\\sum_{k=-n}^{n} I_k(k,l)\\,I_e(i+k,j+l) \\;=\\; I_e(i,j).\n\\] A canonical choice for \\(I_k\\) on a (2n+1)×(2n+1) support is the discrete delta (Kronecker) kernel:\n\\[\nI_k(k,l) \\;=\\; \\delta_{k,0}\\,\\delta_{l,0} \\;=\\;\n\\] \\[\n\\begin{cases}\n1 & (k,l)=(0,0),\\\\[4pt]\n0 & \\text{otherwise},\n\\end{cases}\n\\]\nwhich yields the pointwise identity: \\[\nI_e(i,j)=\\sum_{l=-n}^{n}\\sum_{k=-n}^{n} \\delta_{k,0}\\delta_{l,0}\\,I_s(i+k,j+l)=I_s(i,j).\n\\]\n\nThe kernel support can be larger than a single pixel; values outside the central 1 are zero.\n\n\n\n6.2.2 Visually\nWith a 3x3 kernel:\n\n\n\nk\\l\n-1\n0\n1\n\n\n\n\n-1\n0\n0\n0\n\n\n0\n0\n1\n0\n\n\n1\n0\n0\n0\n\n\n\nSee how it’s different from the typical Identity matrix in linear algebra\n\n\n\nk\\l\n-1\n0\n1\n\n\n\n\n-1\n1\n0\n0\n\n\n0\n0\n1\n0\n\n\n1\n0\n0\n1",
+    "title": "9  Filters",
+    "section": "9.2 Identity kernel",
+    "text": "9.2 Identity kernel\n\n9.2.1 Formally\nLet \\(I_s\\) be the input image, \\(I_e\\) the output image, and \\(I_k\\) the identity convolution kernel. The identity kernel is the kernel that leaves the image unchanged under convolution:\n\\[\nI_e \\;=\\; I_s \\ast I_k \\;=\\; I_s.\n\\]\nIn coordinates, for all pixels (i,j):\n\\[\nI_s(i,j) =\\sum_{l=-n}^{n}\\sum_{k=-n}^{n} I_k(k,l)\\,I_e(i+k,j+l) \\;=\\; I_e(i,j).\n\\] A canonical choice for \\(I_k\\) on a (2n+1)×(2n+1) support is the discrete delta (Kronecker) kernel:\n\\[\nI_k(k,l) \\;=\\; \\delta_{k,0}\\,\\delta_{l,0} \\;=\\;\n\\] \\[\n\\begin{cases}\n1 & (k,l)=(0,0),\\\\[4pt]\n0 & \\text{otherwise},\n\\end{cases}\n\\]\nwhich yields the pointwise identity: \\[\nI_e(i,j)=\\sum_{l=-n}^{n}\\sum_{k=-n}^{n} \\delta_{k,0}\\delta_{l,0}\\,I_s(i+k,j+l)=I_s(i,j).\n\\]\n\nThe kernel support can be larger than a single pixel; values outside the central 1 are zero.\n\n\n\n9.2.2 Visually\nWith a 3x3 kernel:\n\n\n\nk\\l\n-1\n0\n1\n\n\n\n\n-1\n0\n0\n0\n\n\n0\n0\n1\n0\n\n\n1\n0\n0\n0\n\n\n\nSee how it’s different from the typical Identity matrix in linear algebra\n\n\n\nk\\l\n-1\n0\n1\n\n\n\n\n-1\n1\n0\n0\n\n\n0\n0\n1\n0\n\n\n1\n0\n0\n1",
     "crumbs": [
       "Segmentation",
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Filters</span>"
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Filters</span>"
     ]
   },
   {
     "objectID": "segmentation/0.html#average-mean-filter",
     "href": "segmentation/0.html#average-mean-filter",
-    "title": "6  Filters",
-    "section": "6.3 Average (mean) filter",
-    "text": "6.3 Average (mean) filter\nThe average (mean) filter is a linear, shift-invariant smoothing filter that replaces each pixel by the arithmetic mean of the pixels in a local neighborhood. It reduces high-frequency noise and small-scale detail while preserving general intensity trends.\nFor a square window of size (2n+1)×(2n+1) the average kernel A has constant coefficients:\n\\[\nA(k,l)=\\frac{1}{(2n+1)^2},\\qquad k,l\\in\\{-n,\\dots,n\\}.\n\\]\nConvolution with the average kernel gives the output image \\(I_e\\) from input \\(I_s\\):\n\\[\nI_e(i,j)=\\sum_{l=-n}^{n}\\sum_{k=-n}^{n} A(k,l)\\,I_s(i+k,j+l)\n= \\frac{1}{(2n+1)^2}\\sum_{l=-n}^{n}\\sum_{k=-n}^{n} I_s(i+k,j+l).\n\\]",
+    "title": "9  Filters",
+    "section": "9.3 Average (mean) filter",
+    "text": "9.3 Average (mean) filter\nThe average (mean) filter is a linear, shift-invariant smoothing filter that replaces each pixel by the arithmetic mean of the pixels in a local neighborhood. It reduces high-frequency noise and small-scale detail while preserving general intensity trends.\nFor a square window of size (2n+1)×(2n+1) the average kernel A has constant coefficients:\n\\[\nA(k,l)=\\frac{1}{(2n+1)^2},\\qquad k,l\\in\\{-n,\\dots,n\\}.\n\\]\nConvolution with the average kernel gives the output image \\(I_e\\) from input \\(I_s\\):\n\\[\nI_e(i,j)=\\sum_{l=-n}^{n}\\sum_{k=-n}^{n} A(k,l)\\,I_s(i+k,j+l)\n= \\frac{1}{(2n+1)^2}\\sum_{l=-n}^{n}\\sum_{k=-n}^{n} I_s(i+k,j+l).\n\\]",
     "crumbs": [
       "Segmentation",
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Filters</span>"
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Filters</span>"
     ]
   },
   {
     "objectID": "segmentation/0.html#median-filter",
     "href": "segmentation/0.html#median-filter",
-    "title": "6  Filters",
-    "section": "6.4 Median filter",
-    "text": "6.4 Median filter\nThe median filter is a nonlinear, shift-invariant denoising filter that replaces each pixel with the median of the intensities in a local neighborhood.\nGiven an input image \\(I_s\\) and a local window of size (2n+1)x(2n+1), let \\(S(i,j)\\) be the multiset of pixel values in that window centered at (i,j): \\[\nS(i,j)=\\{\\,I_s(i+k,j+l)\\;:\\;k,l\\in\\{-n,\\dots,n\\}\\,\\}.\n\\] The output pixel is the median of S(i,j): \\[\nI_e(i,j)=\\operatorname{median}\\big(S(i,j)\\big).\n\\]",
+    "title": "9  Filters",
+    "section": "9.4 Median filter",
+    "text": "9.4 Median filter\nThe median filter is a nonlinear, shift-invariant denoising filter that replaces each pixel with the median of the intensities in a local neighborhood.\nGiven an input image \\(I_s\\) and a local window of size (2n+1)x(2n+1), let \\(S(i,j)\\) be the multiset of pixel values in that window centered at (i,j): \\[\nS(i,j)=\\{\\,I_s(i+k,j+l)\\;:\\;k,l\\in\\{-n,\\dots,n\\}\\,\\}.\n\\] The output pixel is the median of S(i,j): \\[\nI_e(i,j)=\\operatorname{median}\\big(S(i,j)\\big).\n\\]",
     "crumbs": [
       "Segmentation",
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Filters</span>"
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Filters</span>"
     ]
   },
   {
     "objectID": "segmentation/0.html#nagao-filter",
     "href": "segmentation/0.html#nagao-filter",
-    "title": "6  Filters",
-    "section": "6.5 Nagao filter",
-    "text": "6.5 Nagao filter\n\n\n\nNagao filter kernel\n\n\nThe Nagao filter is an edge-preserving, local adaptive smoothing filter that chooses the output value from the neighborhood whose internal variance (or squared error) is minimal. It was introduced for noise reduction while preserving edges and fine details by selecting the most homogeneous local region among several oriented and shaped subwindows.",
+    "title": "9  Filters",
+    "section": "9.5 Nagao filter",
+    "text": "9.5 Nagao filter\n\n\n\nNagao filter kernel\n\n\nThe Nagao filter is an edge-preserving, local adaptive smoothing filter that chooses the output value from the neighborhood whose internal variance (or squared error) is minimal. It was introduced for noise reduction while preserving edges and fine details by selecting the most homogeneous local region among several oriented and shaped subwindows.",
     "crumbs": [
       "Segmentation",
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Filters</span>"
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Filters</span>"
     ]
   },
   {
     "objectID": "segmentation/1.html",
     "href": "segmentation/1.html",
-    "title": "7  Contour and edges",
+    "title": "10  Contour and edges",
     "section": "",
-    "text": "7.1 Gradient filter\nHorizontal and vertical gradient filters approximate first-order spatial derivatives to detect local intensity change (edges). Let I be the input image. The discrete gradients at pixel (i,j) are often computed with simple finite-difference kernels.\nDefinition (central differences): \\[\nG_x(i,j)=\\frac{1}{2}\\big(I(i+1,j)-I(i-1,j)\\big),\n\\qquad\nG_y(i,j)=\\frac{1}{2}\\big(I(i,j+1)-I(i,j-1)\\big).\n\\] Equivalently, via convolution with 1D kernels: \\[\nG_x = I \\ast \\begin{bmatrix} -\\tfrac{1}{2} & 0 & \\tfrac{1}{2} \\end{bmatrix},\\qquad\nG_y = I \\ast \\begin{bmatrix} -\\tfrac{1}{2} \\\\[4pt] 0 \\\\[4pt] \\tfrac{1}{2} \\end{bmatrix}.\n\\]\nCommon alternative (forward/backward differences): \\[\nG_x^{+}(i,j)=I(i+1,j)-I(i,j),\\quad G_x^{-}(i,j)=I(i,j)-I(i-1,j),\n\\] and similarly for \\(G_y\\).\n(The forward differences is the prewitt operator. If you give more importance to the value in the center,you get the Sobel operator )\nGradient magnitude and orientation: \\[\nM(i,j)=\\sqrt{G_x(i,j)^2+G_y(i,j)^2},\\qquad\n\\theta(i,j)=\\operatorname{arctan}\\big(G_y(i,j),G_x(i,j)\\big).\n\\]",
+    "text": "10.1 Gradient filter\nHorizontal and vertical gradient filters approximate first-order spatial derivatives to detect local intensity change (edges). Let I be the input image. The discrete gradients at pixel (i,j) are often computed with simple finite-difference kernels.\nDefinition (central differences): \\[\nG_x(i,j)=\\frac{1}{2}\\big(I(i+1,j)-I(i-1,j)\\big),\n\\qquad\nG_y(i,j)=\\frac{1}{2}\\big(I(i,j+1)-I(i,j-1)\\big).\n\\] Equivalently, via convolution with 1D kernels: \\[\nG_x = I \\ast \\begin{bmatrix} -\\tfrac{1}{2} & 0 & \\tfrac{1}{2} \\end{bmatrix},\\qquad\nG_y = I \\ast \\begin{bmatrix} -\\tfrac{1}{2} \\\\[4pt] 0 \\\\[4pt] \\tfrac{1}{2} \\end{bmatrix}.\n\\]\nCommon alternative (forward/backward differences): \\[\nG_x^{+}(i,j)=I(i+1,j)-I(i,j),\\quad G_x^{-}(i,j)=I(i,j)-I(i-1,j),\n\\] and similarly for \\(G_y\\).\n(The forward differences is the prewitt operator. If you give more importance to the value in the center,you get the Sobel operator )\nGradient magnitude and orientation: \\[\nM(i,j)=\\sqrt{G_x(i,j)^2+G_y(i,j)^2},\\qquad\n\\theta(i,j)=\\operatorname{arctan}\\big(G_y(i,j),G_x(i,j)\\big).\n\\]",
     "crumbs": [
       "Segmentation",
-      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Contour and edges</span>"
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Contour and edges</span>"
     ]
   }
 ]

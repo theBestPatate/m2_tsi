@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>5&nbsp; Wiener Deconvolution – An introduction to Computer Vision and Signal Processing</title>
+<title>8&nbsp; Exercice 3 – An introduction to Computer Vision and Signal Processing</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -30,8 +30,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../stochastic_model/exo_0.html" rel="next">
-<link href="../stochastic_model/1.html" rel="prev">
+<link href="../segmentation.html" rel="next">
+<link href="../stochastic_model/exo_1.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
@@ -70,6 +70,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -82,7 +111,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../stochastic_model.html">Stochastic Model</a></li><li class="breadcrumb-item"><a href="../stochastic_model/2.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Wiener Deconvolution</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../stochastic_model.html">Stochastic Model</a></li><li class="breadcrumb-item"><a href="../stochastic_model/exo_2.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Exercice 3</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -157,7 +186,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../stochastic_model/2.html" class="sidebar-item-text sidebar-link active">
+  <a href="../stochastic_model/2.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Wiener Deconvolution</span></span></a>
   </div>
 </li>
@@ -175,7 +204,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../stochastic_model/exo_2.html" class="sidebar-item-text sidebar-link">
+  <a href="../stochastic_model/exo_2.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Exercice 3</span></span></a>
   </div>
 </li>
@@ -209,15 +238,22 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#on-pose-hatxnaxn-1.-quelle-est-la-valeur-de-a-qui-minimise-lerreur-p_e-de-prédiction.-calculer-dans-ce-cas-lerreur" id="toc-on-pose-hatxnaxn-1.-quelle-est-la-valeur-de-a-qui-minimise-lerreur-p_e-de-prédiction.-calculer-dans-ce-cas-lerreur" class="nav-link active" data-scroll-target="#on-pose-hatxnaxn-1.-quelle-est-la-valeur-de-a-qui-minimise-lerreur-p_e-de-prédiction.-calculer-dans-ce-cas-lerreur"><span class="header-section-number">8.0.1</span> On pose <span class="math inline">\(\hat{x}(n)=ax(n-1)\)</span>. Quelle est la valeur de a qui minimise l’erreur <span class="math inline">\(P_e\)</span> de prédiction. Calculer dans ce cas l’erreur</a></li>
+  <li><a href="#dans-ce-cas" id="toc-dans-ce-cas" class="nav-link" data-scroll-target="#dans-ce-cas"><span class="header-section-number">8.1</span> 2) Dans ce cas</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../stochastic_model.html">Stochastic Model</a></li><li class="breadcrumb-item"><a href="../stochastic_model/2.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Wiener Deconvolution</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../stochastic_model.html">Stochastic Model</a></li><li class="breadcrumb-item"><a href="../stochastic_model/exo_2.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Exercice 3</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Wiener Deconvolution</span></h1>
+<h1 class="title"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Exercice 3</span></h1>
 </div>
 
 
@@ -234,8 +270,42 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<p>Soit X(n) un processus aléatoire stationnaire à l’ordre 2, de moyenne nulle et dont la fonction d’autocorrélation statistique est <span class="math inline">\(R_{xx}(\tau)\)</span>. On se propose de prédire à partir d’une observation <span class="math inline">\(x(n-1)\)</span> la valeur de x à l’instant ultérieur n.&nbsp;On définit l’erreur de prédicition à l’instant n par <span class="math inline">\(e(n)=x(n) - \hat{x}(n)\)</span>,<span class="math inline">\(\hat{x}(n)=ax(n-1)\)</span> étant la valeur prédire. L’erreur quadratique moyenne est alors <span class="math inline">\(P_e = \mathbb{E}[(x(n) - \hat{x}(n))^2]\)</span></p>
+<section id="on-pose-hatxnaxn-1.-quelle-est-la-valeur-de-a-qui-minimise-lerreur-p_e-de-prédiction.-calculer-dans-ce-cas-lerreur" class="level3" data-number="8.0.1">
+<h3 data-number="8.0.1" class="anchored" data-anchor-id="on-pose-hatxnaxn-1.-quelle-est-la-valeur-de-a-qui-minimise-lerreur-p_e-de-prédiction.-calculer-dans-ce-cas-lerreur"><span class="header-section-number">8.0.1</span> On pose <span class="math inline">\(\hat{x}(n)=ax(n-1)\)</span>. Quelle est la valeur de a qui minimise l’erreur <span class="math inline">\(P_e\)</span> de prédiction. Calculer dans ce cas l’erreur</h3>
+<p><span class="math display">\[
+\begin{aligned}
+P_e = \mathbb{E}[(x(n) - \hat{x}(n))^2] \\
+= \mathbb{E}[X^2(n) - 2ax(n)x(n-1)+ a^2 x^2(n-1)]
+= \mathbb{E}[x^2(n)] - 2a\mathbb{E}[x(n)x(n-1)] + a^2\mathbb{E}[x^2(n-1)] \\
+P_e = R_{xx}(0) - 2aR_{xx}(1) + a^2R_{xx}(0)
+\end{aligned}
+\]</span></p>
+<p>Quand <span class="math inline">\(P_e = 0\)</span> on a : <span class="math display">\[
+a = \frac{R_xx(1)}{R_{xx}(0)}
+\]</span></p>
+</section>
+<section id="dans-ce-cas" class="level2" data-number="8.1">
+<h2 data-number="8.1" class="anchored" data-anchor-id="dans-ce-cas"><span class="header-section-number">8.1</span> 2) Dans ce cas</h2>
+<p><span class="math display">\[
+\begin{aligned}
+P_e = R_{xx}(0) - 2 \frac{R_{xx}(1)}{R_{xx}(0)R_{xx}(1)+ (\frac{R_{xx}(1)}{R_{xx}(0)})^2R_{xx}(0)} \\
+P_e = R_{xx}(0) - \frac{(R_{xx}(1))^2}{R_{xx}(0)}
+\end{aligned}
+\]</span></p>
+<p>Modèle autorégressif</p>
+<p><span class="math inline">\(\hat{x}(n) = \sum^P_{i=1}a_ix(n-i)\)</span></p>
+<p><span class="math display">\[
+\begin{aligned}
+e(n)=\hat{x}(n) - x(n) \\
+e(n)+ax(n-1)=x(n)
+\end{aligned}
+\]</span></p>
+<p>Random note: Réponse impulsionnelle infinie ou finie</p>
+<p>SI y’a un retour , c’est infini comme dans ce cas.</p>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -639,13 +709,13 @@ ul.task-list li input[type="checkbox"] {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../stochastic_model/1.html" class="pagination-link" aria-label="The Wiener Filter">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">The Wiener Filter</span></span>
+      <a href="../stochastic_model/exo_1.html" class="pagination-link" aria-label="Exercice 2">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Exercice 2</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../stochastic_model/exo_0.html" class="pagination-link" aria-label="Exercice 1">
-        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Exercice 1</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../segmentation.html" class="pagination-link" aria-label="Segmentation">
+        <span class="nav-page-text">Segmentation</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
