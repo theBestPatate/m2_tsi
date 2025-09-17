@@ -6,10 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Gninahophin Jean-Pierre">
-<meta name="dcterms.date" content="2025-09-08">
 
-<title>An introduction to Computer Vision and Signal Processing</title>
+<title>9&nbsp; Kalman Filter – An introduction to Computer Vision and Signal Processing</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -25,24 +23,25 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<link href="./machine_learning.html" rel="next">
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-48fb113fea7c09ade55c8c495d57f66a.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../segmentation.html" rel="next">
+<link href="../stochastic_model/exo_2.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-48fb113fea7c09ade55c8c495d57f66a.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -71,6 +70,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -83,7 +111,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Introduction</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../stochastic_model.html">Stochastic Model</a></li><li class="breadcrumb-item"><a href="../stochastic_model/3.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Kalman Filter</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -98,7 +126,7 @@ ul.task-list li input[type="checkbox"] {
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">An introduction to Computer Vision and Signal Processing</a> 
+      <a href="../">An introduction to Computer Vision and Signal Processing</a> 
     </div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
@@ -114,7 +142,7 @@ ul.task-list li input[type="checkbox"] {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="./machine_learning.html" class="sidebar-item-text sidebar-link">
+            <a href="../machine_learning.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Machine learning</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
@@ -123,13 +151,13 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./machine_learning/0.html" class="sidebar-item-text sidebar-link">
+  <a href="../machine_learning/0.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Linear regression …</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./machine_learning/1.html" class="sidebar-item-text sidebar-link">
+  <a href="../machine_learning/1.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Binary Cross Entropy</span></span></a>
   </div>
 </li>
@@ -137,7 +165,7 @@ ul.task-list li input[type="checkbox"] {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="./stochastic_model.html" class="sidebar-item-text sidebar-link">
+            <a href="../stochastic_model.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Stochastic Model</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
@@ -146,43 +174,43 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./stochastic_model/0.html" class="sidebar-item-text sidebar-link">
+  <a href="../stochastic_model/0.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Filtering</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./stochastic_model/1.html" class="sidebar-item-text sidebar-link">
+  <a href="../stochastic_model/1.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">The Wiener Filter</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./stochastic_model/2.html" class="sidebar-item-text sidebar-link">
+  <a href="../stochastic_model/2.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Wiener Deconvolution</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./stochastic_model/exo_0.html" class="sidebar-item-text sidebar-link">
+  <a href="../stochastic_model/exo_0.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Exercice 1</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./stochastic_model/exo_1.html" class="sidebar-item-text sidebar-link">
+  <a href="../stochastic_model/exo_1.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Exercice 2</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./stochastic_model/exo_2.html" class="sidebar-item-text sidebar-link">
+  <a href="../stochastic_model/exo_2.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Exercice 3</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./stochastic_model/3.html" class="sidebar-item-text sidebar-link">
+  <a href="../stochastic_model/3.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Kalman Filter</span></span></a>
   </div>
 </li>
@@ -190,7 +218,7 @@ ul.task-list li input[type="checkbox"] {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="./segmentation.html" class="sidebar-item-text sidebar-link">
+            <a href="../segmentation.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Segmentation</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
@@ -199,13 +227,13 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./segmentation/0.html" class="sidebar-item-text sidebar-link">
+  <a href="../segmentation/0.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Filters</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./segmentation/1.html" class="sidebar-item-text sidebar-link">
+  <a href="../segmentation/1.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Contour and edges</span></span></a>
   </div>
 </li>
@@ -221,35 +249,24 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#the-kalman-setup-if-youre-in-a-hurry" id="toc-the-kalman-setup-if-youre-in-a-hurry" class="nav-link active" data-scroll-target="#the-kalman-setup-if-youre-in-a-hurry"><span class="header-section-number">9.1</span> The Kalman setup if you’re in a hurry</a></li>
+  <li><a href="#notations-and-definitions" id="toc-notations-and-definitions" class="nav-link" data-scroll-target="#notations-and-definitions"><span class="header-section-number">9.2</span> Notations and definitions</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../stochastic_model.html">Stochastic Model</a></li><li class="breadcrumb-item"><a href="../stochastic_model/3.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Kalman Filter</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">An introduction to Computer Vision and Signal Processing</h1>
+<h1 class="title"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Kalman Filter</span></h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>Gninahophin Jean-Pierre </p>
-          </div>
-  </div>
     
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">September 8, 2025</p>
-    </div>
-  </div>
   
     
   </div>
@@ -259,10 +276,51 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="introduction" class="level1 unnumbered">
-<h1 class="unnumbered">Introduction</h1>
-<p>This is a subset of my notes for my master 2 in Computer Vision in Signal Processing with some extras.</p>
-<p>I will update it progressively.</p>
+<p>The Kalman filter is an extension of the Wiener filter for dynamic systems.</p>
+<p>State vector (system state) at discrete time k: <span class="math display">\[\mathbf{X}(k)\in\mathbb{R}^{n}.\]</span></p>
+<p>Process (state) evolution (linear, discrete-time with additive process noise): <span class="math display">\[\mathbf{X}(k+1)=A\,\mathbf{X}(k)+\mathbf{W}(k),\]</span> where <strong>A</strong> is the state transition matrix (size <span class="math inline">\(N \times N\)</span>) and <span class="math inline">\(\mathbf{W}(k)\)</span> is the process (system) noise.</p>
+<p>Measurements from m sensors at time k (stacked): <span class="math display">\[\mathbf{Y}(k)\in\mathbb{R}^{m}.\]</span></p>
+<p>Linear measurement model: <span class="math display">\[\mathbf{Y}(k)=C\,\mathbf{X}(k)+\mathbf{V}(k),\]</span> where <strong>C</strong> is the measurement matrix (size <span class="math inline">\((M \times N)\)</span> and <span class="math inline">\(\mathbf{V}(k)\)</span> is the measurement noise.</p>
+<p>If each sensor <span class="math inline">\(i\)</span> provides scalar measurement <span class="math inline">\(y_i(k)\)</span>, then <span class="math display">\[\mathbf{Y}(k)=\begin{bmatrix}y_1(k)\\ \vdots\\ y_m(k)\end{bmatrix},\qquad
+\mathbf{V}(k)=\begin{bmatrix}v_1(k)\\ \vdots\\ v_m(k)\end{bmatrix},\qquad
+C=\begin{bmatrix}c_{1}\\ \vdots\\ c_{m}\end{bmatrix}\]</span> with rows <span class="math inline">\((C_i)\)</span> selecting the linear combination of states observed by sensor <span class="math inline">\(i\)</span>.</p>
+<p>Noise assumptions (white, zero-mean, uncorrelated between process and measurements):</p>
+<ul>
+<li><p>Process noise: <span class="math display">\[\mathbf{W}(k)\sim\mathcal{N}\big(0,Q\big),\]</span> with covariance <span class="math inline">\(Q\)</span> (an <span class="math inline">\((N \times N)\)</span> positive semi-definite matrix.</p></li>
+<li><p>Measurement noise: <span class="math display">\[\mathbf{V}(k)\sim\mathcal{N}\big(0,R\big),\]</span> with covariance <span class="math inline">\(R\)</span> (an <span class="math inline">\((M \times M)\)</span> positive definite matrix.</p></li>
+<li><p>Independence: <span class="math display">\[\mathbb{E}[\mathbf{W}(k)\,\mathbf{V}^\top(j)]=0\quad\text{for all }k,j.\]</span> Often also assumed: <span class="math display">\[\mathbb{E}[\mathbf{W}(k)\,\mathbf{W}^\top(j)]=0,\quad
+  \mathbb{E}[\mathbf{V}(k)\,\mathbf{V}^\top(j)]=0\quad\text{for }k\neq j\]</span> (i.e.&nbsp;temporally white).</p></li>
+</ul>
+<hr>
+<section id="the-kalman-setup-if-youre-in-a-hurry" class="level2" data-number="9.1">
+<h2 data-number="9.1" class="anchored" data-anchor-id="the-kalman-setup-if-youre-in-a-hurry"><span class="header-section-number">9.1</span> The Kalman setup if you’re in a hurry</h2>
+<ul>
+<li><p>State equation: <span class="math display">\[
+\mathbf{X}(k+1)=A\mathbf{X}(k)+\mathbf{W}(k),\quad \mathbf{W}(k)\sim\mathcal{N}(0,Q).
+\]</span></p></li>
+<li><p>Measurement equation: <span class="math display">\[
+\mathbf{Y}(k)=C\mathbf{X}(k)+\mathbf{V}(k),\quad \mathbf{V}(k)\sim\mathcal{N}(0,R)
+\]</span></p></li>
+<li><p>No cross-correlation: <span class="math display">\[
+(\mathbb{E}[\mathbf{W}(k)\mathbf{V}^\top(j)]=0)\text{ for all}\quad k,j
+\]</span></p></li>
+<li><p>Independance between the noise and the initial state <span class="math display">\[
+\mathbb{E}[\mathbf{W}(k){X}^T(0)] =\mathbb{E}[\mathbf{V}(k){X}^T(0)] =0\text{ for all}\quad k,j
+\]</span></p></li>
+</ul>
+</section>
+<section id="notations-and-definitions" class="level2" data-number="9.2">
+<h2 data-number="9.2" class="anchored" data-anchor-id="notations-and-definitions"><span class="header-section-number">9.2</span> Notations and definitions</h2>
+<ul>
+<li><p>Let <span class="math inline">\(\mathbf{y}(0{:}n)=\{\mathbf{y}(0),\mathbf{y}(1),\dots,\mathbf{y}(n)\}.\)</span></p></li>
+<li><p>State estimate of <span class="math inline">\(\mathbf{x}(k)\)</span> given all measurements up to time (n): <span class="math display">\[\hat{\mathbf{x}}(k\mid n)=\mathbb{E}\big[\mathbf{x}(k)\mid \mathbf{y}(0{:}n)\big].\]</span></p>
+<p>When <span class="math inline">\((n=k)\)</span> this is the filtering estimate;</p>
+<p>When <span class="math inline">\((n&gt;k)\)</span> this is a fixed‑lag or smoothing estimate;</p>
+<p>When <span class="math inline">\((n&lt;k)\)</span> it is a prediction.</p></li>
+<li><p>Estimation error (a random vector): <span class="math display">\[\tilde{\mathbf{x}}(k\mid n)=\mathbf{x}(k)-\hat{\mathbf{x}}(k\mid n).\]</span></p></li>
+<li><p>Error covariance matrix: <span class="math display">\[P(k\mid n)=\mathbb{E}\big[\tilde{\mathbf{x}}(k\mid n)\,\tilde{\mathbf{x}}(k\mid n)^{\top}\big]
+=\mathbb{E}\Big[\big(\mathbf{x}(k)-\hat{\mathbf{x}}(k\mid n)\big)\big(\mathbf{x}(k)-\hat{\mathbf{x}}(k\mid n)\big)^{\top}\Big].\]</span></p></li>
+</ul>
 
 
 </section>
@@ -669,10 +727,13 @@ ul.task-list li input[type="checkbox"] {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
+      <a href="../stochastic_model/exo_2.html" class="pagination-link" aria-label="Exercice 3">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Exercice 3</span></span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./machine_learning.html" class="pagination-link" aria-label="Machine learning">
-        <span class="nav-page-text">Machine learning</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../segmentation.html" class="pagination-link" aria-label="Segmentation">
+        <span class="nav-page-text">Segmentation</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
