@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>3&nbsp; Filtering – An introduction to Computer Vision and Signal Processing</title>
+<title>7&nbsp; Filtering – An introduction to Computer Vision and Signal Processing</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -111,7 +111,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../stochastic_model.html">Stochastic Model</a></li><li class="breadcrumb-item"><a href="../stochastic_model/0.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Filtering</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../stochastic_model.html">Stochastic Model</a></li><li class="breadcrumb-item"><a href="../stochastic_model/0.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Filtering</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -161,6 +161,30 @@ window.Quarto = {
  <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Binary Cross Entropy</span></span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../machine_learning/2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Sigmoid function</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../machine_learning/3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Dense / Linear layer</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../machine_learning/4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Convolutional layers</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../machine_learning/5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">RNN</span></span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -175,43 +199,43 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../stochastic_model/0.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Filtering</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Filtering</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../stochastic_model/1.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">The Wiener Filter</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">The Wiener Filter</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../stochastic_model/2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Wiener Deconvolution</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Wiener Deconvolution</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../stochastic_model/exo_0.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Exercice 1</span></span></a>
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Exercice 1</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../stochastic_model/exo_1.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Exercice 2</span></span></a>
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Exercice 2</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../stochastic_model/exo_2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Exercice 3</span></span></a>
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Exercice 3</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../stochastic_model/3.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Kalman Filter</span></span></a>
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Kalman Filter</span></span></a>
   </div>
 </li>
       </ul>
@@ -228,13 +252,13 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../segmentation/0.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Filters</span></span></a>
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Filters</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../segmentation/1.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Contour and edges</span></span></a>
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Contour and edges</span></span></a>
   </div>
 </li>
       </ul>
@@ -249,21 +273,21 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#type-of-filters" id="toc-type-of-filters" class="nav-link active" data-scroll-target="#type-of-filters"><span class="header-section-number">3.1</span> Type of filters</a>
+  <li><a href="#type-of-filters" id="toc-type-of-filters" class="nav-link active" data-scroll-target="#type-of-filters"><span class="header-section-number">7.1</span> Type of filters</a>
   <ul class="collapse">
-  <li><a href="#why-are-we-interested-in-linear-filters" id="toc-why-are-we-interested-in-linear-filters" class="nav-link" data-scroll-target="#why-are-we-interested-in-linear-filters"><span class="header-section-number">3.1.1</span> Why are we interested in linear filters ?</a></li>
-  <li><a href="#link-with-the-fourier-transform" id="toc-link-with-the-fourier-transform" class="nav-link" data-scroll-target="#link-with-the-fourier-transform"><span class="header-section-number">3.1.2</span> Link with the fourier transform</a></li>
+  <li><a href="#why-are-we-interested-in-linear-filters" id="toc-why-are-we-interested-in-linear-filters" class="nav-link" data-scroll-target="#why-are-we-interested-in-linear-filters"><span class="header-section-number">7.1.1</span> Why are we interested in linear filters ?</a></li>
+  <li><a href="#link-with-the-fourier-transform" id="toc-link-with-the-fourier-transform" class="nav-link" data-scroll-target="#link-with-the-fourier-transform"><span class="header-section-number">7.1.2</span> Link with the fourier transform</a></li>
   </ul></li>
-  <li><a href="#energy-and-the-energy-spectral-density" id="toc-energy-and-the-energy-spectral-density" class="nav-link" data-scroll-target="#energy-and-the-energy-spectral-density"><span class="header-section-number">3.2</span> Energy and the energy spectral density</a></li>
+  <li><a href="#energy-and-the-energy-spectral-density" id="toc-energy-and-the-energy-spectral-density" class="nav-link" data-scroll-target="#energy-and-the-energy-spectral-density"><span class="header-section-number">7.2</span> Energy and the energy spectral density</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../stochastic_model.html">Stochastic Model</a></li><li class="breadcrumb-item"><a href="../stochastic_model/0.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Filtering</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../stochastic_model.html">Stochastic Model</a></li><li class="breadcrumb-item"><a href="../stochastic_model/0.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Filtering</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Filtering</span></h1>
+<h1 class="title"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Filtering</span></h1>
 </div>
 
 
@@ -296,24 +320,24 @@ Note
 <p>We observe a time-varying quantity x(t), but measurements are imperfect — what we actually record is y(t), which equals the true signal plus an error term:</p>
 <p><span class="math display">\[y(t)=x(t)+b(t).\]</span></p>
 <p>Recovering x(t) from the noisy observation y(t) is called filtering — i.e., designing a method that suppresses the noise b(t) while retaining the desired signal x(t).</p>
-<section id="type-of-filters" class="level2" data-number="3.1">
-<h2 data-number="3.1" class="anchored" data-anchor-id="type-of-filters"><span class="header-section-number">3.1</span> Type of filters</h2>
+<section id="type-of-filters" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="type-of-filters"><span class="header-section-number">7.1</span> Type of filters</h2>
 <p>Usually we think of filters in two main groups: - Linear filters - Non-linear filters</p>
-<section id="why-are-we-interested-in-linear-filters" class="level3" data-number="3.1.1">
-<h3 data-number="3.1.1" class="anchored" data-anchor-id="why-are-we-interested-in-linear-filters"><span class="header-section-number">3.1.1</span> Why are we interested in linear filters ?</h3>
+<section id="why-are-we-interested-in-linear-filters" class="level3" data-number="7.1.1">
+<h3 data-number="7.1.1" class="anchored" data-anchor-id="why-are-we-interested-in-linear-filters"><span class="header-section-number">7.1.1</span> Why are we interested in linear filters ?</h3>
 <p>If the system is linear and time‑invariant, its action on any input is completely characterized by its impulse response h(t) (or equivalently its transfer function H(s)/H(ω)). Convolving the measured signal with h gives the system’s output or an estimate of the underlying signal:</p>
 <p><span class="math display">\[\tilde{x}(t)=y(t)\ast h(t).\]</span></p>
 <p>Using linearity and y(t)=x(t)+b(t):</p>
 <p><span class="math display">\[\tilde{x}(t)=(x(t)+b(t))\ast h(t)=x(t)\ast h(t)+b(t)\ast h(t).\]</span></p>
 <p>Ideally, <span class="math inline">\(b(t)\ast h(t) = 0\)</span></p>
 </section>
-<section id="link-with-the-fourier-transform" class="level3" data-number="3.1.2">
-<h3 data-number="3.1.2" class="anchored" data-anchor-id="link-with-the-fourier-transform"><span class="header-section-number">3.1.2</span> Link with the fourier transform</h3>
+<section id="link-with-the-fourier-transform" class="level3" data-number="7.1.2">
+<h3 data-number="7.1.2" class="anchored" data-anchor-id="link-with-the-fourier-transform"><span class="header-section-number">7.1.2</span> Link with the fourier transform</h3>
 <p>The fourier transform turns the convolution into a simple product. <span class="math display">\[ TF(y(t)*h(t)) = Y(f) H(f)\]</span></p>
 </section>
 </section>
-<section id="energy-and-the-energy-spectral-density" class="level2" data-number="3.2">
-<h2 data-number="3.2" class="anchored" data-anchor-id="energy-and-the-energy-spectral-density"><span class="header-section-number">3.2</span> Energy and the energy spectral density</h2>
+<section id="energy-and-the-energy-spectral-density" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="energy-and-the-energy-spectral-density"><span class="header-section-number">7.2</span> Energy and the energy spectral density</h2>
 <ul>
 <li>For a finite‑energy signal x(t) the total energy is defined as <span class="math display">\[
 E=\int_{-\infty}^{\infty}|x(t)|^{2}dt.
@@ -782,7 +806,7 @@ K_{XX}(t_1,t_2)=K_{XX}(\tau)=R_{XX}(\tau).
   </div>
   <div class="nav-page nav-page-next">
       <a href="../stochastic_model/1.html" class="pagination-link" aria-label="The Wiener Filter">
-        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">The Wiener Filter</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">The Wiener Filter</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

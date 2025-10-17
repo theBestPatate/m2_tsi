@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>4&nbsp; The Wiener Filter – An introduction to Computer Vision and Signal Processing</title>
+<title>8&nbsp; The Wiener Filter – An introduction to Computer Vision and Signal Processing</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -111,7 +111,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../stochastic_model.html">Stochastic Model</a></li><li class="breadcrumb-item"><a href="../stochastic_model/1.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">The Wiener Filter</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../stochastic_model.html">Stochastic Model</a></li><li class="breadcrumb-item"><a href="../stochastic_model/1.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">The Wiener Filter</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -161,6 +161,30 @@ window.Quarto = {
  <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Binary Cross Entropy</span></span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../machine_learning/2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Sigmoid function</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../machine_learning/3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Dense / Linear layer</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../machine_learning/4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Convolutional layers</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../machine_learning/5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">RNN</span></span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -175,43 +199,43 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../stochastic_model/0.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Filtering</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Filtering</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../stochastic_model/1.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">The Wiener Filter</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">The Wiener Filter</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../stochastic_model/2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Wiener Deconvolution</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Wiener Deconvolution</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../stochastic_model/exo_0.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Exercice 1</span></span></a>
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Exercice 1</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../stochastic_model/exo_1.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Exercice 2</span></span></a>
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Exercice 2</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../stochastic_model/exo_2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Exercice 3</span></span></a>
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Exercice 3</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../stochastic_model/3.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Kalman Filter</span></span></a>
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Kalman Filter</span></span></a>
   </div>
 </li>
       </ul>
@@ -228,13 +252,13 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../segmentation/0.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Filters</span></span></a>
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Filters</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../segmentation/1.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Contour and edges</span></span></a>
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Contour and edges</span></span></a>
   </div>
 </li>
       </ul>
@@ -249,19 +273,19 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#wiener-filtering" id="toc-wiener-filtering" class="nav-link active" data-scroll-target="#wiener-filtering"><span class="header-section-number">4.1</span> Wiener filtering</a></li>
-  <li><a href="#how-it-works" id="toc-how-it-works" class="nav-link" data-scroll-target="#how-it-works"><span class="header-section-number">4.2</span> How it works ?</a></li>
-  <li><a href="#solving-the-optimization-problem" id="toc-solving-the-optimization-problem" class="nav-link" data-scroll-target="#solving-the-optimization-problem"><span class="header-section-number">4.3</span> Solving the optimization problem</a></li>
-  <li><a href="#frequency-domain-formulation" id="toc-frequency-domain-formulation" class="nav-link" data-scroll-target="#frequency-domain-formulation"><span class="header-section-number">4.4</span> Frequency-domain formulation</a></li>
+  <li><a href="#wiener-filtering" id="toc-wiener-filtering" class="nav-link active" data-scroll-target="#wiener-filtering"><span class="header-section-number">8.1</span> Wiener filtering</a></li>
+  <li><a href="#how-it-works" id="toc-how-it-works" class="nav-link" data-scroll-target="#how-it-works"><span class="header-section-number">8.2</span> How it works ?</a></li>
+  <li><a href="#solving-the-optimization-problem" id="toc-solving-the-optimization-problem" class="nav-link" data-scroll-target="#solving-the-optimization-problem"><span class="header-section-number">8.3</span> Solving the optimization problem</a></li>
+  <li><a href="#frequency-domain-formulation" id="toc-frequency-domain-formulation" class="nav-link" data-scroll-target="#frequency-domain-formulation"><span class="header-section-number">8.4</span> Frequency-domain formulation</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../stochastic_model.html">Stochastic Model</a></li><li class="breadcrumb-item"><a href="../stochastic_model/1.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">The Wiener Filter</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../stochastic_model.html">Stochastic Model</a></li><li class="breadcrumb-item"><a href="../stochastic_model/1.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">The Wiener Filter</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">The Wiener Filter</span></h1>
+<h1 class="title"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">The Wiener Filter</span></h1>
 </div>
 
 
@@ -292,14 +316,14 @@ Bad maths alert
 <p>Oh and special thanks to Noemie for sending some of the material</p>
 </div>
 </div>
-<section id="wiener-filtering" class="level2" data-number="4.1">
-<h2 data-number="4.1" class="anchored" data-anchor-id="wiener-filtering"><span class="header-section-number">4.1</span> Wiener filtering</h2>
+<section id="wiener-filtering" class="level2" data-number="8.1">
+<h2 data-number="8.1" class="anchored" data-anchor-id="wiener-filtering"><span class="header-section-number">8.1</span> Wiener filtering</h2>
 <p>The <strong>Wiener filter</strong> is a classical signal-processing method developed by Norbert Wiener in the 1940s. The objective is to reconstruct a target signal <span class="math inline">\(x(t)\)</span> from a noisy observation: <span class="math display">\[
 y(t)=x(t)+b(t),
 \]</span> where <span class="math inline">\(b(t)\)</span> is additive noise.</p>
 </section>
-<section id="how-it-works" class="level2" data-number="4.2">
-<h2 data-number="4.2" class="anchored" data-anchor-id="how-it-works"><span class="header-section-number">4.2</span> How it works ?</h2>
+<section id="how-it-works" class="level2" data-number="8.2">
+<h2 data-number="8.2" class="anchored" data-anchor-id="how-it-works"><span class="header-section-number">8.2</span> How it works ?</h2>
 <p>The problem is formulated as an optimisation problem where we’re looking for h such as:</p>
 <p><span class="math display">\[
 \tilde{x}(t)=(h*y)(t)=\int_{-\infty}^{+\infty} h(u)y(t-u)du
@@ -313,8 +337,8 @@ J=\mathbb{E}\Big[\big(x(t)-\tilde{x}(t)\big)^2\Big].
 \min_{h(\cdot)}J(h)=\min_{h(\cdot)}\;\mathbb{E}\Big[\big(x(t)-\!(h*y)(t)\big)^2\Big]
 \]</span></p>
 </section>
-<section id="solving-the-optimization-problem" class="level2" data-number="4.3">
-<h2 data-number="4.3" class="anchored" data-anchor-id="solving-the-optimization-problem"><span class="header-section-number">4.3</span> Solving the optimization problem</h2>
+<section id="solving-the-optimization-problem" class="level2" data-number="8.3">
+<h2 data-number="8.3" class="anchored" data-anchor-id="solving-the-optimization-problem"><span class="header-section-number">8.3</span> Solving the optimization problem</h2>
 <p>If a solution exist, it’s necessarily a local minimum so we can find possible solutions by derivating the J function.</p>
 <p><span class="math display">\[
 \frac{\partial J}{\partial h} = 2\mathbb{E}\Big[\big(x(t)-(h*y)(t)\big)
@@ -331,8 +355,8 @@ J=\mathbb{E}\Big[\big(x(t)-\tilde{x}(t)\big)^2\Big].
 \]</span> which is the orthogonality condition.</p>
 <p>This condition can be understood intuitively by the idea that our estimation error should not be correlated to the signal we’re observing.</p>
 </section>
-<section id="frequency-domain-formulation" class="level2" data-number="4.4">
-<h2 data-number="4.4" class="anchored" data-anchor-id="frequency-domain-formulation"><span class="header-section-number">4.4</span> Frequency-domain formulation</h2>
+<section id="frequency-domain-formulation" class="level2" data-number="8.4">
+<h2 data-number="8.4" class="anchored" data-anchor-id="frequency-domain-formulation"><span class="header-section-number">8.4</span> Frequency-domain formulation</h2>
 <p>In the frequency domain the problem simplifies.</p>
 <p>Our initial equation is: <span class="math display">\[
 Y(f)=X(f)+B(f)
@@ -810,12 +834,12 @@ S_{xy} = \mathbb{E}[XY] = \mathbb{E}[X(X+B)]= \mathbb{E}[X^2] + \mathbb{E}[XB] =
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="../stochastic_model/0.html" class="pagination-link" aria-label="Filtering">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Filtering</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Filtering</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="../stochastic_model/2.html" class="pagination-link" aria-label="Wiener Deconvolution">
-        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Wiener Deconvolution</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Wiener Deconvolution</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

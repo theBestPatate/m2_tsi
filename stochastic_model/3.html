@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>9&nbsp; Kalman Filter – An introduction to Computer Vision and Signal Processing</title>
+<title>13&nbsp; Kalman Filter – An introduction to Computer Vision and Signal Processing</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -111,7 +111,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../stochastic_model.html">Stochastic Model</a></li><li class="breadcrumb-item"><a href="../stochastic_model/3.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Kalman Filter</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../stochastic_model.html">Stochastic Model</a></li><li class="breadcrumb-item"><a href="../stochastic_model/3.html"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Kalman Filter</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -161,6 +161,30 @@ window.Quarto = {
  <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Binary Cross Entropy</span></span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../machine_learning/2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Sigmoid function</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../machine_learning/3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Dense / Linear layer</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../machine_learning/4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Convolutional layers</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../machine_learning/5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">RNN</span></span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -175,43 +199,43 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../stochastic_model/0.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Filtering</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Filtering</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../stochastic_model/1.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">The Wiener Filter</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">The Wiener Filter</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../stochastic_model/2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Wiener Deconvolution</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Wiener Deconvolution</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../stochastic_model/exo_0.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Exercice 1</span></span></a>
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Exercice 1</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../stochastic_model/exo_1.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Exercice 2</span></span></a>
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Exercice 2</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../stochastic_model/exo_2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Exercice 3</span></span></a>
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Exercice 3</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../stochastic_model/3.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Kalman Filter</span></span></a>
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Kalman Filter</span></span></a>
   </div>
 </li>
       </ul>
@@ -228,13 +252,13 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../segmentation/0.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Filters</span></span></a>
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Filters</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../segmentation/1.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Contour and edges</span></span></a>
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Contour and edges</span></span></a>
   </div>
 </li>
       </ul>
@@ -249,17 +273,18 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#the-kalman-setup-if-youre-in-a-hurry" id="toc-the-kalman-setup-if-youre-in-a-hurry" class="nav-link active" data-scroll-target="#the-kalman-setup-if-youre-in-a-hurry"><span class="header-section-number">9.1</span> The Kalman setup if you’re in a hurry</a></li>
-  <li><a href="#notations-and-definitions" id="toc-notations-and-definitions" class="nav-link" data-scroll-target="#notations-and-definitions"><span class="header-section-number">9.2</span> Notations and definitions</a></li>
+  <li><a href="#the-kalman-setup-if-youre-in-a-hurry" id="toc-the-kalman-setup-if-youre-in-a-hurry" class="nav-link active" data-scroll-target="#the-kalman-setup-if-youre-in-a-hurry"><span class="header-section-number">13.1</span> The Kalman setup if you’re in a hurry</a></li>
+  <li><a href="#notations-and-definitions" id="toc-notations-and-definitions" class="nav-link" data-scroll-target="#notations-and-definitions"><span class="header-section-number">13.2</span> Notations and definitions</a></li>
+  <li><a href="#filter-principle" id="toc-filter-principle" class="nav-link" data-scroll-target="#filter-principle"><span class="header-section-number">13.3</span> Filter principle</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../stochastic_model.html">Stochastic Model</a></li><li class="breadcrumb-item"><a href="../stochastic_model/3.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Kalman Filter</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../stochastic_model.html">Stochastic Model</a></li><li class="breadcrumb-item"><a href="../stochastic_model/3.html"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Kalman Filter</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Kalman Filter</span></h1>
+<h1 class="title"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Kalman Filter</span></h1>
 </div>
 
 
@@ -292,8 +317,8 @@ C=\begin{bmatrix}c_{1}\\ \vdots\\ c_{m}\end{bmatrix}\]</span> with rows <span cl
   \mathbb{E}[\mathbf{V}(k)\,\mathbf{V}^\top(j)]=0\quad\text{for }k\neq j\]</span> (i.e.&nbsp;temporally white).</p></li>
 </ul>
 <hr>
-<section id="the-kalman-setup-if-youre-in-a-hurry" class="level2" data-number="9.1">
-<h2 data-number="9.1" class="anchored" data-anchor-id="the-kalman-setup-if-youre-in-a-hurry"><span class="header-section-number">9.1</span> The Kalman setup if you’re in a hurry</h2>
+<section id="the-kalman-setup-if-youre-in-a-hurry" class="level2" data-number="13.1">
+<h2 data-number="13.1" class="anchored" data-anchor-id="the-kalman-setup-if-youre-in-a-hurry"><span class="header-section-number">13.1</span> The Kalman setup if you’re in a hurry</h2>
 <ul>
 <li><p>State equation: <span class="math display">\[
 \mathbf{X}(k+1)=A\mathbf{X}(k)+\mathbf{W}(k),\quad \mathbf{W}(k)\sim\mathcal{N}(0,Q).
@@ -309,11 +334,11 @@ C=\begin{bmatrix}c_{1}\\ \vdots\\ c_{m}\end{bmatrix}\]</span> with rows <span cl
 \]</span></p></li>
 </ul>
 </section>
-<section id="notations-and-definitions" class="level2" data-number="9.2">
-<h2 data-number="9.2" class="anchored" data-anchor-id="notations-and-definitions"><span class="header-section-number">9.2</span> Notations and definitions</h2>
+<section id="notations-and-definitions" class="level2" data-number="13.2">
+<h2 data-number="13.2" class="anchored" data-anchor-id="notations-and-definitions"><span class="header-section-number">13.2</span> Notations and definitions</h2>
 <ul>
 <li><p>Let <span class="math inline">\(\mathbf{y}(0{:}n)=\{\mathbf{y}(0),\mathbf{y}(1),\dots,\mathbf{y}(n)\}.\)</span></p></li>
-<li><p>State estimate of <span class="math inline">\(\mathbf{x}(k)\)</span> given all measurements up to time (n): <span class="math display">\[\hat{\mathbf{x}}(k\mid n)=\mathbb{E}\big[\mathbf{x}(k)\mid \mathbf{y}(0{:}n)\big].\]</span></p>
+<li><p>State estimate of <span class="math inline">\(\mathbf{x}(k)\)</span> given all measurements up to time (n): <span class="math display">\[\hat{\mathbf{x}}(k\mid n)=\mathbb{E}\big[\mathbf{x}(k)\mid \mathbf{y}(0{:}n)\big]\]</span></p>
 <p>When <span class="math inline">\((n=k)\)</span> this is the filtering estimate;</p>
 <p>When <span class="math inline">\((n&gt;k)\)</span> this is a fixed‑lag or smoothing estimate;</p>
 <p>When <span class="math inline">\((n&lt;k)\)</span> it is a prediction.</p></li>
@@ -321,6 +346,17 @@ C=\begin{bmatrix}c_{1}\\ \vdots\\ c_{m}\end{bmatrix}\]</span> with rows <span cl
 <li><p>Error covariance matrix: <span class="math display">\[P(k\mid n)=\mathbb{E}\big[\tilde{\mathbf{x}}(k\mid n)\,\tilde{\mathbf{x}}(k\mid n)^{\top}\big]
 =\mathbb{E}\Big[\big(\mathbf{x}(k)-\hat{\mathbf{x}}(k\mid n)\big)\big(\mathbf{x}(k)-\hat{\mathbf{x}}(k\mid n)\big)^{\top}\Big].\]</span></p></li>
 </ul>
+</section>
+<section id="filter-principle" class="level2" data-number="13.3">
+<h2 data-number="13.3" class="anchored" data-anchor-id="filter-principle"><span class="header-section-number">13.3</span> Filter principle</h2>
+<p>State prediction: <span class="math display">\[\hat{\mathbf{x}}(k+1\mid k)=A\,\hat{\mathbf{x}}(k\mid k).\]</span></p>
+<p>Prediction error covariance: <span class="math display">\[P(k+1\mid k)=\mathbb{E}\big[\tilde{\mathbf{x}}(k+1\mid k)\tilde{\mathbf{x}}(k+1\mid k)^\top\big]
+= A\,P(k\mid k)\,A^\top + Q.\]</span></p>
+<p>Kalman gain: <span class="math display">\[K(k+1)=P(k+1\mid k)\,C^\top\big(C\,P(k+1\mid k)\,C^\top+R\big)^{-1}.\]</span></p>
+<p>Measurement update (state estimate): <span class="math display">\[\hat{\mathbf{x}}(k+1\mid k+1)=\hat{\mathbf{x}}(k+1\mid k)+K(k+1)\big(\mathbf{y}(k+1)-C\,\hat{\mathbf{x}}(k+1\mid k)\big).\]</span></p>
+<p>Measurement update (error covariance) — standard form: <span class="math display">\[P(k+1\mid k+1)= \mathbb{E}[\tilde{X}(k+1 \mid k+1)\tilde{X}^T(k+1 \mid k+1)]\]</span></p>
+<p>A commonly used simplified (algebraically equivalent when K is the Kalman gain above) form is: <span class="math display">\[P(k+1\mid k+1)=P(k+1\mid k)-K(k+1)\,C\,P(k+1\mid k).\]</span></p>
+<p>To intialise the algoritihm, we need the initial state <span class="math inline">\(X(0\mid0)\)</span> and <span class="math inline">\(P(0\mid0)\)</span></p>
 
 
 </section>
@@ -728,7 +764,7 @@ C=\begin{bmatrix}c_{1}\\ \vdots\\ c_{m}\end{bmatrix}\]</span> with rows <span cl
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="../stochastic_model/exo_2.html" class="pagination-link" aria-label="Exercice 3">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Exercice 3</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Exercice 3</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">

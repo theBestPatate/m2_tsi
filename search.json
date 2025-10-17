@@ -54,245 +54,300 @@
     ]
   },
   {
+    "objectID": "machine_learning/2.html",
+    "href": "machine_learning/2.html",
+    "title": "3  Sigmoid function",
+    "section": "",
+    "text": "A sigmoid function is any mathematical function whose graph has a characteristic S-shaped (sigmoid) curve. (Source: Wikipedia)\n\nSigmoid functions are commonly used as activation functions in neural networks. Especially for output layers,because their range is typically bounded between 0 and 1, making them convenient for interpreting outputs as probabilities.\nNote: Sigmoid functions are not necessarily probability density functions (PDFs). Rather, many sigmoids map real inputs to the interval (0, 1) and can be interpreted as probabilities or as the cumulative distribution shape of some underlying process. PDFs integrate to 1 over their domain and usually take values \\(\\geq 0\\), so the terms are different.\nThe most widely used sigmoid is the logistic function especially in binary classification:\n\\[\nf(x) = \\frac{1}{1 + e^{-x}}\n\\]\n\n\n\nSigmoid function",
+    "crumbs": [
+      "Machine learning",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Sigmoid function</span>"
+    ]
+  },
+  {
+    "objectID": "machine_learning/3.html",
+    "href": "machine_learning/3.html",
+    "title": "4  Dense / Linear layer",
+    "section": "",
+    "text": "All of these refer to the same core concept: a fully connected (dense) layer that implements an affine transform followed by an optional nonlinearity. It’s the basic building block of multi-layer perceptrons (MLPs), essentially “glorified linear regression” if you had the activation function.\nMathematical form:\n\\[\ny = f(xA^\\top + b)\n\\] where:\n\n\\(x\\) is the input ,\n\\(A\\) is the weight matrix,\n\\(b\\) is the bias vector,\n\\(f\\) is the activation function,\n\\(y\\) is the output.\n\nCommon API names:\n\nTensorFlow / Keras: tf.keras.layers.Dense\nPyTorch: torch.nn.Linear\nJAX / Flax (and similar libs): nnx.Linear (or flax.linen.Dense)\n\nTypical behavior\n\nInput/output shapes: if input is (batch, in_features) and layer has out_features, then \\(A\\) is (out_features, in_features)\nBias: optional; if present, added per output unit.\nInitialization: frameworks provide sensible defaults (e.g., Glorot/Xavier, Kaiming) that affect training dynamics.\nUse cases: hidden layers in MLPs, final classification/regression heads, linear projections in attention, embeddings projection, etc.\n\nDerivative useful facts:\n\nParameter count: in_features * out_features + (out_features if bias)\nComputation per forward pass: O(batch * in_features * out_features)",
+    "crumbs": [
+      "Machine learning",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Dense / Linear layer</span>"
+    ]
+  },
+  {
+    "objectID": "machine_learning/4.html",
+    "href": "machine_learning/4.html",
+    "title": "5  Convolutional layers",
+    "section": "",
+    "text": "Convolutional layers (Conv2D) implement a local, weight-sharing affine map over spatial neighborhoods and are the core building block of CNNs. Practically, most deep‑learning libraries implement the operation as a 2D cross‑correlation (no kernel flip), not the mathematical convolution.\n\nThis is roughly the operation used by torch.nn.Conv2d, keras.layers.Conv2D, and flax.linen.Conv (they differ in API and default conventions but implement the same cross‑correlation‑based convolutional layer).\nYou can find more beautiful visualisations here\nI won’t dive into more details because there’s A LOT of stuff to say about CNN but I will try to update this page later.",
+    "crumbs": [
+      "Machine learning",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Convolutional layers</span>"
+    ]
+  },
+  {
+    "objectID": "machine_learning/5.html",
+    "href": "machine_learning/5.html",
+    "title": "6  RNN",
+    "section": "",
+    "text": "Recurrent Neural Networks (RNNs) are used for sequential data — signals, speech, text, financial time series where past values influence future ones. Their development is tightly linked to natural language processing.\n\n\n\n\n\n\nNote\n\n\n\nIf you want a compact lecture, watch the MIT Intro to Deep Learning segment on RNNs. For a structured, rigorous treatment, see the d2l.ai chapters on RNN. This writeup aims to be a primer for both.\n\n\n\n6.0.1 Elevator pitch\nThink of autoregressive models from statistics: predict the next value mainly from past observations. Given a sequence \\((x_1,\\dots,x_n)\\) and observations up to time \\(t-1\\), we want \\[\n\\mathbb{E}\\big(x_t \\mid x_{t-1},\\dots,x_1\\big).\n\\]\nA naive stats‑101 approach is linear regression, but that has practical issues: as time advances the number of predictors grows, and most interesting signals are nonlinear.\nSo how can we improve this first idea ? :\n\nFixed sliding window (use the last K values).\nInstead of using a growing number of past values, use a fixed-size window of the last K observations (e.g., 2, 3, 5) as predictors for regression, or compute a summary (like the mean) over that window.\nCompress past into a summary statistic (mean, moving average).\nCollapsing the history into a single summary (mean, median, moving average, etc.) produces a fixed-size predictor regardless of sequence length, avoiding the predictor-scaling problem.\nCombine both (rolling averages, exponentially weighted stats).\nUse a fixed window plus a summary computed over that window (or an exponential weighting of all past observations) to get both locality and smoothed long-term information.\n\n\n\n6.0.2 Latent autoregressive view\nIf we compress the past into a fixed‑size summary (a latent state) and use that to predict the next value, we get a latent autoregressive model. The latent state is not directly observed.\nWrite the model as \\[\n\\hat{x}_t = P(x_t \\mid h_t),\n\\] with the state updated recurrently, for example \\[\nh_t = g(h_{t-1},\\, x_{t-1}).\n\\]\n(The hat denotes a predicted quantity; un‑hatted symbols are observed.)\n\n\n\nVisual summary that will make sense later by d2l.ai\n\n\nThis formulation: a state that summarizes the past and is iteratively updated is the core idea behind RNNs.\n\n\n6.0.3 How this maps to RNNs\n\n\\(h_t\\) is the hidden state (fixed-dimensional vector).\n\n\\(g\\) is a parametric update (for simple RNNs, \\(g\\) is an affine map followed by a nonlinearity).\n\nThe output model \\(P\\) can be a simple linear layer or a more complex head (softmax for language, Gaussian for regression, etc.).\n\nA simple vanilla RNN usually looks like this: \\[\nh_t = \\phi\\big(W_h h_{t-1} + W_x x_{t-1} + b\\big),\n\\qquad\n\\hat{y}_t = W_y h_t + c,\n\\] where \\(\\phi\\) is a nonlinearity (tanh, ReLU), and \\(W_h,W_x,W_y\\) are learned weight matrices and \\(b,c\\) are optional biases.\nIf you have experience with Markov models, you can link them to a transition probability matrix. It was never written explicitly until now, but assuming that we can make a solid prediction by only looking at \\(K\\) values in the past is essentially assuming the process we’re interested in is a Markov process of order \\(K\\). This link is discussed in greater detail in the d2l.ai course.\n\n\n6.0.4 Practical considerations and modern practice\nRNNs are largely superseded in many applications, but still conceptually important.\n\nVanilla RNNs suffer from vanishing/exploding gradients for long dependencies. Gated architectures (LSTM, GRU) mitigate this with learned gates that control information flow.\nFor many NLP and sequence tasks, Transformer architectures have largely supplanted RNNs because they model long‑range dependencies more effectively and parallelize better.\n\n\n\n6.0.5 Further reading/watching\nAs I said in the beginning, this is mainly intended as an introduction to RNN. I highly encourage you to watch this lecture MIT Intro to Deep Learning segment on RNNs and read the d2l.ai chapters on RNN to get a more formal understanding.",
+    "crumbs": [
+      "Machine learning",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>RNN</span>"
+    ]
+  },
+  {
     "objectID": "stochastic_model/0.html",
     "href": "stochastic_model/0.html",
-    "title": "3  Filtering",
+    "title": "7  Filtering",
     "section": "",
-    "text": "3.1 Type of filters\nWe observe a time-varying quantity x(t), but measurements are imperfect — what we actually record is y(t), which equals the true signal plus an error term:\n\\[y(t)=x(t)+b(t).\\]\nRecovering x(t) from the noisy observation y(t) is called filtering — i.e., designing a method that suppresses the noise b(t) while retaining the desired signal x(t).\nUsually we think of filters in two main groups: - Linear filters - Non-linear filters",
+    "text": "7.1 Type of filters\nWe observe a time-varying quantity x(t), but measurements are imperfect — what we actually record is y(t), which equals the true signal plus an error term:\n\\[y(t)=x(t)+b(t).\\]\nRecovering x(t) from the noisy observation y(t) is called filtering — i.e., designing a method that suppresses the noise b(t) while retaining the desired signal x(t).\nUsually we think of filters in two main groups: - Linear filters - Non-linear filters",
     "crumbs": [
       "Stochastic Model",
-      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Filtering</span>"
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Filtering</span>"
     ]
   },
   {
     "objectID": "stochastic_model/0.html#type-of-filters",
     "href": "stochastic_model/0.html#type-of-filters",
-    "title": "3  Filtering",
+    "title": "7  Filtering",
     "section": "",
-    "text": "3.1.1 Why are we interested in linear filters ?\nIf the system is linear and time‑invariant, its action on any input is completely characterized by its impulse response h(t) (or equivalently its transfer function H(s)/H(ω)). Convolving the measured signal with h gives the system’s output or an estimate of the underlying signal:\n\\[\\tilde{x}(t)=y(t)\\ast h(t).\\]\nUsing linearity and y(t)=x(t)+b(t):\n\\[\\tilde{x}(t)=(x(t)+b(t))\\ast h(t)=x(t)\\ast h(t)+b(t)\\ast h(t).\\]\nIdeally, \\(b(t)\\ast h(t) = 0\\)\n\n\n3.1.2 Link with the fourier transform\nThe fourier transform turns the convolution into a simple product. \\[ TF(y(t)*h(t)) = Y(f) H(f)\\]",
+    "text": "7.1.1 Why are we interested in linear filters ?\nIf the system is linear and time‑invariant, its action on any input is completely characterized by its impulse response h(t) (or equivalently its transfer function H(s)/H(ω)). Convolving the measured signal with h gives the system’s output or an estimate of the underlying signal:\n\\[\\tilde{x}(t)=y(t)\\ast h(t).\\]\nUsing linearity and y(t)=x(t)+b(t):\n\\[\\tilde{x}(t)=(x(t)+b(t))\\ast h(t)=x(t)\\ast h(t)+b(t)\\ast h(t).\\]\nIdeally, \\(b(t)\\ast h(t) = 0\\)\n\n\n7.1.2 Link with the fourier transform\nThe fourier transform turns the convolution into a simple product. \\[ TF(y(t)*h(t)) = Y(f) H(f)\\]",
     "crumbs": [
       "Stochastic Model",
-      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Filtering</span>"
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Filtering</span>"
     ]
   },
   {
     "objectID": "stochastic_model/0.html#energy-and-the-energy-spectral-density",
     "href": "stochastic_model/0.html#energy-and-the-energy-spectral-density",
-    "title": "3  Filtering",
-    "section": "3.2 Energy and the energy spectral density",
-    "text": "3.2 Energy and the energy spectral density\n\nFor a finite‑energy signal x(t) the total energy is defined as \\[\nE=\\int_{-\\infty}^{\\infty}|x(t)|^{2}dt.\n\\]\n\nLet \\(\\hat{x}(f)\\) be the Fourier transform of \\(x(t)\\) (frequency (f) in Hz).\n\nBy Parseval’s theorem, \\[\nE=\\int_{-\\infty}^{\\infty}|x(t)|^{2}dt=\\int_{-\\infty}^{\\infty}|\\hat{x}(f)|^{2}df.\n\\] The nonnegative function \\(|\\hat{x}(f)|^{2}\\) is called the energy spectral density (ESD) of \\((x(t)\\).\n\nFor any band \\([f_1,f_2]\\), \\[\n  \\int_{f_1}^{f_2}|\\hat{x}(f)|^{2}\\,df\n\\] equals the energy contained in that frequency band.\nThink of the total energy E as a cake. The Fourier transform splits the cake across frequencies; \\(|\\hat{x}(f)|^{2}\\) is the slice size (energy per unit frequency) at frequency f.\nThus \\(|\\hat{x}(f)|^{2}\\) is the energy contribution around frequency f,integrating it over a band tells you how much energy that band carries.\n\\[\n\\text{(ESD)} S_{xx}(f) = |\\hat{x}(f)|^2\n\\]\n\nUsing the Wiener-Khintchine theorem: the ESD can be defined as the fourier transform of the autocorrelation signal:\n\n\\[ S_{xx}(f) = \\int_{-\\infty}^{+\\infty} R_{xx}(\\tau)e^{-2 \\pi i f \\tau} d\\tau\\]\n\n\n\n\n\n\nWhy is the autocorrelation function only a function of the lag \\(\\tau\\)\n\n\n\nFor a (complex) stochastic process X(t) the general autocorrelation is \\[\nR_{XX}(t_1,t_2)=\\mathbb{E}\\big[X(t_1)\\,\\overline{X(t_2)}\\big],\n\\] which a priori depends on both times t1 and t2.\nIf X(t) is wide-sense stationary (WSS) then by definition:\n\nThe mean \\(\\mu(X(t))=E[X(t)]\\) is constant in time,\nthe autocorrelation is invariant under time shifts.\n\nTime-shift invariance means: for any real shift \\(\\Delta\\), \\[\nR_{XX}(t_1+\\Delta,t_2+\\Delta)=R_{XX}(t_1,t_2).\n\\] Fix any pair \\((t_1,t_2)\\).\nChoose \\(\\Delta = −t_2\\). Then \\[\nR_{XX}(t_1,t_2)=R_{XX}(t_1-t_2,0).\n\\]\nThus the value of \\(R_{XX}\\) at \\((t_1,t_2)\\) equals its value at \\((t_1−t_2,0)\\); it depends only on the difference \\(t_1−t_2\\), not on the absolute times.\nWriting \\(\\tau = t_1−t_2\\) gives the single-argument form \\[\nR_{XX}(\\tau)=\\mathbb{E}\\big[X(t+\\tau)\\,\\overline{X(t)}\\big],\n\\] which is independent of the particular t chosen because of the shift invariance.\nIf the process is zero-mean (centered), the autocovariance \\(K_{XX}\\) equals the autocorrelation \\(R_{XX}\\), so the same reduction to a single-argument function holds: \\[\nK_{XX}(t_1,t_2)=K_{XX}(\\tau)=R_{XX}(\\tau).\n\\] In short: WSS implies time-translation invariance of second-order statistics. That invariance forces the two-time function \\(R_{XX}(t_1,t_2)\\) to depend only on the time difference \\(\\tau = t_1−t_2\\).",
+    "title": "7  Filtering",
+    "section": "7.2 Energy and the energy spectral density",
+    "text": "7.2 Energy and the energy spectral density\n\nFor a finite‑energy signal x(t) the total energy is defined as \\[\nE=\\int_{-\\infty}^{\\infty}|x(t)|^{2}dt.\n\\]\n\nLet \\(\\hat{x}(f)\\) be the Fourier transform of \\(x(t)\\) (frequency (f) in Hz).\n\nBy Parseval’s theorem, \\[\nE=\\int_{-\\infty}^{\\infty}|x(t)|^{2}dt=\\int_{-\\infty}^{\\infty}|\\hat{x}(f)|^{2}df.\n\\] The nonnegative function \\(|\\hat{x}(f)|^{2}\\) is called the energy spectral density (ESD) of \\((x(t)\\).\n\nFor any band \\([f_1,f_2]\\), \\[\n  \\int_{f_1}^{f_2}|\\hat{x}(f)|^{2}\\,df\n\\] equals the energy contained in that frequency band.\nThink of the total energy E as a cake. The Fourier transform splits the cake across frequencies; \\(|\\hat{x}(f)|^{2}\\) is the slice size (energy per unit frequency) at frequency f.\nThus \\(|\\hat{x}(f)|^{2}\\) is the energy contribution around frequency f,integrating it over a band tells you how much energy that band carries.\n\\[\n\\text{(ESD)} S_{xx}(f) = |\\hat{x}(f)|^2\n\\]\n\nUsing the Wiener-Khintchine theorem: the ESD can be defined as the fourier transform of the autocorrelation signal:\n\n\\[ S_{xx}(f) = \\int_{-\\infty}^{+\\infty} R_{xx}(\\tau)e^{-2 \\pi i f \\tau} d\\tau\\]\n\n\n\n\n\n\nWhy is the autocorrelation function only a function of the lag \\(\\tau\\)\n\n\n\nFor a (complex) stochastic process X(t) the general autocorrelation is \\[\nR_{XX}(t_1,t_2)=\\mathbb{E}\\big[X(t_1)\\,\\overline{X(t_2)}\\big],\n\\] which a priori depends on both times t1 and t2.\nIf X(t) is wide-sense stationary (WSS) then by definition:\n\nThe mean \\(\\mu(X(t))=E[X(t)]\\) is constant in time,\nthe autocorrelation is invariant under time shifts.\n\nTime-shift invariance means: for any real shift \\(\\Delta\\), \\[\nR_{XX}(t_1+\\Delta,t_2+\\Delta)=R_{XX}(t_1,t_2).\n\\] Fix any pair \\((t_1,t_2)\\).\nChoose \\(\\Delta = −t_2\\). Then \\[\nR_{XX}(t_1,t_2)=R_{XX}(t_1-t_2,0).\n\\]\nThus the value of \\(R_{XX}\\) at \\((t_1,t_2)\\) equals its value at \\((t_1−t_2,0)\\); it depends only on the difference \\(t_1−t_2\\), not on the absolute times.\nWriting \\(\\tau = t_1−t_2\\) gives the single-argument form \\[\nR_{XX}(\\tau)=\\mathbb{E}\\big[X(t+\\tau)\\,\\overline{X(t)}\\big],\n\\] which is independent of the particular t chosen because of the shift invariance.\nIf the process is zero-mean (centered), the autocovariance \\(K_{XX}\\) equals the autocorrelation \\(R_{XX}\\), so the same reduction to a single-argument function holds: \\[\nK_{XX}(t_1,t_2)=K_{XX}(\\tau)=R_{XX}(\\tau).\n\\] In short: WSS implies time-translation invariance of second-order statistics. That invariance forces the two-time function \\(R_{XX}(t_1,t_2)\\) to depend only on the time difference \\(\\tau = t_1−t_2\\).",
     "crumbs": [
       "Stochastic Model",
-      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Filtering</span>"
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Filtering</span>"
     ]
   },
   {
     "objectID": "stochastic_model/1.html",
     "href": "stochastic_model/1.html",
-    "title": "4  The Wiener Filter",
+    "title": "8  The Wiener Filter",
     "section": "",
-    "text": "4.1 Wiener filtering\nThe Wiener filter is a classical signal-processing method developed by Norbert Wiener in the 1940s. The objective is to reconstruct a target signal \\(x(t)\\) from a noisy observation: \\[\ny(t)=x(t)+b(t),\n\\] where \\(b(t)\\) is additive noise.",
+    "text": "8.1 Wiener filtering\nThe Wiener filter is a classical signal-processing method developed by Norbert Wiener in the 1940s. The objective is to reconstruct a target signal \\(x(t)\\) from a noisy observation: \\[\ny(t)=x(t)+b(t),\n\\] where \\(b(t)\\) is additive noise.",
     "crumbs": [
       "Stochastic Model",
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>The Wiener Filter</span>"
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>The Wiener Filter</span>"
     ]
   },
   {
     "objectID": "stochastic_model/1.html#how-it-works",
     "href": "stochastic_model/1.html#how-it-works",
-    "title": "4  The Wiener Filter",
-    "section": "4.2 How it works ?",
-    "text": "4.2 How it works ?\nThe problem is formulated as an optimisation problem where we’re looking for h such as:\n\\[\n\\tilde{x}(t)=(h*y)(t)=\\int_{-\\infty}^{+\\infty} h(u)y(t-u)du\n\\] is as close as possible to the original signal (x(t)).\nThe measure of proximity/distance is the mean squared error.\n\\[\nJ=\\mathbb{E}\\Big[\\big(x(t)-\\tilde{x}(t)\\big)^2\\Big].\n\\]\nThe goal is to find \\(h(t)\\) that minimizes \\(J\\) or mathematically:\n\\[\n\\min_{h(\\cdot)}J(h)=\\min_{h(\\cdot)}\\;\\mathbb{E}\\Big[\\big(x(t)-\\!(h*y)(t)\\big)^2\\Big]\n\\]",
+    "title": "8  The Wiener Filter",
+    "section": "8.2 How it works ?",
+    "text": "8.2 How it works ?\nThe problem is formulated as an optimisation problem where we’re looking for h such as:\n\\[\n\\tilde{x}(t)=(h*y)(t)=\\int_{-\\infty}^{+\\infty} h(u)y(t-u)du\n\\] is as close as possible to the original signal (x(t)).\nThe measure of proximity/distance is the mean squared error.\n\\[\nJ=\\mathbb{E}\\Big[\\big(x(t)-\\tilde{x}(t)\\big)^2\\Big].\n\\]\nThe goal is to find \\(h(t)\\) that minimizes \\(J\\) or mathematically:\n\\[\n\\min_{h(\\cdot)}J(h)=\\min_{h(\\cdot)}\\;\\mathbb{E}\\Big[\\big(x(t)-\\!(h*y)(t)\\big)^2\\Big]\n\\]",
     "crumbs": [
       "Stochastic Model",
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>The Wiener Filter</span>"
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>The Wiener Filter</span>"
     ]
   },
   {
     "objectID": "stochastic_model/1.html#solving-the-optimization-problem",
     "href": "stochastic_model/1.html#solving-the-optimization-problem",
-    "title": "4  The Wiener Filter",
-    "section": "4.3 Solving the optimization problem",
-    "text": "4.3 Solving the optimization problem\nIf a solution exist, it’s necessarily a local minimum so we can find possible solutions by derivating the J function.\n\\[\n\\frac{\\partial J}{\\partial h} = 2\\mathbb{E}\\Big[\\big(x(t)-(h*y)(t)\\big)\n\\frac{\\partial}{\\partial h}\\big(x(t)-(h*y)(t)\\big)\\Big]\n\\]\nSince \\(x(t)\\) does not depend on \\(h\\) and \\((h*y)(t)=\\int_{-\\infty}^{\\infty} h(u)y(t-u)du\\), the functional derivative is\n\\[\n\\frac{\\partial}{\\partial h(u)}\\big(x(t)-(h*y)(t)\\big)\n= -y(t-u).\n\\]\nTherefore the Gateaux derivative (set to zero for optimality) is \\[\n\\frac{\\partial J}{\\partial h(v)}= -2\\,\\mathbb{E}\\Big[\\big(x(t)-(h*y)(t)\\big)\\,y(t-v)\\Big] = 0,\n\\qquad\\forall v,\n\\] which is the orthogonality condition.\nThis condition can be understood intuitively by the idea that our estimation error should not be correlated to the signal we’re observing.",
+    "title": "8  The Wiener Filter",
+    "section": "8.3 Solving the optimization problem",
+    "text": "8.3 Solving the optimization problem\nIf a solution exist, it’s necessarily a local minimum so we can find possible solutions by derivating the J function.\n\\[\n\\frac{\\partial J}{\\partial h} = 2\\mathbb{E}\\Big[\\big(x(t)-(h*y)(t)\\big)\n\\frac{\\partial}{\\partial h}\\big(x(t)-(h*y)(t)\\big)\\Big]\n\\]\nSince \\(x(t)\\) does not depend on \\(h\\) and \\((h*y)(t)=\\int_{-\\infty}^{\\infty} h(u)y(t-u)du\\), the functional derivative is\n\\[\n\\frac{\\partial}{\\partial h(u)}\\big(x(t)-(h*y)(t)\\big)\n= -y(t-u).\n\\]\nTherefore the Gateaux derivative (set to zero for optimality) is \\[\n\\frac{\\partial J}{\\partial h(v)}= -2\\,\\mathbb{E}\\Big[\\big(x(t)-(h*y)(t)\\big)\\,y(t-v)\\Big] = 0,\n\\qquad\\forall v,\n\\] which is the orthogonality condition.\nThis condition can be understood intuitively by the idea that our estimation error should not be correlated to the signal we’re observing.",
     "crumbs": [
       "Stochastic Model",
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>The Wiener Filter</span>"
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>The Wiener Filter</span>"
     ]
   },
   {
     "objectID": "stochastic_model/1.html#frequency-domain-formulation",
     "href": "stochastic_model/1.html#frequency-domain-formulation",
-    "title": "4  The Wiener Filter",
-    "section": "4.4 Frequency-domain formulation",
-    "text": "4.4 Frequency-domain formulation\nIn the frequency domain the problem simplifies.\nOur initial equation is: \\[\nY(f)=X(f)+B(f)\n\\] With \\(Y\\) the observation,\\(X\\) the signal,\\(B\\) the noise, all in the fourier domain.\nWe’re looking for \\[\\tilde{X}(f)=H(f)Y(f)\\]\nDefine the power spectral densities (PSDs): \\[\nS_{xx}(f)=\\mathbb{E}\\big[|X(f)|^2\\big],\\qquad S_{yy}(f)=S_{xx}(f)+S_{bb}(f).\n\\]\n\n\n\n\n\n\nWhy \\(S_{yy}(f)=S_{xx}(f)+S_{bb}(f)\\) ?\n\n\n\nStart from \\(Y(f)=X(f)+B(f)\\). By definition the (one-sided) power spectral density is the expected squared magnitude:\n\\[S_{yy}(f)=\\mathbb{E}\\big[|Y(f)|^2\\big]=\\mathbb{E}\\big[Y(f)\\overline{Y(f)}\\big].\\] Substitute \\(Y(f) = X(f) + B(f)\\):\n\\[\n\\begin{aligned}\nS_{yy}(f)\n&=\\mathbb{E}\\big[(X(f)+B(f))\\overline{(X(f)+B(f))}\\big]\\\\\n&=\\mathbb{E}\\big[X(f)\\overline{X(f)}\\big]\n+\\mathbb{E}\\big[B(f)\\overline{B(f)}\\big]\n+\\mathbb{E}\\big[X(f)\\overline{B(f)}\\big]\n+\\mathbb{E}\\big[B(f)\\overline{X(f)}\\big].\n\\end{aligned}\n\\]\nIf X and B are uncorrelated (or independent) then the cross terms vanish: \\[\\mathbb{E}\\big[X(f)\\overline{B(f)}\\big]=\\mathbb{E}\\big[B(f)\\overline{X(f)}\\big]=0.\\] Thus \\[S_{yy}(f)=\\mathbb{E}[|X(f)|^2]+\\mathbb{E}[|B(f)|^2]=S_{xx}(f)+S_{bb}(f).\\]\n\n\nThe optimal solution is the frequency-domain Wiener filter: \\[\nH(f)=\\frac{S_{xx}(f)}{S_{yy}(f)}=\\frac{S_{xx}(f)}{S_{xx}(f)+S_{bb}(f)} = \\frac{1}{1+\\frac{S_{bb}}{S_{xx}}}\n\\]\n\n\n\n\n\n\nWhy \\(H(f)=\\frac{S_{xx}(f)}{S_{yy}(f)}\\) ?\n\n\n\nTo figure this out, we need to rewrite the optimization equation in the fourier domain\n\\[\n\\begin{aligned}\nJ(f)\n&= \\mathbb{E}\\Big[\\big(X(f)-\\tilde{X}(f)\\big)^2\\Big] \\\\\n&= \\mathbb{E}\\Big[\\big(X(f)-H(f)Y(f)\\big)^2\\Big] \\\\\n&= \\mathbb{E}\\Big[X(f)^2 - 2 X(f)H(f)Y(f) + \\big(H(f)Y(f)\\big)^2\\Big]\\\\\n&= \\mathbb{E}\\Big[X(f)^2\\Big] + 2H(f)\\mathbb{E}\\Big[X(f)Y(f)\\Big] + H(f)^2\\mathbb{E}\\Big[Y(f)^2\\Big]\\\\\n\\end{aligned}\n\\]\nNow differentiating this equation leads to:\n\\[\n\\begin{aligned}\n\\frac{\\partial J}{\\partial H(f)}= 0 \\Leftrightarrow \\\\\n&2 S_{xy} + 2 H(f)S_{yy}=0\n&H(f) = \\frac{S_{xy}}{S_{yy}}\n\\end{aligned}\n\\]\nNow \\(S_{xy}\\) is slightly different than \\(S_{xx}\\) at first glance but they actually match because we assume the noise is uncorrelated to the signal.\n\\[\nS_{xy} = \\mathbb{E}[XY] = \\mathbb{E}[X(X+B)]= \\mathbb{E}[X^2] + \\mathbb{E}[XB] = E[X^2] = S_{xx}\n\\]",
+    "title": "8  The Wiener Filter",
+    "section": "8.4 Frequency-domain formulation",
+    "text": "8.4 Frequency-domain formulation\nIn the frequency domain the problem simplifies.\nOur initial equation is: \\[\nY(f)=X(f)+B(f)\n\\] With \\(Y\\) the observation,\\(X\\) the signal,\\(B\\) the noise, all in the fourier domain.\nWe’re looking for \\[\\tilde{X}(f)=H(f)Y(f)\\]\nDefine the power spectral densities (PSDs): \\[\nS_{xx}(f)=\\mathbb{E}\\big[|X(f)|^2\\big],\\qquad S_{yy}(f)=S_{xx}(f)+S_{bb}(f).\n\\]\n\n\n\n\n\n\nWhy \\(S_{yy}(f)=S_{xx}(f)+S_{bb}(f)\\) ?\n\n\n\nStart from \\(Y(f)=X(f)+B(f)\\). By definition the (one-sided) power spectral density is the expected squared magnitude:\n\\[S_{yy}(f)=\\mathbb{E}\\big[|Y(f)|^2\\big]=\\mathbb{E}\\big[Y(f)\\overline{Y(f)}\\big].\\] Substitute \\(Y(f) = X(f) + B(f)\\):\n\\[\n\\begin{aligned}\nS_{yy}(f)\n&=\\mathbb{E}\\big[(X(f)+B(f))\\overline{(X(f)+B(f))}\\big]\\\\\n&=\\mathbb{E}\\big[X(f)\\overline{X(f)}\\big]\n+\\mathbb{E}\\big[B(f)\\overline{B(f)}\\big]\n+\\mathbb{E}\\big[X(f)\\overline{B(f)}\\big]\n+\\mathbb{E}\\big[B(f)\\overline{X(f)}\\big].\n\\end{aligned}\n\\]\nIf X and B are uncorrelated (or independent) then the cross terms vanish: \\[\\mathbb{E}\\big[X(f)\\overline{B(f)}\\big]=\\mathbb{E}\\big[B(f)\\overline{X(f)}\\big]=0.\\] Thus \\[S_{yy}(f)=\\mathbb{E}[|X(f)|^2]+\\mathbb{E}[|B(f)|^2]=S_{xx}(f)+S_{bb}(f).\\]\n\n\nThe optimal solution is the frequency-domain Wiener filter: \\[\nH(f)=\\frac{S_{xx}(f)}{S_{yy}(f)}=\\frac{S_{xx}(f)}{S_{xx}(f)+S_{bb}(f)} = \\frac{1}{1+\\frac{S_{bb}}{S_{xx}}}\n\\]\n\n\n\n\n\n\nWhy \\(H(f)=\\frac{S_{xx}(f)}{S_{yy}(f)}\\) ?\n\n\n\nTo figure this out, we need to rewrite the optimization equation in the fourier domain\n\\[\n\\begin{aligned}\nJ(f)\n&= \\mathbb{E}\\Big[\\big(X(f)-\\tilde{X}(f)\\big)^2\\Big] \\\\\n&= \\mathbb{E}\\Big[\\big(X(f)-H(f)Y(f)\\big)^2\\Big] \\\\\n&= \\mathbb{E}\\Big[X(f)^2 - 2 X(f)H(f)Y(f) + \\big(H(f)Y(f)\\big)^2\\Big]\\\\\n&= \\mathbb{E}\\Big[X(f)^2\\Big] + 2H(f)\\mathbb{E}\\Big[X(f)Y(f)\\Big] + H(f)^2\\mathbb{E}\\Big[Y(f)^2\\Big]\\\\\n\\end{aligned}\n\\]\nNow differentiating this equation leads to:\n\\[\n\\begin{aligned}\n\\frac{\\partial J}{\\partial H(f)}= 0 \\Leftrightarrow \\\\\n&2 S_{xy} + 2 H(f)S_{yy}=0\n&H(f) = \\frac{S_{xy}}{S_{yy}}\n\\end{aligned}\n\\]\nNow \\(S_{xy}\\) is slightly different than \\(S_{xx}\\) at first glance but they actually match because we assume the noise is uncorrelated to the signal.\n\\[\nS_{xy} = \\mathbb{E}[XY] = \\mathbb{E}[X(X+B)]= \\mathbb{E}[X^2] + \\mathbb{E}[XB] = E[X^2] = S_{xx}\n\\]",
     "crumbs": [
       "Stochastic Model",
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>The Wiener Filter</span>"
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>The Wiener Filter</span>"
     ]
   },
   {
     "objectID": "stochastic_model/exo_0.html",
     "href": "stochastic_model/exo_0.html",
-    "title": "6  Exercice 1",
+    "title": "10  Exercice 1",
     "section": "",
     "text": "Note\n\n\n\nI chose to keep the exercies in french for my classmates.\n\n\nOn souhaite à partir d’une observation du processus aléatoire \\(y(t)\\) résultant de la somme de deux signaux décorrélés \\(x(t)\\) et \\(b(t)\\) de densités spectrales de puissance respectives \\(S_{xx}(f)\\) et \\(S_{bb}(f)\\) estimer le processus aléatoire de \\(x(t)\\) par filtrage.\n\nProposer et justifier le choix du filtre approprié à cette application\n\n\\(y(t) = x(t)+b(t)\\)\nOn a supposé que le bruit est décorrélé du signal x. En supposant que le signal x est stationnaire au deuxième degré et centré, le filtre de Wiener de débruitage semble adapté.\n\nDonner l’expression du gain complexe (réponse en fréquence) du filtre optimal en fonction des densités spectrales de puissance des deux signaux \\(x(t)\\) et \\(b(t)\\).\n\n\\[\n\\begin{aligned}\nH(f) = \\frac{S_{xx}}{S_{yy}} \\\\\nH(f) = \\frac{S_{xx}}{S_{xx}+S_{bb}} \\\\\nH(f) = \\frac{1}{1+\\frac{S_{bb}}{S_{xx}}} \\\\\n\\end{aligned}\n\\]\n\nSi \\(b(t)\\) est un bruit blanc,centré et de variance \\(N_0=1\\) et \\(x(t)\\) est stationnaire au second ordre,centré, réel,de densitéé spectrale de puissance : \\[\nS_{xx}(f) = \\frac{1}{4 \\pi^2f^2+15}\n\\]\n\nCalculer et tracer la réponse impulsionnelle du filtre; On donne la transformée de Fourier : \\(TF(e^{-a|t|})= \\frac{2a}{4 \\pi^2f^2+a^2}\\) , \\(a\\) étant un réel strictement positif.\nL’idée principale de cette question est que l’auto-corrélation du bruit/la dsp est égale à la variance pour le bruit blanc par définition.\nLa variance est \\(\\mathbb{E}[b^2]=1=S_{bb}\\)\nDe cette observation suit que :\n\\[\nH(f) = \\frac{1}{q \\pi^2f^2+16}\n\\]\nOr d’après l’énoncé : \\(TF(e^{-a|t|})= \\frac{2a}{4 \\pi^2f^2+a^2}\\)\nAinsi, par identification : Pour \\(a=4\\), \\[\\frac{1}{8}TF(e^{-4|t|})=H(f)\\]\nD’où la réponse impulsionnelle: \\[\nTF^{-1}(H(f))(t) =h(t) = \\frac{1}{8}e^{-4|t|}\n\\]\n\n\nimport numpy as np\nimport matplotlib.pyplot as plt\nimport seaborn as sns\n\nsns.set(style=\"whitegrid\")\nt = np.linspace(-2, 2, 1001)\nf = 0.125 * np.exp(-4 * np.abs(t))\npeaks = [0]\nvals = [0.125]\nannot_x = np.array([-1, 0, 1])\nannot_y = 0.125 * np.exp(-4 * np.abs(annot_x))\n\nfig, ax = plt.subplots(figsize=(7,4))\nax.plot(t, f, color=\"#1f77b4\", lw=2)\nax.fill_between(t, f, color=\"#1f77b4\", alpha=0.12)\nax.scatter(peaks, vals, color=\"crimson\", zorder=5)\nax.scatter(annot_x, annot_y, color=\"darkorange\", zorder=5)\nfor x,y,label in zip(annot_x,annot_y,[r\"$t=-1,\\ f=\\frac{1}{8}e^{-4}$\", r\"$t=0,\\ f=\\frac{1}{8}$\", r\"$t=1,\\ f=\\frac{1}{8}e^{-4}$\"]):\n    ax.annotate(label, xy=(x,y), xytext=(x, y+0.02), ha=\"center\", color=\"black\", fontsize=9)\nax.set_xlabel(\"t\")\nax.set_ylabel(\"f(t)\")\nax.set_title(r\"$f(t)=\\frac{1}{8}e^{-4|t|}$\")\nax.set_xlim(-2,2)\nax.set_ylim(0,0.14)\nplt.tight_layout()\nplt.show()\n\nCalculer et tracer la fonction d’autocorrélation du signal x(t). En déduire la puissance du signal.\n\nL’idée principale de cette question est dd’utiliser le théorème de Wiener-Kintchine qui établit un lien entre l’autocorrélation qu’uon cherche et la dsp qu’on connait.\n\\[\nTF[R_{xx}(\\tau)] = S_{xx}(f)]\n\\] Donc\n\\[\nR_{xx}(\\tau) = TF^{-1}[S_{xx}(f)]\n\\]\nEn procédant par identification, on peut retrouver:\n\\[\nR_{xx}(\\tau) = \\frac{1}{2\\sqrt{15}}e^{- \\sqrt{15}|\\tau|}\n\\]\nPour trouver la puissance du signal \\(x(t)\\) on utilise encore le théorème de Wiener-Kintchine et on l’évalue en 0.\nPar défintion, \\[\nP_x = \\int S_{xx}(f)df\n\\]\nOr\n\\[\nR_{xx}(\\tau) = \\int S_{xx}e^{j 2 \\pi f \\tau} df\n\\]\nEn \\(\\tau =0\\), l’exponentiel disparait et on retrouve que :\n\\[\nP_x = R_{xx}(0)\n\\]",
     "crumbs": [
       "Stochastic Model",
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Exercice 1</span>"
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Exercice 1</span>"
     ]
   },
   {
     "objectID": "stochastic_model/exo_1.html",
     "href": "stochastic_model/exo_1.html",
-    "title": "7  Exercice 2",
+    "title": "11  Exercice 2",
     "section": "",
-    "text": "7.1 Question 1\nOn souhaite, à partir d’une observation du processus aléatoire \\(y(t)\\) , résultat de la somme de deux signaux \\(e(t)\\) et \\(b(t)\\), estimer le processus \\(e(t)\\) par filtrage de Wiener. La densité spectrale de \\(e(t)\\) est :\n\\[\nS_{ee}(f) = \\frac{2}{7+2 \\pi ^2 f^2}\n\\]\nLe bruit \\(b(t)\\) est un bruit blanc de densité spectrale de puissance : \\[\nS_{bb}(f)=N_0\n\\]\nLes deux signaux \\(e(t)\\) et \\(b(t)\\) sont centrés et décorrélés.\nDonnez l’expression de la fonction de transfert H(f) du filtre optimal\n\\[\n\\begin{aligned}\nH(f) = \\frac{1}{1 + \\frac{S_{bb}(f)}{S_{ee}(f)}} \\\\\n= \\frac{1}{1 + \\frac{2}{\\frac{2}{7+ 2 \\pi^2 f^2}}}\n= \\frac{2}{4 \\pi^2 f^2 +16}\n= \\frac{1}{4}\\frac{2 \\times 4}{4 \\pi^2 f^2 +4^2}\n= \\frac{2}{4 \\pi^2+16}\n\\end{aligned}\n\\] ## Question 2\nSi \\(N_0=2\\), calculez la réponse impulsionnelle \\(h(t)\\). On rappelle la transformée de Fourier de cette fonction:\n\\[\nTF(e^{-a|t|}) = \\frac{2a}{4\\pi^2 f^2+a^2}\n\\] a étant un réel strictement positif\n\\[h(t) = \\frac{1}{4} e^{-4 |t|}\\]",
+    "text": "11.1 Question 1\nOn souhaite, à partir d’une observation du processus aléatoire \\(y(t)\\) , résultat de la somme de deux signaux \\(e(t)\\) et \\(b(t)\\), estimer le processus \\(e(t)\\) par filtrage de Wiener. La densité spectrale de \\(e(t)\\) est :\n\\[\nS_{ee}(f) = \\frac{2}{7+2 \\pi ^2 f^2}\n\\]\nLe bruit \\(b(t)\\) est un bruit blanc de densité spectrale de puissance : \\[\nS_{bb}(f)=N_0\n\\]\nLes deux signaux \\(e(t)\\) et \\(b(t)\\) sont centrés et décorrélés.\nDonnez l’expression de la fonction de transfert H(f) du filtre optimal\n\\[\n\\begin{aligned}\nH(f) = \\frac{1}{1 + \\frac{S_{bb}(f)}{S_{ee}(f)}} \\\\\n= \\frac{1}{1 + \\frac{2}{\\frac{2}{7+ 2 \\pi^2 f^2}}}\n= \\frac{2}{4 \\pi^2 f^2 +16}\n= \\frac{1}{4}\\frac{2 \\times 4}{4 \\pi^2 f^2 +4^2}\n= \\frac{2}{4 \\pi^2+16}\n\\end{aligned}\n\\] ## Question 2\nSi \\(N_0=2\\), calculez la réponse impulsionnelle \\(h(t)\\). On rappelle la transformée de Fourier de cette fonction:\n\\[\nTF(e^{-a|t|}) = \\frac{2a}{4\\pi^2 f^2+a^2}\n\\] a étant un réel strictement positif\n\\[h(t) = \\frac{1}{4} e^{-4 |t|}\\]",
     "crumbs": [
       "Stochastic Model",
-      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Exercice 2</span>"
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Exercice 2</span>"
     ]
   },
   {
     "objectID": "stochastic_model/exo_1.html#question-3",
     "href": "stochastic_model/exo_1.html#question-3",
-    "title": "7  Exercice 2",
-    "section": "7.2 Question 3",
-    "text": "7.2 Question 3\nAfin d’évaluer la performance théorique dd’un tel filtre, on rélaise le traitement suivant:\n\nOn peut remarquer que si en sortie du filtre nous avons \\(w(t)=e(t)\\) (estimation parfaite, alors \\(z(t)= e(t)-w(t)=0\\) On définit le facteur de qualité par : \\[\nQ = \\frac{S_{ee}(f)}{S_{zz}(f)}\n\\]\nOn se propose par la suite de calculer Q. Le filtre sera d’autant plus efficace que \\(Q &gt;&gt;1\\)\n\n7.2.1 3-1) Exprimez la fonction d’auto-corrélation statistique \\(R_{zz}(\\tau) = \\mathbb{E}[z(t)z*(t-\\tau)]\\) de \\(z(t)=e(t)-w(t)=0\\)\n\\[\n\\begin{aligned}\nR_{zz}(\\tau) = \\mathbb{E}[z(t)z(t-\\tau)] = \\mathbb{E}[(e(t)-w(t))(e(t-\\tau) -w(t-\\tau))] \\\\\n= \\mathbb{E}[e(t)e(t-\\tau)] - \\mathbb{E}[e(t)w(t-\\tau)] - \\mathbb{E}[w(t)...] ... \\\\\n= R_{ee}(\\tau) - R_{ew}(\\tau) - R_{we}(\\tau)+R_{ww}(\\tau)\n\\end{aligned}\n\\]\n\n\n7.2.2 3-2)\n$$\n\\[\\begin{aligned}\nS_{ww}(f) = S_{yy}(f)|H(f)|^2 \\\\\nS_{ww}(f) = (S_{ee}(f)+S_{bb}(f))|H(f)|^2\n\n\\end{aligned}\\]\n$$\n\n\n7.2.3 3-3)\n\\[\n\\begin{aligned}\nR_{ew}(\\tau) = R_{ee}(\\tau) \\ast h^*(-\\tau) \\\\\n=S_{ew}(f) = S_{ee}(f)H^*(f) \\\\\n=S_{ew}(f) = S_{ee}(f)H(f)\n=S_zz(f) = S_{ee}(f) - S_{ee}H^*(f) - S_{ee}(f)H(f) + S_{ww}(f) \\\\^\n=S_{ee}(f)[1 - (H^*(f)+H(f)) + |H(f)|^2] ° S_{bb}(f)|H(f)|^2 \\\\\n\\end{aligned}\n\\] Finalement Q est:\n\\[\n\\begin{aligned}\nQ = \\frac{S_{ee}}{S_{zz}} \\\\\nQ = \\frac{S_{ee}}{S_ee{f}[1 - 2R_e(H(f)) + |H(f)|^2 + \\frac{S_bb{f}}{S_{ee}(f)}|H(f)|^2} \\\\\nQ = \\frac{1}{1 + |H(f)|^2 [1 + \\frac{S_{bb}(f)}{S_{ee}(f)} -2 R_e(H(f))}\n\\end{aligned}\n\\]",
+    "title": "11  Exercice 2",
+    "section": "11.2 Question 3",
+    "text": "11.2 Question 3\nAfin d’évaluer la performance théorique dd’un tel filtre, on rélaise le traitement suivant:\n\nOn peut remarquer que si en sortie du filtre nous avons \\(w(t)=e(t)\\) (estimation parfaite, alors \\(z(t)= e(t)-w(t)=0\\) On définit le facteur de qualité par : \\[\nQ = \\frac{S_{ee}(f)}{S_{zz}(f)}\n\\]\nOn se propose par la suite de calculer Q. Le filtre sera d’autant plus efficace que \\(Q &gt;&gt;1\\)\n\n11.2.1 3-1) Exprimez la fonction d’auto-corrélation statistique \\(R_{zz}(\\tau) = \\mathbb{E}[z(t)z*(t-\\tau)]\\) de \\(z(t)=e(t)-w(t)=0\\)\n\\[\n\\begin{aligned}\nR_{zz}(\\tau) = \\mathbb{E}[z(t)z(t-\\tau)] = \\mathbb{E}[(e(t)-w(t))(e(t-\\tau) -w(t-\\tau))] \\\\\n= \\mathbb{E}[e(t)e(t-\\tau)] - \\mathbb{E}[e(t)w(t-\\tau)] - \\mathbb{E}[w(t)...] ... \\\\\n= R_{ee}(\\tau) - R_{ew}(\\tau) - R_{we}(\\tau)+R_{ww}(\\tau)\n\\end{aligned}\n\\]\n\n\n11.2.2 3-2)\n$$\n\\[\\begin{aligned}\nS_{ww}(f) = S_{yy}(f)|H(f)|^2 \\\\\nS_{ww}(f) = (S_{ee}(f)+S_{bb}(f))|H(f)|^2\n\n\\end{aligned}\\]\n$$\n\n\n11.2.3 3-3)\n\\[\n\\begin{aligned}\nR_{ew}(\\tau) = R_{ee}(\\tau) \\ast h^*(-\\tau) \\\\\n=S_{ew}(f) = S_{ee}(f)H^*(f) \\\\\n=S_{ew}(f) = S_{ee}(f)H(f)\n=S_zz(f) = S_{ee}(f) - S_{ee}H^*(f) - S_{ee}(f)H(f) + S_{ww}(f) \\\\^\n=S_{ee}(f)[1 - (H^*(f)+H(f)) + |H(f)|^2] ° S_{bb}(f)|H(f)|^2 \\\\\n\\end{aligned}\n\\] Finalement Q est:\n\\[\n\\begin{aligned}\nQ = \\frac{S_{ee}}{S_{zz}} \\\\\nQ = \\frac{S_{ee}}{S_ee{f}[1 - 2R_e(H(f)) + |H(f)|^2 + \\frac{S_bb{f}}{S_{ee}(f)}|H(f)|^2} \\\\\nQ = \\frac{1}{1 + |H(f)|^2 [1 + \\frac{S_{bb}(f)}{S_{ee}(f)} -2 R_e(H(f))}\n\\end{aligned}\n\\]",
     "crumbs": [
       "Stochastic Model",
-      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Exercice 2</span>"
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Exercice 2</span>"
     ]
   },
   {
     "objectID": "stochastic_model/exo_2.html",
     "href": "stochastic_model/exo_2.html",
-    "title": "8  Exercice 3",
+    "title": "12  Exercice 3",
     "section": "",
-    "text": "8.0.1 On pose \\(\\hat{x}(n)=ax(n-1)\\). Quelle est la valeur de a qui minimise l’erreur \\(P_e\\) de prédiction. Calculer dans ce cas l’erreur\nSoit X(n) un processus aléatoire stationnaire à l’ordre 2, de moyenne nulle et dont la fonction d’autocorrélation statistique est \\(R_{xx}(\\tau)\\). On se propose de prédire à partir d’une observation \\(x(n-1)\\) la valeur de x à l’instant ultérieur n. On définit l’erreur de prédicition à l’instant n par \\(e(n)=x(n) - \\hat{x}(n)\\),\\(\\hat{x}(n)=ax(n-1)\\) étant la valeur prédire. L’erreur quadratique moyenne est alors \\(P_e = \\mathbb{E}[(x(n) - \\hat{x}(n))^2]\\)\n\\[\n\\begin{aligned}\nP_e = \\mathbb{E}[(x(n) - \\hat{x}(n))^2] \\\\\n= \\mathbb{E}[X^2(n) - 2ax(n)x(n-1)+ a^2 x^2(n-1)]\n= \\mathbb{E}[x^2(n)] - 2a\\mathbb{E}[x(n)x(n-1)] + a^2\\mathbb{E}[x^2(n-1)] \\\\\nP_e = R_{xx}(0) - 2aR_{xx}(1) + a^2R_{xx}(0)\n\\end{aligned}\n\\]\nQuand \\(P_e = 0\\) on a : \\[\na = \\frac{R_xx(1)}{R_{xx}(0)}\n\\]",
+    "text": "12.0.1 On pose \\(\\hat{x}(n)=ax(n-1)\\). Quelle est la valeur de a qui minimise l’erreur \\(P_e\\) de prédiction. Calculer dans ce cas l’erreur\nSoit X(n) un processus aléatoire stationnaire à l’ordre 2, de moyenne nulle et dont la fonction d’autocorrélation statistique est \\(R_{xx}(\\tau)\\). On se propose de prédire à partir d’une observation \\(x(n-1)\\) la valeur de x à l’instant ultérieur n. On définit l’erreur de prédicition à l’instant n par \\(e(n)=x(n) - \\hat{x}(n)\\),\\(\\hat{x}(n)=ax(n-1)\\) étant la valeur prédire. L’erreur quadratique moyenne est alors \\(P_e = \\mathbb{E}[(x(n) - \\hat{x}(n))^2]\\)\n\\[\n\\begin{aligned}\nP_e = \\mathbb{E}[(x(n) - \\hat{x}(n))^2] \\\\\n= \\mathbb{E}[X^2(n) - 2ax(n)x(n-1)+ a^2 x^2(n-1)]\n= \\mathbb{E}[x^2(n)] - 2a\\mathbb{E}[x(n)x(n-1)] + a^2\\mathbb{E}[x^2(n-1)] \\\\\nP_e = R_{xx}(0) - 2aR_{xx}(1) + a^2R_{xx}(0)\n\\end{aligned}\n\\]\nQuand \\(P_e = 0\\) on a : \\[\na = \\frac{R_xx(1)}{R_{xx}(0)}\n\\]",
     "crumbs": [
       "Stochastic Model",
-      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Exercice 3</span>"
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Exercice 3</span>"
     ]
   },
   {
     "objectID": "stochastic_model/exo_2.html#dans-ce-cas",
     "href": "stochastic_model/exo_2.html#dans-ce-cas",
-    "title": "8  Exercice 3",
-    "section": "8.1 2) Dans ce cas",
-    "text": "8.1 2) Dans ce cas\n\\[\n\\begin{aligned}\nP_e = R_{xx}(0) - 2 \\frac{R_{xx}(1)}{R_{xx}(0)R_{xx}(1)+ (\\frac{R_{xx}(1)}{R_{xx}(0)})^2R_{xx}(0)} \\\\\nP_e = R_{xx}(0) - \\frac{(R_{xx}(1))^2}{R_{xx}(0)}\n\\end{aligned}\n\\]\nModèle autorégressif\n\\(\\hat{x}(n) = \\sum^P_{i=1}a_ix(n-i)\\)\n\\[\n\\begin{aligned}\ne(n)=\\hat{x}(n) - x(n) \\\\\ne(n)+ax(n-1)=x(n)\n\\end{aligned}\n\\]\nRandom note: Réponse impulsionnelle infinie ou finie\nSI y’a un retour , c’est infini comme dans ce cas.",
+    "title": "12  Exercice 3",
+    "section": "12.1 2) Dans ce cas",
+    "text": "12.1 2) Dans ce cas\n\\[\n\\begin{aligned}\nP_e = R_{xx}(0) - 2 \\frac{R_{xx}(1)}{R_{xx}(0)R_{xx}(1)+ (\\frac{R_{xx}(1)}{R_{xx}(0)})^2R_{xx}(0)} \\\\\nP_e = R_{xx}(0) - \\frac{(R_{xx}(1))^2}{R_{xx}(0)}\n\\end{aligned}\n\\]\nModèle autorégressif\n\\(\\hat{x}(n) = \\sum^P_{i=1}a_ix(n-i)\\)\n\\[\n\\begin{aligned}\ne(n)=\\hat{x}(n) - x(n) \\\\\ne(n)+ax(n-1)=x(n)\n\\end{aligned}\n\\]\nRandom note: Réponse impulsionnelle infinie ou finie\nSI y’a un retour , c’est infini comme dans ce cas.",
     "crumbs": [
       "Stochastic Model",
-      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Exercice 3</span>"
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Exercice 3</span>"
     ]
   },
   {
     "objectID": "stochastic_model/3.html",
     "href": "stochastic_model/3.html",
-    "title": "9  Kalman Filter",
+    "title": "13  Kalman Filter",
     "section": "",
-    "text": "9.1 The Kalman setup if you’re in a hurry\nThe Kalman filter is an extension of the Wiener filter for dynamic systems.\nState vector (system state) at discrete time k: \\[\\mathbf{X}(k)\\in\\mathbb{R}^{n}.\\]\nProcess (state) evolution (linear, discrete-time with additive process noise): \\[\\mathbf{X}(k+1)=A\\,\\mathbf{X}(k)+\\mathbf{W}(k),\\] where A is the state transition matrix (size \\(N \\times N\\)) and \\(\\mathbf{W}(k)\\) is the process (system) noise.\nMeasurements from m sensors at time k (stacked): \\[\\mathbf{Y}(k)\\in\\mathbb{R}^{m}.\\]\nLinear measurement model: \\[\\mathbf{Y}(k)=C\\,\\mathbf{X}(k)+\\mathbf{V}(k),\\] where C is the measurement matrix (size \\((M \\times N)\\) and \\(\\mathbf{V}(k)\\) is the measurement noise.\nIf each sensor \\(i\\) provides scalar measurement \\(y_i(k)\\), then \\[\\mathbf{Y}(k)=\\begin{bmatrix}y_1(k)\\\\ \\vdots\\\\ y_m(k)\\end{bmatrix},\\qquad\n\\mathbf{V}(k)=\\begin{bmatrix}v_1(k)\\\\ \\vdots\\\\ v_m(k)\\end{bmatrix},\\qquad\nC=\\begin{bmatrix}c_{1}\\\\ \\vdots\\\\ c_{m}\\end{bmatrix}\\] with rows \\((C_i)\\) selecting the linear combination of states observed by sensor \\(i\\).\nNoise assumptions (white, zero-mean, uncorrelated between process and measurements):",
+    "text": "13.1 The Kalman setup if you’re in a hurry\nThe Kalman filter is an extension of the Wiener filter for dynamic systems.\nState vector (system state) at discrete time k: \\[\\mathbf{X}(k)\\in\\mathbb{R}^{n}.\\]\nProcess (state) evolution (linear, discrete-time with additive process noise): \\[\\mathbf{X}(k+1)=A\\,\\mathbf{X}(k)+\\mathbf{W}(k),\\] where A is the state transition matrix (size \\(N \\times N\\)) and \\(\\mathbf{W}(k)\\) is the process (system) noise.\nMeasurements from m sensors at time k (stacked): \\[\\mathbf{Y}(k)\\in\\mathbb{R}^{m}.\\]\nLinear measurement model: \\[\\mathbf{Y}(k)=C\\,\\mathbf{X}(k)+\\mathbf{V}(k),\\] where C is the measurement matrix (size \\((M \\times N)\\) and \\(\\mathbf{V}(k)\\) is the measurement noise.\nIf each sensor \\(i\\) provides scalar measurement \\(y_i(k)\\), then \\[\\mathbf{Y}(k)=\\begin{bmatrix}y_1(k)\\\\ \\vdots\\\\ y_m(k)\\end{bmatrix},\\qquad\n\\mathbf{V}(k)=\\begin{bmatrix}v_1(k)\\\\ \\vdots\\\\ v_m(k)\\end{bmatrix},\\qquad\nC=\\begin{bmatrix}c_{1}\\\\ \\vdots\\\\ c_{m}\\end{bmatrix}\\] with rows \\((C_i)\\) selecting the linear combination of states observed by sensor \\(i\\).\nNoise assumptions (white, zero-mean, uncorrelated between process and measurements):",
     "crumbs": [
       "Stochastic Model",
-      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Kalman Filter</span>"
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Kalman Filter</span>"
     ]
   },
   {
     "objectID": "stochastic_model/3.html#the-kalman-setup-if-youre-in-a-hurry",
     "href": "stochastic_model/3.html#the-kalman-setup-if-youre-in-a-hurry",
-    "title": "9  Kalman Filter",
+    "title": "13  Kalman Filter",
     "section": "",
     "text": "State equation: \\[\n\\mathbf{X}(k+1)=A\\mathbf{X}(k)+\\mathbf{W}(k),\\quad \\mathbf{W}(k)\\sim\\mathcal{N}(0,Q).\n\\]\nMeasurement equation: \\[\n\\mathbf{Y}(k)=C\\mathbf{X}(k)+\\mathbf{V}(k),\\quad \\mathbf{V}(k)\\sim\\mathcal{N}(0,R)\n\\]\nNo cross-correlation: \\[\n(\\mathbb{E}[\\mathbf{W}(k)\\mathbf{V}^\\top(j)]=0)\\text{ for all}\\quad k,j\n\\]\nIndependance between the noise and the initial state \\[\n\\mathbb{E}[\\mathbf{W}(k){X}^T(0)] =\\mathbb{E}[\\mathbf{V}(k){X}^T(0)] =0\\text{ for all}\\quad k,j\n\\]",
     "crumbs": [
       "Stochastic Model",
-      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Kalman Filter</span>"
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Kalman Filter</span>"
     ]
   },
   {
     "objectID": "stochastic_model/3.html#notations-and-definitions",
     "href": "stochastic_model/3.html#notations-and-definitions",
-    "title": "9  Kalman Filter",
-    "section": "9.2 Notations and definitions",
-    "text": "9.2 Notations and definitions\n\nLet \\(\\mathbf{y}(0{:}n)=\\{\\mathbf{y}(0),\\mathbf{y}(1),\\dots,\\mathbf{y}(n)\\}.\\)\nState estimate of \\(\\mathbf{x}(k)\\) given all measurements up to time (n): \\[\\hat{\\mathbf{x}}(k\\mid n)=\\mathbb{E}\\big[\\mathbf{x}(k)\\mid \\mathbf{y}(0{:}n)\\big].\\]\nWhen \\((n=k)\\) this is the filtering estimate;\nWhen \\((n&gt;k)\\) this is a fixed‑lag or smoothing estimate;\nWhen \\((n&lt;k)\\) it is a prediction.\nEstimation error (a random vector): \\[\\tilde{\\mathbf{x}}(k\\mid n)=\\mathbf{x}(k)-\\hat{\\mathbf{x}}(k\\mid n).\\]\nError covariance matrix: \\[P(k\\mid n)=\\mathbb{E}\\big[\\tilde{\\mathbf{x}}(k\\mid n)\\,\\tilde{\\mathbf{x}}(k\\mid n)^{\\top}\\big]\n=\\mathbb{E}\\Big[\\big(\\mathbf{x}(k)-\\hat{\\mathbf{x}}(k\\mid n)\\big)\\big(\\mathbf{x}(k)-\\hat{\\mathbf{x}}(k\\mid n)\\big)^{\\top}\\Big].\\]",
+    "title": "13  Kalman Filter",
+    "section": "13.2 Notations and definitions",
+    "text": "13.2 Notations and definitions\n\nLet \\(\\mathbf{y}(0{:}n)=\\{\\mathbf{y}(0),\\mathbf{y}(1),\\dots,\\mathbf{y}(n)\\}.\\)\nState estimate of \\(\\mathbf{x}(k)\\) given all measurements up to time (n): \\[\\hat{\\mathbf{x}}(k\\mid n)=\\mathbb{E}\\big[\\mathbf{x}(k)\\mid \\mathbf{y}(0{:}n)\\big]\\]\nWhen \\((n=k)\\) this is the filtering estimate;\nWhen \\((n&gt;k)\\) this is a fixed‑lag or smoothing estimate;\nWhen \\((n&lt;k)\\) it is a prediction.\nEstimation error (a random vector): \\[\\tilde{\\mathbf{x}}(k\\mid n)=\\mathbf{x}(k)-\\hat{\\mathbf{x}}(k\\mid n).\\]\nError covariance matrix: \\[P(k\\mid n)=\\mathbb{E}\\big[\\tilde{\\mathbf{x}}(k\\mid n)\\,\\tilde{\\mathbf{x}}(k\\mid n)^{\\top}\\big]\n=\\mathbb{E}\\Big[\\big(\\mathbf{x}(k)-\\hat{\\mathbf{x}}(k\\mid n)\\big)\\big(\\mathbf{x}(k)-\\hat{\\mathbf{x}}(k\\mid n)\\big)^{\\top}\\Big].\\]",
     "crumbs": [
       "Stochastic Model",
-      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Kalman Filter</span>"
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Kalman Filter</span>"
+    ]
+  },
+  {
+    "objectID": "stochastic_model/3.html#filter-principle",
+    "href": "stochastic_model/3.html#filter-principle",
+    "title": "13  Kalman Filter",
+    "section": "13.3 Filter principle",
+    "text": "13.3 Filter principle\nState prediction: \\[\\hat{\\mathbf{x}}(k+1\\mid k)=A\\,\\hat{\\mathbf{x}}(k\\mid k).\\]\nPrediction error covariance: \\[P(k+1\\mid k)=\\mathbb{E}\\big[\\tilde{\\mathbf{x}}(k+1\\mid k)\\tilde{\\mathbf{x}}(k+1\\mid k)^\\top\\big]\n= A\\,P(k\\mid k)\\,A^\\top + Q.\\]\nKalman gain: \\[K(k+1)=P(k+1\\mid k)\\,C^\\top\\big(C\\,P(k+1\\mid k)\\,C^\\top+R\\big)^{-1}.\\]\nMeasurement update (state estimate): \\[\\hat{\\mathbf{x}}(k+1\\mid k+1)=\\hat{\\mathbf{x}}(k+1\\mid k)+K(k+1)\\big(\\mathbf{y}(k+1)-C\\,\\hat{\\mathbf{x}}(k+1\\mid k)\\big).\\]\nMeasurement update (error covariance) — standard form: \\[P(k+1\\mid k+1)= \\mathbb{E}[\\tilde{X}(k+1 \\mid k+1)\\tilde{X}^T(k+1 \\mid k+1)]\\]\nA commonly used simplified (algebraically equivalent when K is the Kalman gain above) form is: \\[P(k+1\\mid k+1)=P(k+1\\mid k)-K(k+1)\\,C\\,P(k+1\\mid k).\\]\nTo intialise the algoritihm, we need the initial state \\(X(0\\mid0)\\) and \\(P(0\\mid0)\\)",
+    "crumbs": [
+      "Stochastic Model",
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Kalman Filter</span>"
     ]
   },
   {
     "objectID": "segmentation/0.html",
     "href": "segmentation/0.html",
-    "title": "10  Filters",
+    "title": "14  Filters",
     "section": "",
-    "text": "10.1 Convolution filter\nLet \\(I_s\\) denote the starting (input) image, \\(I_e\\) the ending (output) image, and \\(C_K\\) the convolution kernel (filter) of size (2n+1)×(2n+1).\nThe discrete convolution relation at pixel (i,j) is:\n\\[\nI_e(i,j) \\;=\\; \\sum_{l=-n}^{n}\\sum_{k=-n}^{n} C_K(k,l)\\,I_s(i+k,j+l).\n\\]",
+    "text": "14.1 Convolution filter\nLet \\(I_s\\) denote the starting (input) image, \\(I_e\\) the ending (output) image, and \\(C_K\\) the convolution kernel (filter) of size (2n+1)×(2n+1).\nThe discrete convolution relation at pixel (i,j) is:\n\\[\nI_e(i,j) \\;=\\; \\sum_{l=-n}^{n}\\sum_{k=-n}^{n} C_K(k,l)\\,I_s(i+k,j+l).\n\\]",
     "crumbs": [
       "Segmentation",
-      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Filters</span>"
+      "<span class='chapter-number'>14</span>  <span class='chapter-title'>Filters</span>"
     ]
   },
   {
     "objectID": "segmentation/0.html#convolution-filter",
     "href": "segmentation/0.html#convolution-filter",
-    "title": "10  Filters",
+    "title": "14  Filters",
     "section": "",
     "text": "\\(I_s(i,j)\\): intensity/value of the input image at coordinates (i,j).\n\n\\(I_e(i,j)\\): intensity/value of the output image at coordinates (i,j) after applying the convolution.\n\n\\(C_K(k,l)\\): kernel weight at offset (k,l), where k indexes columns (horizontal offset) and l indexes rows (vertical offset).\n\nThe sums run over the kernel support from -n to n in both dimensions, so the kernel size is (2n+1)×(2n+1).\n\nBoundary handling (not shown) must be specified separately (e.g., zero-padding, symmetric extension, circular convolution).",
     "crumbs": [
       "Segmentation",
-      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Filters</span>"
+      "<span class='chapter-number'>14</span>  <span class='chapter-title'>Filters</span>"
     ]
   },
   {
     "objectID": "segmentation/0.html#identity-kernel",
     "href": "segmentation/0.html#identity-kernel",
-    "title": "10  Filters",
-    "section": "10.2 Identity kernel",
-    "text": "10.2 Identity kernel\n\n10.2.1 Formally\nLet \\(I_s\\) be the input image, \\(I_e\\) the output image, and \\(I_k\\) the identity convolution kernel. The identity kernel is the kernel that leaves the image unchanged under convolution:\n\\[\nI_e \\;=\\; I_s \\ast I_k \\;=\\; I_s.\n\\]\nIn coordinates, for all pixels (i,j):\n\\[\nI_s(i,j) =\\sum_{l=-n}^{n}\\sum_{k=-n}^{n} I_k(k,l)\\,I_e(i+k,j+l) \\;=\\; I_e(i,j).\n\\] A canonical choice for \\(I_k\\) on a (2n+1)×(2n+1) support is the discrete delta (Kronecker) kernel:\n\\[\nI_k(k,l) \\;=\\; \\delta_{k,0}\\,\\delta_{l,0} \\;=\\;\n\\] \\[\n\\begin{cases}\n1 & (k,l)=(0,0),\\\\[4pt]\n0 & \\text{otherwise},\n\\end{cases}\n\\]\nwhich yields the pointwise identity: \\[\nI_e(i,j)=\\sum_{l=-n}^{n}\\sum_{k=-n}^{n} \\delta_{k,0}\\delta_{l,0}\\,I_s(i+k,j+l)=I_s(i,j).\n\\]\n\nThe kernel support can be larger than a single pixel; values outside the central 1 are zero.\n\n\n\n10.2.2 Visually\nWith a 3x3 kernel:\n\n\n\nk\\l\n-1\n0\n1\n\n\n\n\n-1\n0\n0\n0\n\n\n0\n0\n1\n0\n\n\n1\n0\n0\n0\n\n\n\nSee how it’s different from the typical Identity matrix in linear algebra\n\n\n\nk\\l\n-1\n0\n1\n\n\n\n\n-1\n1\n0\n0\n\n\n0\n0\n1\n0\n\n\n1\n0\n0\n1",
+    "title": "14  Filters",
+    "section": "14.2 Identity kernel",
+    "text": "14.2 Identity kernel\n\n14.2.1 Formally\nLet \\(I_s\\) be the input image, \\(I_e\\) the output image, and \\(I_k\\) the identity convolution kernel. The identity kernel is the kernel that leaves the image unchanged under convolution:\n\\[\nI_e \\;=\\; I_s \\ast I_k \\;=\\; I_s.\n\\]\nIn coordinates, for all pixels (i,j):\n\\[\nI_s(i,j) =\\sum_{l=-n}^{n}\\sum_{k=-n}^{n} I_k(k,l)\\,I_e(i+k,j+l) \\;=\\; I_e(i,j).\n\\] A canonical choice for \\(I_k\\) on a (2n+1)×(2n+1) support is the discrete delta (Kronecker) kernel:\n\\[\nI_k(k,l) \\;=\\; \\delta_{k,0}\\,\\delta_{l,0} \\;=\\;\n\\] \\[\n\\begin{cases}\n1 & (k,l)=(0,0),\\\\[4pt]\n0 & \\text{otherwise},\n\\end{cases}\n\\]\nwhich yields the pointwise identity: \\[\nI_e(i,j)=\\sum_{l=-n}^{n}\\sum_{k=-n}^{n} \\delta_{k,0}\\delta_{l,0}\\,I_s(i+k,j+l)=I_s(i,j).\n\\]\n\nThe kernel support can be larger than a single pixel; values outside the central 1 are zero.\n\n\n\n14.2.2 Visually\nWith a 3x3 kernel:\n\n\n\nk\\l\n-1\n0\n1\n\n\n\n\n-1\n0\n0\n0\n\n\n0\n0\n1\n0\n\n\n1\n0\n0\n0\n\n\n\nSee how it’s different from the typical Identity matrix in linear algebra\n\n\n\nk\\l\n-1\n0\n1\n\n\n\n\n-1\n1\n0\n0\n\n\n0\n0\n1\n0\n\n\n1\n0\n0\n1",
     "crumbs": [
       "Segmentation",
-      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Filters</span>"
+      "<span class='chapter-number'>14</span>  <span class='chapter-title'>Filters</span>"
     ]
   },
   {
     "objectID": "segmentation/0.html#average-mean-filter",
     "href": "segmentation/0.html#average-mean-filter",
-    "title": "10  Filters",
-    "section": "10.3 Average (mean) filter",
-    "text": "10.3 Average (mean) filter\nThe average (mean) filter is a linear, shift-invariant smoothing filter that replaces each pixel by the arithmetic mean of the pixels in a local neighborhood. It reduces high-frequency noise and small-scale detail while preserving general intensity trends.\nFor a square window of size (2n+1)×(2n+1) the average kernel A has constant coefficients:\n\\[\nA(k,l)=\\frac{1}{(2n+1)^2},\\qquad k,l\\in\\{-n,\\dots,n\\}.\n\\]\nConvolution with the average kernel gives the output image \\(I_e\\) from input \\(I_s\\):\n\\[\nI_e(i,j)=\\sum_{l=-n}^{n}\\sum_{k=-n}^{n} A(k,l)\\,I_s(i+k,j+l)\n= \\frac{1}{(2n+1)^2}\\sum_{l=-n}^{n}\\sum_{k=-n}^{n} I_s(i+k,j+l).\n\\]",
+    "title": "14  Filters",
+    "section": "14.3 Average (mean) filter",
+    "text": "14.3 Average (mean) filter\nThe average (mean) filter is a linear, shift-invariant smoothing filter that replaces each pixel by the arithmetic mean of the pixels in a local neighborhood. It reduces high-frequency noise and small-scale detail while preserving general intensity trends.\nFor a square window of size (2n+1)×(2n+1) the average kernel A has constant coefficients:\n\\[\nA(k,l)=\\frac{1}{(2n+1)^2},\\qquad k,l\\in\\{-n,\\dots,n\\}.\n\\]\nConvolution with the average kernel gives the output image \\(I_e\\) from input \\(I_s\\):\n\\[\nI_e(i,j)=\\sum_{l=-n}^{n}\\sum_{k=-n}^{n} A(k,l)\\,I_s(i+k,j+l)\n= \\frac{1}{(2n+1)^2}\\sum_{l=-n}^{n}\\sum_{k=-n}^{n} I_s(i+k,j+l).\n\\]",
     "crumbs": [
       "Segmentation",
-      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Filters</span>"
+      "<span class='chapter-number'>14</span>  <span class='chapter-title'>Filters</span>"
     ]
   },
   {
     "objectID": "segmentation/0.html#median-filter",
     "href": "segmentation/0.html#median-filter",
-    "title": "10  Filters",
-    "section": "10.4 Median filter",
-    "text": "10.4 Median filter\nThe median filter is a nonlinear, shift-invariant denoising filter that replaces each pixel with the median of the intensities in a local neighborhood.\nGiven an input image \\(I_s\\) and a local window of size (2n+1)x(2n+1), let \\(S(i,j)\\) be the multiset of pixel values in that window centered at (i,j): \\[\nS(i,j)=\\{\\,I_s(i+k,j+l)\\;:\\;k,l\\in\\{-n,\\dots,n\\}\\,\\}.\n\\] The output pixel is the median of S(i,j): \\[\nI_e(i,j)=\\operatorname{median}\\big(S(i,j)\\big).\n\\]",
+    "title": "14  Filters",
+    "section": "14.4 Median filter",
+    "text": "14.4 Median filter\nThe median filter is a nonlinear, shift-invariant denoising filter that replaces each pixel with the median of the intensities in a local neighborhood.\nGiven an input image \\(I_s\\) and a local window of size (2n+1)x(2n+1), let \\(S(i,j)\\) be the multiset of pixel values in that window centered at (i,j): \\[\nS(i,j)=\\{\\,I_s(i+k,j+l)\\;:\\;k,l\\in\\{-n,\\dots,n\\}\\,\\}.\n\\] The output pixel is the median of S(i,j): \\[\nI_e(i,j)=\\operatorname{median}\\big(S(i,j)\\big).\n\\]",
     "crumbs": [
       "Segmentation",
-      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Filters</span>"
+      "<span class='chapter-number'>14</span>  <span class='chapter-title'>Filters</span>"
     ]
   },
   {
     "objectID": "segmentation/0.html#nagao-filter",
     "href": "segmentation/0.html#nagao-filter",
-    "title": "10  Filters",
-    "section": "10.5 Nagao filter",
-    "text": "10.5 Nagao filter\n\n\n\nNagao filter kernel\n\n\nThe Nagao filter is an edge-preserving, local adaptive smoothing filter that chooses the output value from the neighborhood whose internal variance (or squared error) is minimal. It was introduced for noise reduction while preserving edges and fine details by selecting the most homogeneous local region among several oriented and shaped subwindows.",
+    "title": "14  Filters",
+    "section": "14.5 Nagao filter",
+    "text": "14.5 Nagao filter\n\n\n\nNagao filter kernel\n\n\nThe Nagao filter is an edge-preserving, local adaptive smoothing filter that chooses the output value from the neighborhood whose internal variance (or squared error) is minimal. It was introduced for noise reduction while preserving edges and fine details by selecting the most homogeneous local region among several oriented and shaped subwindows.",
     "crumbs": [
       "Segmentation",
-      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Filters</span>"
+      "<span class='chapter-number'>14</span>  <span class='chapter-title'>Filters</span>"
     ]
   },
   {
     "objectID": "segmentation/1.html",
     "href": "segmentation/1.html",
-    "title": "11  Contour and edges",
+    "title": "15  Contour and edges",
     "section": "",
-    "text": "11.1 Gradient filter\nHorizontal and vertical gradient filters approximate first-order spatial derivatives to detect local intensity change (edges). Let I be the input image. The discrete gradients at pixel (i,j) are often computed with simple finite-difference kernels.\nDefinition (central differences): \\[\nG_x(i,j)=\\frac{1}{2}\\big(I(i+1,j)-I(i-1,j)\\big),\n\\qquad\nG_y(i,j)=\\frac{1}{2}\\big(I(i,j+1)-I(i,j-1)\\big).\n\\] Equivalently, via convolution with 1D kernels: \\[\nG_x = I \\ast \\begin{bmatrix} -\\tfrac{1}{2} & 0 & \\tfrac{1}{2} \\end{bmatrix},\\qquad\nG_y = I \\ast \\begin{bmatrix} -\\tfrac{1}{2} \\\\[4pt] 0 \\\\[4pt] \\tfrac{1}{2} \\end{bmatrix}.\n\\]\nCommon alternative (forward/backward differences): \\[\nG_x^{+}(i,j)=I(i+1,j)-I(i,j),\\quad G_x^{-}(i,j)=I(i,j)-I(i-1,j),\n\\] and similarly for \\(G_y\\).\n(The forward differences is the prewitt operator. If you give more importance to the value in the center,you get the Sobel operator )\nGradient magnitude and orientation: \\[\nM(i,j)=\\sqrt{G_x(i,j)^2+G_y(i,j)^2},\\qquad\n\\theta(i,j)=\\operatorname{arctan}\\big(G_y(i,j),G_x(i,j)\\big).\n\\]",
+    "text": "15.1 Gradient filter\nHorizontal and vertical gradient filters approximate first-order spatial derivatives to detect local intensity change (edges). Let I be the input image. The discrete gradients at pixel (i,j) are often computed with simple finite-difference kernels.\nDefinition (central differences): \\[\nG_x(i,j)=\\frac{1}{2}\\big(I(i+1,j)-I(i-1,j)\\big),\n\\qquad\nG_y(i,j)=\\frac{1}{2}\\big(I(i,j+1)-I(i,j-1)\\big).\n\\] Equivalently, via convolution with 1D kernels: \\[\nG_x = I \\ast \\begin{bmatrix} -\\tfrac{1}{2} & 0 & \\tfrac{1}{2} \\end{bmatrix},\\qquad\nG_y = I \\ast \\begin{bmatrix} -\\tfrac{1}{2} \\\\[4pt] 0 \\\\[4pt] \\tfrac{1}{2} \\end{bmatrix}.\n\\]\nCommon alternative (forward/backward differences): \\[\nG_x^{+}(i,j)=I(i+1,j)-I(i,j),\\quad G_x^{-}(i,j)=I(i,j)-I(i-1,j),\n\\] and similarly for \\(G_y\\).\n(The forward differences is the prewitt operator. If you give more importance to the value in the center,you get the Sobel operator )\nGradient magnitude and orientation: \\[\nM(i,j)=\\sqrt{G_x(i,j)^2+G_y(i,j)^2},\\qquad\n\\theta(i,j)=\\operatorname{arctan}\\big(G_y(i,j),G_x(i,j)\\big).\n\\]",
     "crumbs": [
       "Segmentation",
-      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Contour and edges</span>"
+      "<span class='chapter-number'>15</span>  <span class='chapter-title'>Contour and edges</span>"
     ]
   }
 ]
